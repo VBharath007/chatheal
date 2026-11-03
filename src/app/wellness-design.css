@@ -1,0 +1,59 @@
+/* ChatHeal light glass design system */
+.ch-site{--deep:#183d30;--green:#245a3c;--lime:#cbea80;--muted:#526b60;color:var(--deep);font-family:Roboto,Arial,sans-serif;background:#f8faf5}
+.ch-site h1,.ch-site h2,.ch-site h3,.ch-site h4{font-family:Roboto,Arial,sans-serif;letter-spacing:-.035em}
+.ch-site .ch-announcement{background:#1b3e30;color:#fff}
+.ch-site .ch-announcement-pill{background:#d2ee9c;color:#244032;border:0}
+.ch-site .ch-nav{background:rgba(250,252,247,.82);backdrop-filter:blur(24px);border-bottom:1px solid #dbe7d8}
+.ch-site .ch-desktop-nav a{font-size:14px;font-weight:600;color:#345548}
+.ch-site .ch-desktop-nav a.is-active{color:#0c5e42}
+.ch-site .ch-button{border-radius:12px;font-weight:700}
+.wellness-hero{background:linear-gradient(125deg,#f8fbf5 0%,#eef6e9 55%,#e5f3d9 100%);padding:42px max(24px,calc((100vw - 1400px)/2)) 0;overflow:hidden}
+.wellness-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;min-height:610px}
+.wellness-hero-copy{padding:35px 0 45px}
+.wellness-eyebrow{display:inline-flex;align-items:center;gap:9px;color:#376548;letter-spacing:.13em;font-size:11px;font-weight:800;padding:10px 14px;border-radius:100px;border:1px solid #d3e4cc;background:#ffffffa8}
+.wellness-eyebrow svg{color:#63a735}
+.ch-site .wellness-hero h1{font-size:clamp(48px,5.5vw,76px);line-height:1.04;font-weight:750;color:#1b3e30;margin:26px 0;max-width:620px}
+.wellness-hero h1 span{color:#6c9d40}
+.wellness-hero-copy>p{font-size:17px;line-height:1.75;max-width:520px;color:#52675b;margin:0}
+.wellness-hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+.wellness-hero-actions a{display:inline-flex;align-items:center;justify-content:center;gap:15px;min-height:54px;padding:0 22px;border-radius:12px;font-size:14px;font-weight:700;transition:transform .2s,box-shadow .2s}
+.wellness-hero-actions a:hover{transform:translateY(-3px)}
+.wellness-primary{background:#c9e97c;color:#203e2c;box-shadow:0 8px 24px #739d3830}
+.wellness-secondary{background:#ffffffa6;border:1px solid #d2e3d0;color:#284f3b;backdrop-filter:blur(12px)}
+.wellness-hero-foot{display:flex;align-items:center;gap:13px;margin-top:46px;color:#62796a;font-size:12px;line-height:1.6}
+.wellness-hero-foot b{color:#315443}.wellness-dot{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:#dff0d1;color:#42853f}
+.wellness-hero-visual{position:relative;height:560px;margin:12px 0 20px}
+.wellness-main-image{width:100%;height:100%;object-fit:cover;border-radius:32px 32px 32px 150px;box-shadow:0 24px 60px #284d3030}
+.wellness-glass{position:absolute;display:flex;align-items:center;gap:12px;padding:15px;border-radius:18px;background:rgba(255,255,255,.82);border:1px solid #ffffffd9;box-shadow:0 18px 45px #123d2a25;backdrop-filter:blur(20px)}
+.wellness-glass-one{top:42px;left:-42px}.wellness-glass-two{right:-18px;bottom:55px}
+.wellness-glass>span{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;color:#d86767;background:#fce8e8}.wellness-glass .wellness-lime{color:#438a44;background:#e0f2d1}
+.wellness-glass b,.wellness-glass small{display:block;white-space:nowrap}.wellness-glass b{font-size:13px;color:#29483a}.wellness-glass small{font-size:11px;color:#5b7465;margin-top:5px}
+.wellness-image-label{position:absolute;right:18px;top:18px;color:white;letter-spacing:.12em;font-size:10px;font-weight:700;text-shadow:0 2px 5px #0007}.wellness-image-label span{color:#d1ed96;font-size:20px;vertical-align:middle}
+.wellness-hero-bottom{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #dbe8d5;padding:20px 0;font-size:10px;letter-spacing:.14em;color:#6d8373;font-weight:700}
+.ch-site .ch-section{max-width:1400px}.ch-site .ch-programme-card,.ch-site .ch-tool,.ch-site .ch-recipe-card,.ch-site .panel,.ch-site .stat-card{background:rgba(255,255,255,.77);backdrop-filter:blur(18px);border:1px solid #e0ebdc;border-radius:20px;box-shadow:0 12px 36px #26482c0b}
+.ch-site .ch-programme-card:hover,.ch-site .ch-tool:hover{box-shadow:0 20px 45px #24472e18;transform:translateY(-4px)}
+.ch-site .ch-overline{color:#6b9851;font-weight:800;letter-spacing:.14em}
+.ch-site .ch-belief-strip{background:#e7f3db;color:#315441}
+.ch-site .ch-belief-strip span:nth-child(1) svg{color:#66a652}.ch-site .ch-belief-strip span:nth-child(2) svg{color:#d57b75}.ch-site .ch-belief-strip span:nth-child(3) svg{color:#4f9bbc}.ch-site .ch-belief-strip span:nth-child(4) svg{color:#daa44d}
+.ch-site .ch-tool:nth-child(1) svg{color:#ef9661}.ch-site .ch-tool:nth-child(2) svg{color:#779bdf}.ch-site .ch-tool:nth-child(3) svg{color:#c57cb7}
+.ch-site .sidebar nav a:nth-child(6n+1) svg{color:#48a886}.ch-site .sidebar nav a:nth-child(6n+2) svg{color:#e69855}.ch-site .sidebar nav a:nth-child(6n+3) svg{color:#8e83d3}.ch-site .sidebar nav a:nth-child(6n+4) svg{color:#dc789a}.ch-site .sidebar nav a:nth-child(6n+5) svg{color:#609ad1}.ch-site .sidebar nav a:nth-child(6n) svg{color:#c59b42}
+.ch-site .ch-footer{background:#1e3029;color:#e9f1e7}.ch-site a:focus-visible,.ch-site button:focus-visible,.ch-site input:focus-visible{outline:3px solid #8ea74e;outline-offset:4px}
+@media(max-width:900px){.wellness-hero-grid{gap:35px;min-height:auto}.wellness-hero-visual{height:440px}.wellness-glass-one{left:-20px}.wellness-glass-two{right:0}.ch-site .wellness-hero h1{font-size:50px}}
+@media(max-width:700px){.wellness-hero{padding:25px 22px 0}.wellness-hero-grid{grid-template-columns:1fr;gap:10px}.wellness-hero-copy{padding:20px 0}.ch-site .wellness-hero h1{font-size:clamp(43px,10vw,60px);margin:20px 0}.wellness-hero-copy>p{font-size:16px}.wellness-hero-foot{margin-top:28px}.wellness-hero-visual{height:390px;margin:15px 10px 20px}.wellness-glass-one{top:20px;left:-12px}.wellness-glass-two{right:-10px;bottom:20px}.wellness-main-image{border-radius:25px 25px 25px 90px}.wellness-hero-bottom{font-size:9px}.wellness-hero-bottom span:last-child{display:none}}
+@media(prefers-reduced-motion:reduce){.ch-site *, .ch-site *:before,.ch-site *:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.ch-site,.ch-site h1,.ch-site h2,.ch-site h3,.ch-site h4,.ch-site button,.ch-site input,.ch-site select,.ch-site textarea{font-family:Roboto,Arial,sans-serif!important}
+/* Keep tablet navigation readable and tap-friendly. */
+@media (max-width: 1000px){
+ .ch-site .ch-desktop-nav{display:none}
+ .ch-site .ch-nav-inner{justify-content:space-between}
+ .ch-site .ch-menu-button{display:inline-flex;width:44px;height:44px}
+ .ch-site .ch-mobile-menu{display:grid;padding:12px 20px 22px;background:rgba(255,255,255,.98);backdrop-filter:blur(20px);border-top:1px solid #e4ede3;gap:4px;box-shadow:0 16px 36px #12322814}
+ .ch-site .ch-mobile-menu a{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:10px 14px;border-radius:10px;font-size:14px;color:#1a3f34}
+ .ch-site .ch-mobile-menu a:hover{background:#edf6e9}
+ .ch-site .ch-nav-cta{display:none}
+}
+@media (max-width: 700px){
+ .wellness-glass{max-width:calc(100% - 8px)}
+ .wellness-glass b,.wellness-glass small{white-space:normal}
+ .wellness-hero-actions a{min-height:48px}
+}

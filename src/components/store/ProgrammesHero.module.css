@@ -1,0 +1,427 @@
+/* ==========================================================
+   PROGRAMMES HERO - LUXURY EDITORIAL DISPLAY (100VH)
+   Photoshop-Style Display Typography Across the Bottom (Left-to-Right)
+   "Pathi Word Show Yakura Mathri" (Half-Submerged Poster Effect)
+   Full Responsive Layout: Desktop, Tablet & Mobile
+   ========================================================== */
+
+.heroWrapper {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  min-height: 90vh;
+  background-color: #0b1a11;
+  background-image: url("/images/steaming-bowl-bg.jpg");
+  background-size: cover;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  overflow: hidden; /* Clips the bottom half of giant typography cleanly */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Atmospheric Legibility Vignette:
+   Soft dark vignette at top for details and rich shadow at bottom
+   for the pure-white half-submerged typography */
+.heroWrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 18, 12, 0.58) 0%,
+    rgba(6, 18, 12, 0.22) 26%,
+    rgba(6, 18, 12, 0.1) 50%,
+    rgba(6, 18, 12, 0.45) 82%,
+    rgba(6, 18, 12, 0.78) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ==========================================================
+   TOP CONTENT ROW: LEFT DETAILS + RIGHT FLOATING GLASS CARD
+   ========================================================== */
+.heroContent {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(36px, 5.5vh, 72px) clamp(24px, 5vw, 70px) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* ----------------------------------------------------------
+   LEFT: "✦ Mindful Eating" + Subtitle + "Start Your Plan ↗"
+   ---------------------------------------------------------- */
+.leftBlock {
+  max-width: 390px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 15px;
+  font-weight: 650;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+}
+
+.sparkleIcon {
+  font-size: 15px;
+  color: #ffffff !important;
+  line-height: 1;
+}
+
+.description {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
+  line-height: 1.5;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 0.96;
+  font-weight: 400;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* Black Pill Button with White Circular Arrow */
+.startPlanBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  margin-top: 6px;
+  padding: 10px 14px 10px 22px;
+  background: rgba(12, 20, 15, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 14.5px;
+  font-weight: 650;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.startPlanBtn:hover {
+  background: #000000;
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+}
+
+.startPlanBtn:active {
+  transform: scale(0.97);
+}
+
+.arrowCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0b1a11 !important;
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease;
+}
+
+.startPlanBtn:hover .arrowCircle {
+  transform: translate(2px, -2px);
+}
+
+/* ----------------------------------------------------------
+   RIGHT: Floating Glass Card + Next Arrow
+   ---------------------------------------------------------- */
+.cardAnchor {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.floatingCard {
+  width: 180px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 22px;
+  padding: 8px;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floatingCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.55);
+}
+
+.cardPhotoWrap {
+  width: 100%;
+  height: 160px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: #112217;
+}
+
+.cardPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardBadge {
+  margin-top: 8px;
+  background: #ffffff;
+  border-radius: 9999px;
+  padding: 6px 10px 6px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.cardBadge:hover {
+  background: #f2f7f4;
+}
+
+.badgeTitle {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #0b1a11 !important;
+  letter-spacing: -0.01em;
+}
+
+.badgeArrowCircle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0b1a11;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+}
+
+/* Floating Navigation Next Arrow on Card Edge */
+.navNextBtn {
+  position: absolute;
+  right: -14px;
+  top: 54%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0b1a11;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  z-index: 5;
+  outline: none;
+}
+
+.navNextBtn:hover {
+  transform: translateY(-50%) scale(1.14);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.navNextBtn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+/* ==========================================================
+   BOTTOM: Giant Editorial Typography Spanning Left-to-Right
+   "Pathi Word Cut Panni" (Exact Half-Cut at Bottom Border)
+   Matches User's Cropped Reference (media_1793688094992_18bc1c91.jpg)
+   ========================================================== */
+.bottomTypographyWrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.wordMotionWrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  line-height: 0.8;
+}
+
+.giantDisplayWord {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: clamp(6.2rem, 19.5vw, 22rem);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  /* Balanced: brought slightly down (light-ya kela) for the ideal editorial cut */
+  transform: translateY(36%) !important;
+  text-shadow:
+    0 -4px 16px rgba(0, 0, 0, 0.5),
+    0 -14px 40px rgba(0, 0, 0, 0.75),
+    0 16px 36px rgba(0, 0, 0, 0.55);
+  filter: drop-shadow(0 -8px 24px rgba(0, 0, 0, 0.4));
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN: TABLET (1024px & 860px)
+   ========================================================== */
+@media (max-width: 1024px) {
+  .heroWrapper {
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .heroContent {
+    padding: 32px 32px 0;
+    gap: 32px;
+  }
+
+  .leftBlock {
+    max-width: 340px;
+  }
+
+  .floatingCard {
+    width: 165px;
+  }
+
+  .cardPhotoWrap {
+    height: 145px;
+  }
+
+  .giantDisplayWord {
+    font-size: clamp(4.8rem, 18.5vw, 12rem);
+    transform: translateY(36%) !important;
+  }
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN: MOBILE (<= 768px)
+   ========================================================== */
+@media (max-width: 768px) {
+  .heroWrapper {
+    height: 100svh;
+    min-height: 100svh;
+    background-position: center 52%;
+  }
+
+  .heroContent {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 20px 0;
+  }
+
+  .cardAnchor {
+    align-self: flex-end;
+  }
+
+  .leftBlock {
+    max-width: 100%;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .eyebrow {
+    font-size: 14px;
+  }
+
+  .description {
+    font-size: 0.95rem;
+    max-width: 320px;
+  }
+
+  .startPlanBtn {
+    margin-top: 4px;
+  }
+
+  .floatingCard {
+    width: 155px;
+  }
+
+  .cardPhotoWrap {
+    height: 135px;
+  }
+
+  .giantDisplayWord {
+    font-size: clamp(3.5rem, 18.5vw, 6.2rem);
+    transform: translateY(36%) !important;
+    letter-spacing: -0.03em;
+    text-shadow:
+      0 -4px 12px rgba(0, 0, 0, 0.6),
+      0 -10px 30px rgba(0, 0, 0, 0.85);
+  }
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN: SMALL PHONES (<= 480px)
+   ========================================================== */
+@media (max-width: 480px) {
+  .heroContent {
+    padding: 18px 16px 0;
+    gap: 16px;
+  }
+
+  .floatingCard {
+    width: 145px;
+  }
+
+  .cardPhotoWrap {
+    height: 125px;
+  }
+
+  .navNextBtn {
+    right: -10px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .giantDisplayWord {
+    font-size: clamp(3.1rem, 18vw, 4.6rem);
+    transform: translateY(34%) !important;
+  }
+}

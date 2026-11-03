@@ -1,0 +1,506 @@
+/* ==========================================================
+   RECIPES & STORIES HERO - DISPLAY FIT & CLEAN WELLNESS THEME
+   Palette: Forest Green #133d2c, Warm Cream #F7F5EE, Gold #c89b3c
+   Clean Edge-to-Edge Display Fit with Zero Green Edge Bars
+   ========================================================== */
+
+.heroOuter {
+  width: 100%;
+  background: #f7f5ee;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(19, 61, 44, 0.1);
+  margin: 0;
+  padding: 0;
+}
+
+.heroInner {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 40px 36px 0 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: clamp(24px, 3.5vw, 44px);
+  align-items: flex-end;
+  position: relative;
+  min-height: clamp(540px, 80vh, 700px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    padding: 36px 28px 0 32px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    padding: 36px 20px 0 20px;
+    min-height: auto;
+    gap: 32px;
+  }
+}
+
+/* ==========================================================
+   LEFT COLUMN: HEADLINE, SUBTITLE, BUTTON & FRUIT CARD
+   ========================================================== */
+.leftColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 36px;
+  z-index: 5;
+  width: 100%;
+}
+
+/* Top Headline with Fruit Badge */
+.headlineWrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px 16px;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.wordMain {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: clamp(2.8rem, 4.4vw, 4.8rem);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  color: #133d2c !important;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Center Fresh Fruit Badge with Curved Script Text */
+.fruitBadgeWrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .fruitBadgeWrap {
+    width: 72px;
+    height: 72px;
+    margin: 0 4px;
+  }
+}
+
+.fruitImg {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2.5px solid #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(19, 61, 44, 0.14),
+    0 8px 24px rgba(19, 61, 44, 0.12);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  user-select: none;
+  background: #ffffff;
+}
+
+.fruitBadgeWrap:hover .fruitImg {
+  transform: rotate(14deg) scale(1.06);
+  box-shadow:
+    0 0 0 1.5px rgba(19, 61, 44, 0.22),
+    0 12px 28px rgba(19, 61, 44, 0.18);
+}
+
+.curvedSvg {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 112px;
+  height: 112px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.curvedScriptText {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 650;
+  fill: #133d2c;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+  .fruitImg {
+    width: 58px;
+    height: 58px;
+  }
+
+  .curvedSvg {
+    top: -10px;
+    width: 96px;
+    height: 96px;
+  }
+
+  .curvedScriptText {
+    font-size: 13.5px;
+  }
+}
+
+/* Subtitle */
+.subtitle {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: clamp(0.96rem, 1.15vw, 1.08rem);
+  line-height: 1.55;
+  color: #3b5244 !important;
+  max-width: 580px;
+  margin: 0 0 24px 0;
+  font-weight: 400;
+}
+
+/* Actions & Highlights Grid */
+.bottomContentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 22px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.leftActionsSubCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Actions Row: Organic Scalloped Button + Rating */
+.actionsRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+/* Organic Scalloped Button */
+.organicButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 34px;
+  background: #133d2c;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 46px 28px 48px 30px / 30px 48px 32px 46px;
+  box-shadow: 0 10px 22px rgba(19, 61, 44, 0.25);
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+
+.organicButton:hover {
+  background: #0d2b1f;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 28px rgba(19, 61, 44, 0.35);
+  color: #ffffff !important;
+}
+
+.organicButton:active {
+  transform: scale(0.98);
+}
+
+/* Rating / Social Proof Badge */
+.statBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.statNumber {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #133d2c !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 0.82rem;
+  color: #4b6454 !important;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-top: 2px;
+}
+
+.starRow {
+  display: flex;
+  gap: 3px;
+  color: #c89b3c;
+  margin-top: 4px;
+}
+
+/* ==========================================================
+   BOTTOM-LEFT LUXURY CARD (FRESH HARVEST BOARD & QUOTE)
+   ========================================================== */
+.produceCard {
+  background: #fbf9f4;
+  border-radius: 22px;
+  padding: 16px 18px 18px 18px;
+  max-width: 360px;
+  box-shadow:
+    0 16px 36px -8px rgba(19, 61, 44, 0.09),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(19, 61, 44, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.produceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px -8px rgba(19, 61, 44, 0.13);
+}
+
+.produceVisualWrap {
+  width: 100%;
+  height: 140px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f4efe4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.produceVisual {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  transition: transform 0.4s ease;
+}
+
+.produceCard:hover .produceVisual {
+  transform: scale(1.03);
+}
+
+.produceTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.produceTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  background: rgba(19, 61, 44, 0.08);
+  border-radius: 9999px;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 11px;
+  font-weight: 750;
+  color: #133d2c;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tagIcon {
+  color: #1a6245;
+}
+
+.produceQuote {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-style: italic;
+  font-size: 0.94rem;
+  line-height: 1.48;
+  color: #1a3326 !important;
+  margin: 0;
+}
+
+.produceQuote strong {
+  font-weight: 750;
+  color: #0d261b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(19, 61, 44, 0.4);
+}
+
+/* ==========================================================
+   MIDDLE EDITORIAL PILLARS (FILLS THE HERO GAP WITH SUBSTANCE)
+   ========================================================== */
+.middlePillarsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 18px 20px 20px 20px;
+  background: rgba(251, 249, 244, 0.88);
+  border: 1px solid rgba(19, 61, 44, 0.1);
+  border-radius: 22px;
+  box-shadow:
+    0 16px 36px -8px rgba(19, 61, 44, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-sizing: border-box;
+  max-width: 360px;
+}
+
+.pillarsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(19, 61, 44, 0.08);
+}
+
+.pillarsEyebrow {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  color: #133d2c;
+  text-transform: uppercase;
+}
+
+.pillarStars {
+  display: flex;
+  gap: 4px;
+  color: #c89b3c;
+  font-size: 13px;
+}
+
+.pillarItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pillarBullet {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 11.5px;
+  font-style: italic;
+  font-weight: 700;
+  color: #c89b3c;
+  background: rgba(200, 155, 60, 0.12);
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pillarText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pillarText h4 {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #133d2c !important;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.pillarText p {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 0.81rem;
+  line-height: 1.45;
+  color: #4b6454 !important;
+  margin: 0;
+}
+
+/* ==========================================================
+   RIGHT COLUMN: SMILING NUTRITIONIST WITH ORGANIC FRUIT BASKET
+   ========================================================== */
+.rightColumn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 4;
+}
+
+.nutritionistVisual {
+  width: 100%;
+  max-width: 530px;
+  height: auto;
+  max-height: clamp(520px, 78vh, 680px);
+  object-fit: contain;
+  object-position: bottom right;
+  display: block;
+  user-select: none;
+  filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.08));
+}
+
+@media (max-width: 1200px) {
+  .bottomContentGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .headlineWrap {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+
+  .leftColumn {
+    max-width: 100%;
+    padding-bottom: 20px;
+  }
+
+  .nutritionistVisual {
+    max-height: 440px;
+    margin: 0 auto;
+    object-position: bottom center;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroInner {
+    padding: 24px 16px 0 16px;
+  }
+  .wordMain {
+    font-size: 2.6rem;
+  }
+  .actionsRow {
+    gap: 16px;
+  }
+  .produceCard {
+    max-width: 100%;
+  }
+  .middlePillarsCol {
+    max-width: 100%;
+  }
+}

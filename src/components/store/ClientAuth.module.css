@@ -1,0 +1,826 @@
+/* ==========================================================================
+   ChatHeal - Clean Minimalist Split Auth Screen (100% Full-Screen Display)
+   Matches User Reference Image (media_1793625686348_2d4f837e.jpg)
+   Left: 1 Full-Bleed Image (100vh) with Floating Glass Pill
+   Right: Pure White Minimalist Form (100vh) with Sign In / Sign Up & Payment
+   Strictly 100vh Zero-Scroll, Zero Outer Borders / Margins
+   ========================================================================== */
+
+.authWrapper {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #ffffff;
+  z-index: 50;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Full-Screen 50/50 Split Grid (Edge-to-Edge)
+   ========================================================================== */
+.splitCard {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   LEFT SIDE (50% Width, 100% Height):
+   ONLY ONE FULL-BLEED IMAGE with Floating Glass Pill
+   ========================================================================== */
+.leftVisualCol {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.6s ease;
+}
+
+.leftVisualCol:hover .coverImage {
+  transform: scale(1.04);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.25) 45%,
+    rgba(15, 23, 42, 0.72) 100%
+  );
+  pointer-events: none;
+}
+
+/* Floating Frosted Glass Card at Bottom - High Contrast & High Visibility */
+.glassBottomPill {
+  position: absolute;
+  bottom: clamp(20px, 3.5vh, 36px);
+  left: clamp(20px, 3.5vw, 44px);
+  right: clamp(20px, 3.5vw, 44px);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 20px;
+  padding: clamp(14px, 2vh, 20px) 24px;
+  color: #ffffff !important;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.glassPillTitle {
+  font-size: clamp(12.5px, 1.35vh, 14.5px);
+  font-weight: 550;
+  color: #f1f5f9 !important;
+  margin: 0;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  line-height: 1.3;
+}
+
+.glassPillSubtitle {
+  font-size: clamp(16px, 2vh, 20px);
+  font-weight: 750;
+  color: #ffffff !important;
+  margin: 4px 0 0 0;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  line-height: 1.3;
+}
+
+/* Pagination Carousel Dots */
+.dotsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: clamp(8px, 1.3vh, 14px);
+}
+
+.dotBtn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.dotInner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.65);
+  display: block;
+  transition: all 0.2s ease;
+}
+
+.activeDotRing {
+  border: 1.5px solid #ffffff;
+}
+
+.activeDotRing .dotInner {
+  width: 4px;
+  height: 4px;
+  background: #ffffff;
+}
+
+/* ==========================================================================
+   RIGHT SIDE (50% Width, 100% Height):
+   Pure White Minimalist Form
+   ========================================================================== */
+.rightFormCol {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 3vh, 44px) clamp(24px, 4vw, 64px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.topBackBar {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topPlusBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  color: #6d28d9;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.topPlusBtn:hover {
+  background: #ede9fe;
+  border-color: #c4b5fd;
+  transform: translateY(-1px);
+}
+
+.topPlusSparkle {
+  color: #7c3aed;
+}
+
+.returnStoreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 550;
+  color: #64748b;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.returnStoreLink:hover {
+  color: #0f172a;
+  background: #f1f5f9;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.8vh, 16px);
+  box-sizing: border-box;
+}
+
+/* Sign In / Sign Up Mode Pill Toggle */
+.authModePill {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  width: 100%;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.modeBtn {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modeBtn:hover {
+  color: #0f172a;
+}
+
+.modeBtnActive {
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Headings */
+.headingGroup {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.headingTitle {
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 750;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.025em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.headingSubtitle {
+  font-size: clamp(11.5px, 1.25vh, 12.5px);
+  color: #64748b;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.viewWrap {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.7vh, 15px);
+}
+
+/* Tabs: E-mail vs Mobile Number */
+.tabNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 2px;
+}
+
+.tabBtn {
+  background: transparent;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0 4px 8px 4px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tabBtn:hover {
+  color: #334155;
+}
+
+.tabBtnActive {
+  color: #0f172a;
+  font-weight: 650;
+}
+
+.tabBtnActive::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0f172a;
+  border-radius: 2px;
+}
+
+/* Plan Selector in Sign Up */
+.planSelectorRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.planOptionBtn {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 7px 11px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.planOptionBtn:hover {
+  border-color: #cbd5e1;
+}
+
+.planSelected {
+  border-color: #0284c7;
+  background: #f0f9ff;
+}
+
+.planOptionPlus {
+  background: #faf5ff;
+  border-color: #e9d5ff;
+}
+
+.planSelectedPlus {
+  border-color: #9333ea;
+  background: #f3e8ff;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.15);
+}
+
+.planOptionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.planOptionHeader strong {
+  font-size: 11.5px;
+  color: #0f172a;
+}
+
+.saveBadge {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: #7c3aed;
+  color: #ffffff;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.planOptionSub {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 2px;
+  display: block;
+}
+
+/* Form */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.3vh, 12px);
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0 14px;
+  height: clamp(42px, 5.2vh, 46px);
+  background: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.inputWrap:focus-within {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.16);
+}
+
+.inputIcon {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.textInput {
+  flex: 1;
+  width: 100%;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-size: 13px;
+  color: #0f172a;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+.textInput::placeholder {
+  color: #94a3b8;
+}
+
+.eyeBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.eyeBtn:hover {
+  color: #0f172a;
+}
+
+/* Meta Row: Demo Fill & Forgot Password */
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  padding: 0 1px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.demoFillHint {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #0284c7;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 550;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.2s;
+}
+
+.demoFillHint:hover {
+  color: #0369a1;
+  text-decoration: underline;
+}
+
+.forgotLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.forgotLink:hover {
+  color: #0f172a;
+}
+
+/* Error Message */
+.errorMsg {
+  font-size: 11.5px;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Continue Button - Matches Reference Sky Blue (#60c5f8 / #38bdf8) */
+.continueBtn {
+  width: 100%;
+  height: clamp(42px, 5.2vh, 46px);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 100%);
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.38);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.continueBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3b82f6 0%, #0284c7 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.48);
+}
+
+.plusContinueBtn {
+  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.38) !important;
+}
+
+.plusContinueBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #6d28d9 0%, #7e22ce 100%) !important;
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.48) !important;
+}
+
+.continueBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Trust Strip */
+.trustStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #64748b;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.trustIcon {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+/* Sign In With Social Section */
+.socialSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.socialLabel {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.socialButtonsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.socialBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.socialBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.fbBtn {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.googleBtn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.appleBtn {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Bottom Sign Up / Sign In Link */
+.bottomSignUp {
+  text-align: center;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.signUpBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #0284c7;
+  font-weight: 600;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.signUpBtn:hover {
+  color: #0369a1;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Mobile & Tablet Responsive Layout
+   ========================================================================== */
+@media (max-width: 820px) {
+  .authWrapper {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #ffffff;
+  }
+
+  .splitCard {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* On mobile/tablet, hide the heavy 100vh visual carousel so the user immediately gets the clean auth form */
+  .leftVisualCol {
+    display: none;
+  }
+
+  .rightFormCol {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 24px 20px 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow-y: visible;
+  }
+
+  /* In-flow top bar - cleanly spaced across the top without overlapping anything */
+  .topBackBar {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 18px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 10;
+  }
+
+  .topPlusBtn {
+    font-size: 11px;
+    padding: 6px 12px;
+    white-space: nowrap;
+    border-radius: 20px;
+  }
+
+  .returnStoreLink {
+    font-size: 11px;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+
+  .formContainer {
+    width: 100%;
+    max-width: 380px;
+    gap: 14px;
+    margin: 0 auto;
+  }
+
+  .authModePill {
+    max-width: 230px;
+    margin: 0 auto 2px auto;
+  }
+
+  .headingGroup {
+    gap: 5px;
+    margin-bottom: 2px;
+  }
+
+  .headingTitle {
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .headingSubtitle {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .tabNav {
+    gap: 28px;
+    margin-bottom: 2px;
+  }
+
+  .tabBtn {
+    font-size: 13px;
+    padding: 0 4px 6px 4px;
+  }
+
+  .inputWrap {
+    height: 46px;
+  }
+
+  .textInput {
+    font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+  }
+
+  .continueBtn {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .metaRow {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .rightFormCol {
+    padding: 18px 14px 32px 14px;
+  }
+
+  .topBackBar {
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .topPlusBtn {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .returnStoreLink {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+
+  .headingTitle {
+    font-size: 22px;
+  }
+
+  .headingSubtitle {
+    font-size: 11.5px;
+  }
+}
