@@ -39,3 +39,4 @@ A Next.js, TypeScript, and Framer Motion luxury wellness application featuring e
 
 ## License
 Private / Proprietary. All rights reserved.
+
