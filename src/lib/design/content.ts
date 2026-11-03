@@ -16,7 +16,7 @@ export const process = [
 export const faqs = [
   { question: "How do I choose a programme?", answer: "Start with the short assessment or speak with ChatHeal. Your coach will discuss your goals and help you explore a suitable starting point." },
   { question: "Can I keep enjoying familiar foods?", answer: "Your preferences and food culture are part of the conversation. Guidance focuses on practical routines and whole foods that fit your everyday life." },
-  { question: "Are the listed prices final?", answer: "Programme prices, durations and inclusions are currently illustrative. Confirm your plan with ChatHeal before committing. Online payment is not enabled." },
+  { question: "How does programme enrolment work?", answer: "Programme durations and personalised inclusions are tailored to your health goals during intake. Discuss your personalised plan with your ChatHeal coach upon onboarding." },
   { question: "What is included in my wellness space?", answer: "The member portal includes a food diary, progress insights, appointment management, a content library and live-session information." },
   { question: "Does nutrition coaching replace medical care?", answer: "No. ChatHeal supports nutrition and lifestyle goals alongside existing medical care. Individual suitability should be discussed with your coach and healthcare professional." },
 ];

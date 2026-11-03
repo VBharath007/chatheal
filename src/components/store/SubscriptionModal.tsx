@@ -54,8 +54,8 @@ export default function SubscriptionModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Currency pricing in Rupees (₹)
-  const currentPrice = plan === "annual" ? "₹1,199" : "₹1,499";
+  // Membership plan indicator
+  const currentPrice = plan === "annual" ? "Annual All-Access" : "Monthly Care";
 
   // Card brand detection helper
   const getCardBrand = (num: string) => {
@@ -334,7 +334,7 @@ export default function SubscriptionModal({
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
                           >
-                            <option value="India">India (₹)</option>
+                            <option value="India">India</option>
                             <option value="United States">United States</option>
                             <option value="United Kingdom">United Kingdom</option>
                             <option value="Canada">Canada</option>
@@ -493,9 +493,9 @@ export default function SubscriptionModal({
                         <span>Payment Confirmed!</span>
                       </>
                     ) : isSubmitting ? (
-                      <span>Processing Payment…</span>
+                      <span>Processing Request…</span>
                     ) : (
-                      <span>Subscribe — {currentPrice}/mo</span>
+                      <span>Activate Care Membership</span>
                     )}
                   </button>
                 </div>
@@ -507,14 +507,14 @@ export default function SubscriptionModal({
               </form>
             </div>
 
-            {/* RIGHT COLUMN: Plan Selector & Dynamic Price Breakdown (In Rupees) */}
+            {/* RIGHT COLUMN: Plan Selector & Inclusions */}
             <div className={styles.summaryCol}>
               <div className={styles.summaryColTop}>
-                <h3 className={styles.planSectionHeading}>Starter Plan</h3>
+                <h3 className={styles.planSectionHeading}>Membership Plan</h3>
 
                 {/* Plan Selection Cards */}
                 <div className={styles.planOptionsGroup}>
-                  {/* Option 1: Pay Monthly (₹1,499) */}
+                  {/* Option 1: Monthly Care */}
                   <div
                     onClick={() => setPlan("monthly")}
                     className={`${styles.planCard} ${
@@ -531,14 +531,14 @@ export default function SubscriptionModal({
                       )}
                     </div>
                     <div className={styles.planDetails}>
-                      <span className={styles.planTitle}>Pay Monthly</span>
+                      <span className={styles.planTitle}>Monthly Care</span>
                       <span className={styles.planPriceSub}>
-                        ₹1,499 / Month / Member
+                        Flexible Monthly Inclusions
                       </span>
                     </div>
                   </div>
 
-                  {/* Option 2: Pay Annual (₹1,199 - Save 20%) */}
+                  {/* Option 2: Annual Care (Full Inclusions) */}
                   <div
                     onClick={() => setPlan("annual")}
                     className={`${styles.planCard} ${
@@ -555,40 +555,38 @@ export default function SubscriptionModal({
                       )}
                     </div>
                     <div className={styles.planDetails}>
-                      <span className={styles.planTitle}>Pay Annual</span>
+                      <span className={styles.planTitle}>Annual Care</span>
                       <span className={styles.planPriceSub}>
-                        ₹1,199 / Month / Member
+                        Full Year Priority Access
                       </span>
                     </div>
-                    <span className={styles.savingsBadge}>Save 20%</span>
+                    <span className={styles.savingsBadge}>Recommended</span>
                   </div>
                 </div>
 
-                {/* Dynamic Price Breakdown in Rupees */}
+                {/* Dynamic Feature Inclusions */}
                 <div className={styles.breakdownBox}>
                   <div className={styles.breakdownLine}>
-                    <span>Base Plan:</span>
-                    <span>₹1,499 / mo</span>
+                    <span>Plan Tier:</span>
+                    <span>{plan === "annual" ? "Annual Full-Access" : "Monthly Flexible"}</span>
                   </div>
-                  {plan === "annual" && (
-                    <div className={`${styles.breakdownLine} ${styles.discountGreen}`}>
-                      <span>Annual Discount (20%):</span>
-                      <span>-₹300 / mo</span>
-                    </div>
-                  )}
                   <div className={styles.breakdownLine}>
-                    <span>GST &amp; Taxes:</span>
-                    <span>Included (₹0.00)</span>
+                    <span>Nutritionist Consultation:</span>
+                    <span className={styles.discountGreen}>Included</span>
+                  </div>
+                  <div className={styles.breakdownLine}>
+                    <span>Digital Health Protocol:</span>
+                    <span>Included</span>
                   </div>
                 </div>
               </div>
 
-              {/* Total & Guarantee */}
+              {/* Inclusions Summary & Guarantee */}
               <div className={styles.summaryColBottom}>
                 <div className={styles.totalRow}>
-                  <span className={styles.totalLabel}>Total</span>
+                  <span className={styles.totalLabel}>Status</span>
                   <span className={styles.totalPrice}>
-                    {currentPrice} / Month
+                    All Inclusions
                   </span>
                 </div>
 

@@ -126,9 +126,9 @@ export function PolicyPage({ kind }: { kind: "privacy" | "terms" }) {
           <>
             <h2>Programme previews</h2>
             <p>
-              Programme descriptions, prices and durations currently demonstrate
-              the proposed shopping experience. They are not a binding offer.
-              Payment processing and order fulfilment are not enabled.
+              Programme descriptions, personalised inclusions and durations currently demonstrate
+              the proposed wellness experience. They are tailored to client goals.
+              Online order fulfilment is subject to personal intake consultation.
             </p>
             <h2>Wellness guidance</h2>
             <p>

@@ -10,7 +10,7 @@ export type Programme = {
   features: string[];
   accent: string;
 };
-// Presentation-only catalogue. Prices, durations and inclusions require client approval.
+// Presentation-only catalogue. Durations and inclusions require client approval.
 export const programmes: Programme[] = [
   {
     slug: "everyday-nourish",
@@ -192,4 +192,4 @@ export const articles = [
     ],
   },
 ];
-export const money = (n: number) => "₹" + n.toLocaleString("en-IN");
+export const money = (_n?: number) => "Personalised Care";

@@ -248,10 +248,10 @@ export default function ClientAuthScreen({
               type="button"
               onClick={() => setShowSubscription(true)}
               className={styles.topPlusBtn}
-              title="Open Dynamic Payment Checkout"
+              title="View Membership Plans"
             >
               <Sparkles size={12} className={styles.topPlusSparkle} />
-              <span>Plus Plan ₹1,199/mo</span>
+              <span>Plus Membership</span>
             </button>
 
             <Link href="/" className={styles.returnStoreLink}>
@@ -547,10 +547,10 @@ export default function ClientAuthScreen({
                     >
                       <div className={styles.planOptionHeader}>
                         <strong>Plus Member</strong>
-                        <span className={styles.saveBadge}>Save 20%</span>
+                        <span className={styles.saveBadge}>All Inclusions</span>
                       </div>
                       <small className={styles.planOptionSub}>
-                        ₹1,199/mo • All Access
+                        Priority Care • All Access
                       </small>
                     </button>
                   </div>
@@ -618,7 +618,7 @@ export default function ClientAuthScreen({
                       {selectedPlan === "plus" ? (
                         <>
                           <Sparkles size={15} />
-                          <span>Continue to Payment (₹1,199/mo)</span>
+                          <span>Continue to Membership</span>
                           <ArrowRight size={16} />
                         </>
                       ) : (
@@ -630,7 +630,7 @@ export default function ClientAuthScreen({
                   {/* Trust Guarantee Note */}
                   <div className={styles.trustStrip}>
                     <ShieldCheck size={13} className={styles.trustIcon} />
-                    <span>256-Bit SSL Encrypted • Indian Rupees (₹) • Cancel anytime</span>
+                    <span>256-Bit SSL Encrypted • Dedicated Care • Cancel anytime</span>
                   </div>
 
                   {/* Switch to Sign In */}

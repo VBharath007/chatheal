@@ -93,7 +93,7 @@ export function CartPage() {
                 </div>
 
                 <div className={styles.itemPriceAction}>
-                  <span className={styles.itemPrice}>{money(p.price)}</span>
+                  <span className={styles.itemPrice}>Personalised Care</span>
                   <button
                     onClick={() => remove(p.slug)}
                     className={styles.removeBtn}
@@ -142,7 +142,7 @@ export function CartPage() {
               {cart.map((p) => (
                 <div key={p.slug} className={styles.summaryRow}>
                   <span>{p.title}</span>
-                  <strong>{money(p.price)}</strong>
+                  <strong>Included</strong>
                 </div>
               ))}
 
@@ -157,19 +157,19 @@ export function CartPage() {
               </div>
 
               <div className={styles.summaryRow}>
-                <span>Taxes & Consultation Prep</span>
+                <span>Care Inclusions</span>
                 <span style={{ fontSize: "12.5px", color: "#6a8270" }}>
-                  To be confirmed
+                  Full Access
                 </span>
               </div>
             </div>
 
             <div className={styles.totalRow}>
               <div className={styles.totalLabel}>
-                Preview total
+                Enrolment Plan
                 <small>Subject to final consultation</small>
               </div>
-              <span className={styles.totalAmount}>{money(total)}</span>
+              <span className={styles.totalAmount}>Personalised Care</span>
             </div>
 
             <Link href="/checkout" className={styles.checkoutCtaBtn}>
@@ -178,14 +178,14 @@ export function CartPage() {
             </Link>
 
             <div className={styles.disclaimerBox}>
-              Programme durations, inclusions and prices are design previews for
-              client approval. Online payment is not enabled.
+              Programme durations and personalised inclusions are design previews for
+              client intake. Consultations are coordinated upon enquiry.
             </div>
 
             <div className={styles.trustList}>
               <div className={styles.trustItem}>
                 <LockKeyhole size={14} />
-                <span>100% Risk-Free Preview · No payment charged today</span>
+                <span>100% Risk-Free Care Intake · Dedicated support</span>
               </div>
               <div className={styles.trustItem}>
                 <ShieldCheck size={14} />
@@ -292,7 +292,7 @@ export function CheckoutPage() {
                 <span>
                   <strong>{p.title}</strong> · {p.weeks} Weeks Guided Care
                 </span>
-                <strong>{money(p.price)}</strong>
+                <strong>Included</strong>
               </div>
             ))}
             <div className={styles.receiptItem}>
@@ -300,12 +300,12 @@ export function CheckoutPage() {
               <span>{name || "Prospective Client"}</span>
             </div>
             <div className={styles.receiptItem}>
-              <span>Payment Mode</span>
-              <span>{method} (Preview)</span>
+              <span>Care Consultation</span>
+              <span>Dedicated Intake</span>
             </div>
             <div className={styles.receiptItem}>
-              <span>Preview Total</span>
-              <span>{money(total)}</span>
+              <span>Care Enrolment</span>
+              <span>Personalised Protocol</span>
             </div>
           </div>
 
@@ -494,7 +494,7 @@ export function CheckoutPage() {
                     {p.weeks}-week personalised programme
                   </small>
                 </span>
-                <strong>{money(p.price)}</strong>
+                <strong>Included</strong>
               </div>
             ))}
 
@@ -504,17 +504,17 @@ export function CheckoutPage() {
             </div>
 
             <div className={styles.summaryRow}>
-              <span>Taxes / Final pricing</span>
-              <span style={{ fontSize: "12px", color: "#6a8270" }}>To be confirmed</span>
+              <span>Care Inclusions</span>
+              <span style={{ fontSize: "12px", color: "#6a8270" }}>Full Access</span>
             </div>
           </div>
 
           <div className={styles.totalRow}>
             <div className={styles.totalLabel}>
-              Preview total
-              <small>No payment taken today</small>
+              Enrolment Plan
+              <small>Subject to consultation intake</small>
             </div>
-            <span className={styles.totalAmount}>{money(total)}</span>
+            <span className={styles.totalAmount}>Personalised Care</span>
           </div>
 
           <button className={styles.checkoutCtaBtn} type="submit">

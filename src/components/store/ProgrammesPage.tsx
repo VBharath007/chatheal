@@ -46,9 +46,9 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
               ))}
             </ul>
             <div className="ch-product-price">
-              <strong>{money(p.price)}</strong>
+              <strong>Custom Protocol</strong>
               <span>
-                Illustrative price
+                Personalised Care Plan
                 <br />
                 Final plan subject to consultation
               </span>
