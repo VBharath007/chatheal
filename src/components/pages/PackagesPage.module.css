@@ -1,0 +1,723 @@
+/* ==========================================================================
+   ChatHeal Luxury Packages Page Stylesheet
+   Palette: Alabaster Cream (#fbfaf6), Heritage Emerald (#183e34),
+   Sage (#2d5a3f), Botanical Glow (#eef6df, #dceacb), Champagne Gold (#c59e53)
+   ========================================================================== */
+
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #f7faf5;
+  background-image: 
+    radial-gradient(ellipse 90% 45% at 50% -10%, #eef6df 0%, rgba(238, 246, 223, 0) 70%),
+    radial-gradient(ellipse 70% 35% at 100% 30%, #e5f1ed 0%, rgba(229, 241, 237, 0) 60%),
+    radial-gradient(ellipse 60% 30% at 0% 70%, #edf5e6 0%, rgba(237, 245, 230, 0) 50%);
+  color: #1c362b;
+  overflow-x: hidden;
+  padding-bottom: 90px;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.heroSection {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 60px 24px 45px;
+  text-align: center;
+  position: relative;
+}
+
+.heroEyebrowPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #d6e4ce;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #2c5942;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(27, 67, 50, 0.05);
+  backdrop-filter: blur(12px);
+  margin-bottom: 22px;
+}
+
+.sparkleGold {
+  color: #b38d48;
+}
+
+.heroTitle {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(38px, 4.4vw, 64px);
+  font-weight: 400;
+  line-height: 1.12;
+  color: #14382e;
+  letter-spacing: -0.035em;
+  margin: 0 auto 18px;
+  max-width: 860px;
+}
+
+.heroTitle em {
+  font-style: italic;
+  font-family: Georgia, serif;
+  color: #285a40;
+}
+
+.heroSubtitle {
+  font-size: clamp(15px, 1.3vw, 17.5px);
+  line-height: 1.8;
+  color: #516a5d;
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+
+/* Trust Pillars Strip */
+.trustPillarsRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 15px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(220, 234, 203, 0.7);
+  border-radius: 100px;
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(10px);
+}
+
+.trustPillarItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #2b543e;
+}
+
+.trustPillarDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #b38d48;
+}
+
+/* ==========================================================================
+   Packages Grid (3 Cards)
+   ========================================================================== */
+.packagesSection {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+}
+
+.packagesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* Base Package Card */
+.packageCard {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #dce8d5;
+  border-radius: 26px;
+  padding: 36px 30px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 10px 30px rgba(20, 56, 42, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+.packageCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(20, 56, 42, 0.08);
+  border-color: #c0d8b5;
+}
+
+/* Featured / Popular Card (6-Month Transformation) */
+.packageCardPopular {
+  background: #ffffff;
+  border: 2px solid #2d664c;
+  box-shadow: 0 18px 50px rgba(24, 75, 52, 0.12);
+  transform: scale(1.02);
+}
+
+.packageCardPopular:hover {
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 24px 55px rgba(24, 75, 52, 0.16);
+}
+
+/* VIP Card (Yearly Package) */
+.packageCardVIP {
+  background: linear-gradient(155deg, #173f33 0%, #102e25 100%);
+  border: 1px solid rgba(217, 190, 127, 0.4);
+  color: #f7f9f6;
+  box-shadow: 0 20px 50px rgba(16, 46, 37, 0.2);
+}
+
+.packageCardVIP:hover {
+  border-color: rgba(217, 190, 127, 0.8);
+  box-shadow: 0 24px 60px rgba(16, 46, 37, 0.26);
+}
+
+/* Badges */
+.cardBadge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #245840;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(27, 74, 52, 0.25);
+}
+
+.badgePopular {
+  background: linear-gradient(135deg, #256649, #1b4e37);
+  border: 1px solid #7cb08f;
+}
+
+.badgeGold {
+  background: linear-gradient(135deg, #b38d48, #937130);
+  color: #fff;
+  border: 1px solid #d9be7f;
+}
+
+/* Card Header */
+.cardHeader {
+  margin-bottom: 22px;
+}
+
+.planEyebrow {
+  font-size: 10.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #597d6a;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.packageCardVIP .planEyebrow {
+  color: #d9be7f;
+}
+
+.planTitle {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #14382e;
+  margin: 0 0 6px;
+}
+
+.packageCardVIP .planTitle {
+  color: #ffffff;
+}
+
+.planDurationLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #557564;
+}
+
+.packageCardVIP .planDurationLabel {
+  color: #c9dbd0;
+}
+
+/* Price Box */
+.priceBox {
+  margin: 18px 0 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5ede0;
+}
+
+.packageCardVIP .priceBox {
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+.priceMainRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.currency {
+  font-size: 24px;
+  font-weight: 600;
+  color: #164134;
+}
+
+.packageCardVIP .currency {
+  color: #d9be7f;
+}
+
+.priceAmount {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #12372b;
+  line-height: 1;
+}
+
+.packageCardVIP .priceAmount {
+  color: #ffffff;
+}
+
+.pricePeriod {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #657e70;
+  margin-left: 4px;
+}
+
+.packageCardVIP .pricePeriod {
+  color: #bacdc2;
+}
+
+.effectiveMonthlyRow {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.effectiveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: #eef6e8;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #276241;
+}
+
+.packageCardVIP .effectiveBadge {
+  background: rgba(217, 190, 127, 0.2);
+  color: #ebdcb6;
+  border: 1px solid rgba(217, 190, 127, 0.4);
+}
+
+.savingsTag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2c6e49;
+}
+
+.packageCardVIP .savingsTag {
+  color: #d9be7f;
+}
+
+.planDescription {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #556c60;
+  margin-bottom: 22px;
+}
+
+.packageCardVIP .planDescription {
+  color: #b7cbbf;
+}
+
+/* Features List */
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #284437;
+}
+
+.packageCardVIP .featureItem {
+  color: #e5ede7;
+}
+
+.checkIcon {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #e5f2de;
+  color: #276943;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.packageCardVIP .checkIcon {
+  background: rgba(217, 190, 127, 0.25);
+  color: #edd9a6;
+}
+
+/* Quick Inclusions Row */
+.inclusionsRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  background: #f4f8f1;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 24px;
+}
+
+.packageCardVIP .inclusionsRow {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.inclusionBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.inclusionLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6d887a;
+}
+
+.packageCardVIP .inclusionLabel {
+  color: #9cb5a5;
+}
+
+.inclusionValue {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #173d30;
+  margin-top: 2px;
+}
+
+.packageCardVIP .inclusionValue {
+  color: #f0f5f1;
+}
+
+/* CTA Buttons */
+.ctaButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 50px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-align: center;
+}
+
+.btnSecondary {
+  background: #eaf3e5;
+  color: #22513a;
+  border: 1px solid #cadcc3;
+}
+
+.btnSecondary:hover {
+  background: #d8ebd2;
+  color: #163e2a;
+}
+
+.btnPopular {
+  background: #174e38;
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(23, 78, 56, 0.28);
+}
+
+.btnPopular:hover {
+  background: #123d2c;
+  box-shadow: 0 12px 28px rgba(23, 78, 56, 0.35);
+  transform: translateY(-2px);
+}
+
+.btnGold {
+  background: linear-gradient(135deg, #d9be7f, #c59e53);
+  color: #143529;
+  box-shadow: 0 8px 24px rgba(217, 190, 127, 0.3);
+}
+
+.btnGold:hover {
+  background: linear-gradient(135deg, #edd9a6, #d9be7f);
+  box-shadow: 0 12px 30px rgba(217, 190, 127, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Guarantee Micro-note */
+.guaranteeFootnote {
+  font-size: 11.5px;
+  text-align: center;
+  color: #6d887a;
+  margin-top: 14px;
+}
+
+.packageCardVIP .guaranteeFootnote {
+  color: #9ab4a4;
+}
+
+/* ==========================================================================
+   Detailed Feature Comparison Table
+   ========================================================================== */
+.tableSection {
+  max-width: 1180px;
+  margin: 40px auto 70px;
+  padding: 0 24px;
+}
+
+.tableHeading {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.tableHeading h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(28px, 3.2vw, 40px);
+  color: #14382e;
+  font-weight: 400;
+  margin: 0 0 10px;
+}
+
+.tableHeading p {
+  color: #557262;
+  font-size: 15px;
+}
+
+.tableWrapper {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #dce8d5;
+  border-radius: 24px;
+  overflow-x: auto;
+  box-shadow: 0 12px 35px rgba(23, 62, 46, 0.05);
+  backdrop-filter: blur(14px);
+}
+
+.compareTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.compareTable th,
+.compareTable td {
+  padding: 16px 22px;
+  border-bottom: 1px solid #e7efe3;
+  font-size: 13.5px;
+}
+
+.compareTable thead th {
+  background: #f2f7ee;
+  color: #1c4535;
+  font-weight: 750;
+  font-size: 13.5px;
+}
+
+.compareTable thead th:first-child {
+  width: 38%;
+}
+
+.compareTable tbody tr:hover td {
+  background: rgba(238, 246, 223, 0.35);
+}
+
+.featureNameCol {
+  color: #244837;
+  font-weight: 600;
+}
+
+.checkCell {
+  color: #276842;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Founder Sujitha C. Clinical Care Note
+   ========================================================================== */
+.coachNoteCard {
+  max-width: 1080px;
+  margin: 0 auto 70px;
+  padding: 38px 44px;
+  background: linear-gradient(135deg, #ffffff, #f5f9f0);
+  border: 1px solid #d4e4cc;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  box-shadow: 0 12px 36px rgba(22, 60, 44, 0.06);
+}
+
+.coachAvatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: #174c37;
+  color: #edd9a6;
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(23, 76, 55, 0.2);
+}
+
+.coachBody h3 {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  color: #143b2e;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.coachBody small {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #557966;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.coachBody p {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #435e51;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==========================================================================
+   FAQ Section
+   ========================================================================== */
+.faqSection {
+  max-width: 900px;
+  margin: 0 auto 70px;
+  padding: 0 24px;
+}
+
+.faqHeading {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.faqHeading h2 {
+  font-family: Georgia, serif;
+  font-size: 34px;
+  color: #143b2e;
+  margin: 0 0 8px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faqItem {
+  background: #ffffff;
+  border: 1px solid #dce8d5;
+  border-radius: 18px;
+  padding: 22px 26px;
+  box-shadow: 0 4px 18px rgba(20, 56, 42, 0.03);
+}
+
+.faqQuestion {
+  font-size: 16px;
+  font-weight: 700;
+  color: #194334;
+  margin: 0 0 8px;
+}
+
+.faqAnswer {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #516d5f;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 1040px) {
+  .packagesGrid {
+    grid-template-columns: 1fr;
+    max-width: 580px;
+    margin: 0 auto;
+    gap: 36px;
+  }
+
+  .packageCardPopular {
+    transform: none;
+  }
+
+  .packageCardPopular:hover {
+    transform: translateY(-4px);
+  }
+
+  .coachNoteCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 24px;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroSection {
+    padding: 40px 18px 30px;
+  }
+
+  .trustPillarsRow {
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 20px;
+  }
+
+  .packageCard {
+    padding: 30px 20px;
+  }
+
+  .priceAmount {
+    font-size: 36px;
+  }
+
+  .compareTable th,
+  .compareTable td {
+    padding: 12px 14px;
+    font-size: 12.5px;
+  }
+}
+
