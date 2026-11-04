@@ -1,28 +1,28 @@
 /* ==========================================================================
-   ChatHeal Luxury Packages Page Stylesheet
+   ChatHeal Luxury Packages Page Stylesheet (Clean, Aesthetic & Uncluttered)
    Palette: Alabaster Cream (#fbfaf6), Heritage Emerald (#183e34),
    Sage (#2d5a3f), Botanical Glow (#eef6df, #dceacb), Champagne Gold (#c59e53)
    ========================================================================== */
 
 .pageWrapper {
   min-height: 100vh;
-  background-color: #f7faf5;
+  background-color: #f8faf5;
   background-image: 
-    radial-gradient(ellipse 90% 45% at 50% -10%, #eef6df 0%, rgba(238, 246, 223, 0) 70%),
-    radial-gradient(ellipse 70% 35% at 100% 30%, #e5f1ed 0%, rgba(229, 241, 237, 0) 60%),
-    radial-gradient(ellipse 60% 30% at 0% 70%, #edf5e6 0%, rgba(237, 245, 230, 0) 50%);
+    radial-gradient(ellipse 90% 40% at 50% -5%, #eef6df 0%, rgba(238, 246, 223, 0) 70%),
+    radial-gradient(ellipse 60% 30% at 100% 25%, #e5f1ed 0%, rgba(229, 241, 237, 0) 60%),
+    radial-gradient(ellipse 50% 25% at 0% 65%, #edf5e6 0%, rgba(237, 245, 230, 0) 50%);
   color: #1c362b;
   overflow-x: hidden;
   padding-bottom: 90px;
 }
 
 /* ==========================================================================
-   Hero Section
+   Hero Section (Aesthetic, Airy & Minimalist)
    ========================================================================== */
 .heroSection {
-  max-width: 1240px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 60px 24px 45px;
+  padding: 64px 24px 36px;
   text-align: center;
   position: relative;
 }
@@ -30,19 +30,19 @@
 .heroEyebrowPill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid #d6e4ce;
-  border-radius: 999px;
+  gap: 7px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #d8e5d0;
+  border-radius: 100px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #2c5942;
+  letter-spacing: 0.12em;
+  color: #2b563f;
   text-transform: uppercase;
-  box-shadow: 0 4px 16px rgba(27, 67, 50, 0.05);
-  backdrop-filter: blur(12px);
-  margin-bottom: 22px;
+  box-shadow: 0 4px 14px rgba(27, 67, 50, 0.04);
+  backdrop-filter: blur(10px);
+  margin-bottom: 18px;
 }
 
 .sparkleGold {
@@ -51,167 +51,162 @@
 
 .heroTitle {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(38px, 4.4vw, 64px);
+  font-size: clamp(36px, 4.2vw, 56px);
   font-weight: 400;
-  line-height: 1.12;
+  line-height: 1.14;
   color: #14382e;
-  letter-spacing: -0.035em;
-  margin: 0 auto 18px;
-  max-width: 860px;
+  letter-spacing: -0.03em;
+  margin: 0 auto 16px;
 }
 
 .heroTitle em {
   font-style: italic;
   font-family: Georgia, serif;
-  color: #285a40;
+  color: #2e6047;
 }
 
 .heroSubtitle {
-  font-size: clamp(15px, 1.3vw, 17.5px);
-  line-height: 1.8;
-  color: #516a5d;
-  max-width: 680px;
-  margin: 0 auto 36px;
+  font-size: clamp(14.5px, 1.2vw, 16.5px);
+  line-height: 1.7;
+  color: #556e61;
+  max-width: 620px;
+  margin: 0 auto 26px;
 }
 
-/* Trust Pillars Strip */
+/* Single-Line Sleek Trust Strip (No ugly wrapping) */
 .trustPillarsRow {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 24px;
-  margin-top: 15px;
-  padding: 14px 24px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(220, 234, 203, 0.7);
+  gap: 16px;
+  padding: 10px 22px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(220, 234, 203, 0.85);
   border-radius: 100px;
-  max-width: 880px;
-  margin-left: auto;
-  margin-right: auto;
-  backdrop-filter: blur(10px);
+  margin: 0 auto;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 18px rgba(27, 67, 50, 0.04);
 }
 
 .trustPillarItem {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   font-size: 12.5px;
   font-weight: 600;
   color: #2b543e;
+  white-space: nowrap;
 }
 
 .trustPillarDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #b38d48;
+  color: #9cb5a5;
+  font-size: 16px;
+  line-height: 1;
 }
 
 /* ==========================================================================
-   Packages Grid (3 Cards)
+   Packages Grid (3 Clean, Balanced Cards)
    ========================================================================== */
 .packagesSection {
-  max-width: 1260px;
+  max-width: 1220px;
   margin: 0 auto;
-  padding: 20px 24px 60px;
+  padding: 24px 24px 60px;
 }
 
 .packagesGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 26px;
   align-items: stretch;
 }
 
 /* Base Package Card */
 .packageCard {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid #dce8d5;
-  border-radius: 26px;
-  padding: 36px 30px 32px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #dbe6d5;
+  border-radius: 24px;
+  padding: 34px 28px 28px;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  box-shadow: 0 10px 30px rgba(20, 56, 42, 0.04);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  box-shadow: 0 8px 26px rgba(20, 56, 42, 0.04);
   backdrop-filter: blur(16px);
 }
 
 .packageCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 45px rgba(20, 56, 42, 0.08);
-  border-color: #c0d8b5;
+  box-shadow: 0 18px 40px rgba(20, 56, 42, 0.08);
+  border-color: #bcd5b2;
 }
 
 /* Featured / Popular Card (6-Month Transformation) */
 .packageCardPopular {
   background: #ffffff;
-  border: 2px solid #2d664c;
-  box-shadow: 0 18px 50px rgba(24, 75, 52, 0.12);
+  border: 2px solid #285d46;
+  box-shadow: 0 16px 44px rgba(24, 75, 52, 0.12);
   transform: scale(1.02);
 }
 
 .packageCardPopular:hover {
   transform: scale(1.02) translateY(-4px);
-  box-shadow: 0 24px 55px rgba(24, 75, 52, 0.16);
+  box-shadow: 0 22px 50px rgba(24, 75, 52, 0.16);
 }
 
 /* VIP Card (Yearly Package) */
 .packageCardVIP {
-  background: linear-gradient(155deg, #173f33 0%, #102e25 100%);
-  border: 1px solid rgba(217, 190, 127, 0.4);
+  background: linear-gradient(155deg, #163f33 0%, #102d24 100%);
+  border: 1px solid rgba(217, 190, 127, 0.45);
   color: #f7f9f6;
-  box-shadow: 0 20px 50px rgba(16, 46, 37, 0.2);
+  box-shadow: 0 18px 46px rgba(16, 46, 37, 0.2);
 }
 
 .packageCardVIP:hover {
-  border-color: rgba(217, 190, 127, 0.8);
-  box-shadow: 0 24px 60px rgba(16, 46, 37, 0.26);
+  border-color: rgba(217, 190, 127, 0.85);
+  box-shadow: 0 24px 54px rgba(16, 46, 37, 0.26);
 }
 
-/* Badges */
+/* Floating Badges */
 .cardBadge {
   position: absolute;
-  top: -14px;
+  top: -13px;
   left: 50%;
   transform: translateX(-50%);
-  background: #245840;
-  color: #ffffff;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 750;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 5px 16px;
-  border-radius: 999px;
+  padding: 4px 14px;
+  border-radius: 100px;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(27, 74, 52, 0.25);
+  box-shadow: 0 4px 12px rgba(27, 74, 52, 0.2);
 }
 
 .badgePopular {
-  background: linear-gradient(135deg, #256649, #1b4e37);
+  background: linear-gradient(135deg, #246347, #194833);
+  color: #ffffff;
   border: 1px solid #7cb08f;
 }
 
 .badgeGold {
   background: linear-gradient(135deg, #b38d48, #937130);
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #d9be7f;
 }
 
 /* Card Header */
 .cardHeader {
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 
 .planEyebrow {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 750;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #597d6a;
+  color: #557967;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .packageCardVIP .planEyebrow {
@@ -220,10 +215,10 @@
 
 .planTitle {
   font-family: Georgia, serif;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 600;
   color: #14382e;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
 }
 
 .packageCardVIP .planTitle {
@@ -231,20 +226,20 @@
 }
 
 .planDurationLabel {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
-  color: #557564;
+  color: #587867;
 }
 
 .packageCardVIP .planDurationLabel {
-  color: #c9dbd0;
+  color: #c4d7cc;
 }
 
 /* Price Box */
 .priceBox {
-  margin: 18px 0 22px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e5ede0;
+  margin: 14px 0 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e7efe3;
 }
 
 .packageCardVIP .priceBox {
@@ -254,11 +249,11 @@
 .priceMainRow {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 3px;
 }
 
 .currency {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   color: #164134;
 }
@@ -268,7 +263,7 @@
 }
 
 .priceAmount {
-  font-size: 42px;
+  font-size: 40px;
   font-weight: 800;
   letter-spacing: -0.04em;
   color: #12372b;
@@ -280,10 +275,10 @@
 }
 
 .pricePeriod {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   color: #657e70;
-  margin-left: 4px;
+  margin-left: 3px;
 }
 
 .packageCardVIP .pricePeriod {
@@ -301,72 +296,60 @@
 .effectiveBadge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  background: #eef6e8;
+  padding: 3px 9px;
+  background: #edf5e7;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #276241;
 }
 
 .packageCardVIP .effectiveBadge {
-  background: rgba(217, 190, 127, 0.2);
+  background: rgba(217, 190, 127, 0.18);
   color: #ebdcb6;
-  border: 1px solid rgba(217, 190, 127, 0.4);
+  border: 1px solid rgba(217, 190, 127, 0.35);
 }
 
 .savingsTag {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  color: #2c6e49;
+  color: #286b46;
 }
 
 .packageCardVIP .savingsTag {
   color: #d9be7f;
 }
 
-.planDescription {
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: #556c60;
-  margin-bottom: 22px;
-}
-
-.packageCardVIP .planDescription {
-  color: #b7cbbf;
-}
-
-/* Features List */
+/* Clean Features List */
 .featuresList {
   list-style: none;
   padding: 0;
-  margin: 0 0 28px;
+  margin: 0 0 26px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 13px;
   flex-grow: 1;
 }
 
 .featureItem {
   display: flex;
   align-items: flex-start;
-  gap: 11px;
+  gap: 10px;
   font-size: 13px;
-  line-height: 1.55;
-  color: #284437;
+  line-height: 1.5;
+  color: #274336;
 }
 
 .packageCardVIP .featureItem {
-  color: #e5ede7;
+  color: #e5ece7;
 }
 
 .checkIcon {
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  background: #e5f2de;
-  color: #276943;
+  background: #e4f2dc;
+  color: #256741;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -375,51 +358,8 @@
 }
 
 .packageCardVIP .checkIcon {
-  background: rgba(217, 190, 127, 0.25);
+  background: rgba(217, 190, 127, 0.22);
   color: #edd9a6;
-}
-
-/* Quick Inclusions Row */
-.inclusionsRow {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  background: #f4f8f1;
-  border-radius: 14px;
-  padding: 12px 14px;
-  margin-bottom: 24px;
-}
-
-.packageCardVIP .inclusionsRow {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.inclusionBox {
-  display: flex;
-  flex-direction: column;
-}
-
-.inclusionLabel {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #6d887a;
-}
-
-.packageCardVIP .inclusionLabel {
-  color: #9cb5a5;
-}
-
-.inclusionValue {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #173d30;
-  margin-top: 2px;
-}
-
-.packageCardVIP .inclusionValue {
-  color: #f0f5f1;
 }
 
 /* CTA Buttons */
@@ -427,12 +367,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 9px;
   width: 100%;
-  min-height: 50px;
-  padding: 14px 20px;
-  border-radius: 14px;
-  font-size: 14px;
+  min-height: 48px;
+  padding: 13px 20px;
+  border-radius: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -441,9 +381,9 @@
 }
 
 .btnSecondary {
-  background: #eaf3e5;
+  background: #e9f2e4;
   color: #22513a;
-  border: 1px solid #cadcc3;
+  border: 1px solid #c9dcc2;
 }
 
 .btnSecondary:hover {
@@ -454,72 +394,72 @@
 .btnPopular {
   background: #174e38;
   color: #ffffff;
-  box-shadow: 0 8px 22px rgba(23, 78, 56, 0.28);
+  box-shadow: 0 6px 20px rgba(23, 78, 56, 0.26);
 }
 
 .btnPopular:hover {
   background: #123d2c;
-  box-shadow: 0 12px 28px rgba(23, 78, 56, 0.35);
+  box-shadow: 0 10px 24px rgba(23, 78, 56, 0.32);
   transform: translateY(-2px);
 }
 
 .btnGold {
   background: linear-gradient(135deg, #d9be7f, #c59e53);
   color: #143529;
-  box-shadow: 0 8px 24px rgba(217, 190, 127, 0.3);
+  box-shadow: 0 6px 20px rgba(217, 190, 127, 0.28);
 }
 
 .btnGold:hover {
   background: linear-gradient(135deg, #edd9a6, #d9be7f);
-  box-shadow: 0 12px 30px rgba(217, 190, 127, 0.4);
+  box-shadow: 0 10px 26px rgba(217, 190, 127, 0.36);
   transform: translateY(-2px);
 }
 
 /* Guarantee Micro-note */
 .guaranteeFootnote {
-  font-size: 11.5px;
+  font-size: 11px;
   text-align: center;
-  color: #6d887a;
-  margin-top: 14px;
+  color: #6a8577;
+  margin-top: 12px;
 }
 
 .packageCardVIP .guaranteeFootnote {
-  color: #9ab4a4;
+  color: #98b1a2;
 }
 
 /* ==========================================================================
-   Detailed Feature Comparison Table
+   Comparison Table Section
    ========================================================================== */
 .tableSection {
-  max-width: 1180px;
-  margin: 40px auto 70px;
+  max-width: 1140px;
+  margin: 30px auto 60px;
   padding: 0 24px;
 }
 
 .tableHeading {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .tableHeading h2 {
   font-family: Georgia, serif;
-  font-size: clamp(28px, 3.2vw, 40px);
+  font-size: clamp(26px, 3vw, 36px);
   color: #14382e;
   font-weight: 400;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .tableHeading p {
   color: #557262;
-  font-size: 15px;
+  font-size: 14.5px;
 }
 
 .tableWrapper {
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid #dce8d5;
-  border-radius: 24px;
+  border-radius: 22px;
   overflow-x: auto;
-  box-shadow: 0 12px 35px rgba(23, 62, 46, 0.05);
+  box-shadow: 0 10px 30px rgba(23, 62, 46, 0.04);
   backdrop-filter: blur(14px);
 }
 
@@ -531,16 +471,16 @@
 
 .compareTable th,
 .compareTable td {
-  padding: 16px 22px;
+  padding: 15px 20px;
   border-bottom: 1px solid #e7efe3;
-  font-size: 13.5px;
+  font-size: 13px;
 }
 
 .compareTable thead th {
-  background: #f2f7ee;
+  background: #f1f6ed;
   color: #1c4535;
   font-weight: 750;
-  font-size: 13.5px;
+  font-size: 13px;
 }
 
 .compareTable thead th:first-child {
@@ -562,40 +502,40 @@
 }
 
 /* ==========================================================================
-   Founder Sujitha C. Clinical Care Note
+   Founder Sujitha C. Clinical Note
    ========================================================================== */
 .coachNoteCard {
-  max-width: 1080px;
-  margin: 0 auto 70px;
-  padding: 38px 44px;
+  max-width: 1040px;
+  margin: 0 auto 60px;
+  padding: 34px 40px;
   background: linear-gradient(135deg, #ffffff, #f5f9f0);
   border: 1px solid #d4e4cc;
-  border-radius: 26px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
-  gap: 34px;
-  box-shadow: 0 12px 36px rgba(22, 60, 44, 0.06);
+  gap: 30px;
+  box-shadow: 0 10px 30px rgba(22, 60, 44, 0.05);
 }
 
 .coachAvatar {
-  width: 84px;
-  height: 84px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   background: #174c37;
   color: #edd9a6;
   font-family: Georgia, serif;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 8px 24px rgba(23, 76, 55, 0.2);
+  box-shadow: 0 6px 20px rgba(23, 76, 55, 0.18);
 }
 
 .coachBody h3 {
   font-family: Georgia, serif;
-  font-size: 22px;
+  font-size: 20px;
   color: #143b2e;
   margin: 0 0 6px;
   font-weight: 600;
@@ -603,17 +543,17 @@
 
 .coachBody small {
   display: block;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: #557966;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .coachBody p {
-  font-size: 14.5px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.65;
   color: #435e51;
   font-style: italic;
   margin: 0;
@@ -623,47 +563,47 @@
    FAQ Section
    ========================================================================== */
 .faqSection {
-  max-width: 900px;
-  margin: 0 auto 70px;
+  max-width: 860px;
+  margin: 0 auto 60px;
   padding: 0 24px;
 }
 
 .faqHeading {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .faqHeading h2 {
   font-family: Georgia, serif;
-  font-size: 34px;
+  font-size: 32px;
   color: #143b2e;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 }
 
 .faqList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .faqItem {
   background: #ffffff;
   border: 1px solid #dce8d5;
-  border-radius: 18px;
-  padding: 22px 26px;
-  box-shadow: 0 4px 18px rgba(20, 56, 42, 0.03);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 3px 14px rgba(20, 56, 42, 0.03);
 }
 
 .faqQuestion {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #194334;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 }
 
 .faqAnswer {
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 13.5px;
+  line-height: 1.65;
   color: #516d5f;
   margin: 0;
 }
@@ -671,12 +611,12 @@
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
-@media (max-width: 1040px) {
+@media (max-width: 1024px) {
   .packagesGrid {
     grid-template-columns: 1fr;
-    max-width: 580px;
+    max-width: 520px;
     margin: 0 auto;
-    gap: 36px;
+    gap: 32px;
   }
 
   .packageCardPopular {
@@ -690,34 +630,38 @@
   .coachNoteCard {
     flex-direction: column;
     text-align: center;
-    padding: 30px 24px;
-    gap: 18px;
+    padding: 28px 20px;
+    gap: 16px;
   }
 }
 
 @media (max-width: 640px) {
   .heroSection {
-    padding: 40px 18px 30px;
+    padding: 44px 18px 24px;
   }
 
   .trustPillarsRow {
-    flex-direction: column;
-    gap: 12px;
-    border-radius: 20px;
+    flex-wrap: wrap;
+    border-radius: 18px;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .trustPillarDot {
+    display: none;
   }
 
   .packageCard {
-    padding: 30px 20px;
+    padding: 28px 18px;
   }
 
   .priceAmount {
-    font-size: 36px;
+    font-size: 34px;
   }
 
   .compareTable th,
   .compareTable td {
     padding: 12px 14px;
-    font-size: 12.5px;
+    font-size: 12px;
   }
 }
-

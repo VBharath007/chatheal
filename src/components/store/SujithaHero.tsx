@@ -59,7 +59,7 @@ export default function SujithaHero({ onScrollToStory }: SujithaHeroProps) {
         <div className={styles.rightColumn}>
           <div className={styles.photoFrame}>
             <img
-              src="/images/sujitha_executive_portrait.jpg"
+              src="/images/sujitha_executive_portrait.jpeg"
               alt="Sujitha C., Founder and Clinical Nutritionist at ChatHeal"
               className={styles.portraitImg}
               onError={(e) => {

@@ -22,7 +22,7 @@ export default function Team() {
             <div className="gl-profile-art">
               <div className="gl-profile-circle" style={{ overflow: "hidden", border: "2px solid #5ADE96" }}>
                 <img
-                  src="/images/sujitha_executive_portrait.jpg"
+                  src="/images/sujitha_executive_portrait.jpeg"
                   alt="Sujitha C."
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   onError={(e) => {

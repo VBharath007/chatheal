@@ -8,14 +8,12 @@ import {
   ArrowRight,
   ShieldCheck,
   Video,
-  CalendarCheck,
   MessageCircle,
-  Activity,
+  Leaf,
   Heart,
-  ChevronDown,
   ArrowUpRight,
 } from "lucide-react";
-import { packages, PackagePlan } from "@/lib/catalog";
+import { packages } from "@/lib/catalog";
 import SubscriptionModal from "@/components/store/SubscriptionModal";
 import styles from "./PackagesPage.module.css";
 
@@ -31,51 +29,46 @@ export default function PackagesPage() {
   return (
     <main className={styles.pageWrapper}>
       {/* ==========================================================
-          HERO SECTION
+          LUXURY EDITORIAL HERO
           ========================================================== */}
       <section className={styles.heroSection} aria-label="Care Packages Overview">
         <div className={styles.heroEyebrowPill}>
           <Sparkles size={13} className={styles.sparkleGold} />
-          <span>Bespoke Clinical Nutrition Partnerships</span>
+          <span>Transparent Clinical Care</span>
         </div>
 
         <h1 className={styles.heroTitle}>
-          Invest in Your Vitality.
+          Simple, Thoughtful Care.
           <br />
-          <em>Guaranteed 1-on-1 Transformation.</em>
+          <em>Crafted for Your Life.</em>
         </h1>
 
         <p className={styles.heroSubtitle}>
-          Work directly with Founder & Clinical Dietitian Sujitha C. Choose from flexible monthly care,
-          our signature 6-month metabolic transformation, or our full 365-day VIP partnership.
+          1-on-1 clinical nutrition mentorship with Founder & Dietitian Sujitha C.
+          Honest pricing, tailored whole-food protocols, and zero shortcuts.
         </p>
 
-        {/* Trust Pillars */}
+        {/* Clean 3-Pillar Micro Badges */}
         <div className={styles.trustPillarsRow}>
           <div className={styles.trustPillarItem}>
-            <Check size={14} className={styles.sparkleGold} />
-            <span>100% Whole-Food Science</span>
+            <Leaf size={14} className={styles.sparkleGold} />
+            <span>100% Whole-Food Focus</span>
           </div>
-          <div className={styles.trustPillarDot} />
+          <span className={styles.trustPillarDot} aria-hidden="true">·</span>
           <div className={styles.trustPillarItem}>
             <Video size={14} className={styles.sparkleGold} />
-            <span>Direct Video Consultations</span>
+            <span>1-on-1 Video Care</span>
           </div>
-          <div className={styles.trustPillarDot} />
+          <span className={styles.trustPillarDot} aria-hidden="true">·</span>
           <div className={styles.trustPillarItem}>
-            <Activity size={14} className={styles.sparkleGold} />
-            <span>Daily Food Diary Coaching</span>
-          </div>
-          <div className={styles.trustPillarDot} />
-          <div className={styles.trustPillarItem}>
-            <ShieldCheck size={14} className={styles.sparkleGold} />
-            <span>Clinical Pathology Reviews</span>
+            <MessageCircle size={14} className={styles.sparkleGold} />
+            <span>Daily WhatsApp Mentorship</span>
           </div>
         </div>
       </section>
 
       {/* ==========================================================
-          PACKAGES SHOWCASE (THE 3 TIERS)
+          PACKAGES SHOWCASE (3 MINIMALIST LUXURY CARDS)
           ========================================================== */}
       <section className={styles.packagesSection} aria-label="Available Packages">
         <div className={styles.packagesGrid}>
@@ -126,7 +119,7 @@ export default function PackagesPage() {
                       {pkg.price.toLocaleString("en-IN")}
                     </span>
                     <span className={styles.pricePeriod}>
-                      {pkg.id === "monthly" ? "/ month" : "total"}
+                      {pkg.id === "monthly" ? "/ mo" : "total"}
                     </span>
                   </div>
 
@@ -140,20 +133,7 @@ export default function PackagesPage() {
                   </div>
                 </div>
 
-                {/* Description */}
-                <p className={styles.planDescription}>{pkg.description}</p>
-
-                {/* Quick 2x2 Inclusions Grid */}
-                <div className={styles.inclusionsRow}>
-                  {pkg.inclusions.map((inc) => (
-                    <div key={inc.label} className={styles.inclusionBox}>
-                      <span className={styles.inclusionLabel}>{inc.label}</span>
-                      <strong className={styles.inclusionValue}>{inc.value}</strong>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Key Features List */}
+                {/* Key Features List (Uncluttered) */}
                 <ul className={styles.featuresList}>
                   {pkg.features.map((feat) => (
                     <li key={feat} className={styles.featureItem}>
@@ -176,7 +156,7 @@ export default function PackagesPage() {
                       ? styles.btnGold
                       : styles.btnSecondary
                   }`}
-                  aria-label={`Enrol in ${pkg.title}`}
+                  aria-label={`Select ${pkg.title}`}
                 >
                   <span>Select {pkg.period}</span>
                   <ArrowRight size={16} />
@@ -184,10 +164,10 @@ export default function PackagesPage() {
 
                 <p className={styles.guaranteeFootnote}>
                   {pkg.id === "monthly"
-                    ? "Cancel or renew anytime · No hidden lock-in"
+                    ? "Renew or cancel anytime · No lock-in"
                     : pkg.id === "six-month"
-                    ? "Full 1:1 clinical intake before final schedule"
-                    : "VIP priority scheduling & 30-day vacation pause"}
+                    ? "14-day vacation pause protection"
+                    : "VIP 24/7 priority line · 30-day pause"}
                 </p>
               </article>
             );
@@ -196,7 +176,7 @@ export default function PackagesPage() {
       </section>
 
       {/* ==========================================================
-          SIDE-BY-SIDE DETAILED COMPARISON TABLE
+          SIDE-BY-SIDE INCLUSIONS COMPARISON TABLE
           ========================================================== */}
       <section className={styles.tableSection} aria-label="Package Inclusions Comparison">
         <div className={styles.tableHeading}>
@@ -246,12 +226,6 @@ export default function PackagesPage() {
                 <td className={styles.checkCell}>Advanced Clinical Strategy</td>
               </tr>
               <tr>
-                <td className={styles.featureNameCol}>Travel & Dining-Out Strategy</td>
-                <td>—</td>
-                <td className={styles.checkCell}>Included</td>
-                <td className={styles.checkCell}>Curated Menu Reviews</td>
-              </tr>
-              <tr>
                 <td className={styles.featureNameCol}>Bespoke Grocery & Pantry Overhaul</td>
                 <td>—</td>
                 <td>Starter Checklist</td>
@@ -264,7 +238,7 @@ export default function PackagesPage() {
                 <td className={styles.checkCell}>Up to 30 Days Anytime</td>
               </tr>
               <tr>
-                <td className={styles.featureNameCol}>Effective Monthly Investment</td>
+                <td className={styles.featureNameCol}>Effective Monthly Rate</td>
                 <td>₹3,000 / mo</td>
                 <td className={styles.checkCell}>₹2,000 / mo</td>
                 <td className={styles.checkCell}>₹1,667 / mo (Save 44%)</td>
@@ -353,4 +327,3 @@ export default function PackagesPage() {
     </main>
   );
 }
-
