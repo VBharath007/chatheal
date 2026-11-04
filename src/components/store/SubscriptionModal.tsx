@@ -19,15 +19,25 @@ interface SubscriptionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+  initialPackage?: "monthly" | "six-month" | "yearly";
 }
 
 export default function SubscriptionModal({
   isOpen,
   onClose,
   onSuccess,
+  initialPackage = "yearly",
 }: SubscriptionModalProps) {
-  // Plan selection: annual vs monthly
-  const [plan, setPlan] = useState<"annual" | "monthly">("annual");
+  // Plan selection: monthly (₹3,000), six-month (₹12,000), yearly (₹20,000)
+  const [plan, setPlan] = useState<"monthly" | "six-month" | "yearly">(
+    initialPackage
+  );
+
+  useEffect(() => {
+    if (initialPackage) {
+      setPlan(initialPackage);
+    }
+  }, [initialPackage]);
 
   // Payment method: card vs bank
   const [paymentMethod, setPaymentMethod] = useState<"card" | "bank">("card");
@@ -54,8 +64,15 @@ export default function SubscriptionModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Membership plan indicator
-  const currentPrice = plan === "annual" ? "Annual All-Access" : "Monthly Care";
+  // Exact package pricing values
+  const packagePrice =
+    plan === "yearly" ? "₹20,000" : plan === "six-month" ? "₹12,000" : "₹3,000";
+  const packageBillingText =
+    plan === "yearly"
+      ? "Yearly VIP (₹1,667/mo)"
+      : plan === "six-month"
+      ? "6-Month Package (₹2,000/mo)"
+      : "Per Month";
 
   // Card brand detection helper
   const getCardBrand = (num: string) => {
@@ -490,31 +507,31 @@ export default function SubscriptionModal({
                     {isSuccess ? (
                       <>
                         <Check size={16} strokeWidth={2.5} />
-                        <span>Payment Confirmed!</span>
+                        <span>Enrolment Confirmed!</span>
                       </>
                     ) : isSubmitting ? (
-                      <span>Processing Request…</span>
+                      <span>Processing Enrolment…</span>
                     ) : (
-                      <span>Activate Care Membership</span>
+                      <span>Enrol Now — {packagePrice}</span>
                     )}
                   </button>
                 </div>
 
                 <p className={styles.termsText}>
-                  By confirming, you authorize recurring billing in accordance with our terms.
-                  Cancel anytime with zero cancellation fee.
+                  By confirming, you authorize enrollment into your selected ChatHeal care package.
+                  100% money-back satisfaction guarantee after first consultation.
                 </p>
               </form>
             </div>
 
-            {/* RIGHT COLUMN: Plan Selector & Inclusions */}
+            {/* RIGHT COLUMN: 3 Package Selector & Inclusions */}
             <div className={styles.summaryCol}>
               <div className={styles.summaryColTop}>
-                <h3 className={styles.planSectionHeading}>Membership Plan</h3>
+                <h3 className={styles.planSectionHeading}>Select Care Package</h3>
 
-                {/* Plan Selection Cards */}
+                {/* Plan Selection Cards: 3 Packages */}
                 <div className={styles.planOptionsGroup}>
-                  {/* Option 1: Monthly Care */}
+                  {/* Option 1: Per Month (₹3,000) */}
                   <div
                     onClick={() => setPlan("monthly")}
                     className={`${styles.planCard} ${
@@ -531,52 +548,87 @@ export default function SubscriptionModal({
                       )}
                     </div>
                     <div className={styles.planDetails}>
-                      <span className={styles.planTitle}>Monthly Care</span>
+                      <span className={styles.planTitle}>Per Month</span>
                       <span className={styles.planPriceSub}>
-                        Flexible Monthly Inclusions
+                        ₹3,000 / month · Flexible reset
                       </span>
                     </div>
                   </div>
 
-                  {/* Option 2: Annual Care (Full Inclusions) */}
+                  {/* Option 2: 6-Month Package (₹12,000) */}
                   <div
-                    onClick={() => setPlan("annual")}
+                    onClick={() => setPlan("six-month")}
                     className={`${styles.planCard} ${
-                      plan === "annual" ? styles.planCardActive : ""
+                      plan === "six-month" ? styles.planCardActive : ""
                     }`}
                   >
                     <div
                       className={`${styles.planRadioCircle} ${
-                        plan === "annual" ? styles.planRadioCircleActive : ""
+                        plan === "six-month" ? styles.planRadioCircleActive : ""
                       }`}
                     >
-                      {plan === "annual" && (
+                      {plan === "six-month" && (
                         <div className={styles.planRadioInnerDot} />
                       )}
                     </div>
                     <div className={styles.planDetails}>
-                      <span className={styles.planTitle}>Annual Care</span>
+                      <span className={styles.planTitle}>6-Month Package</span>
                       <span className={styles.planPriceSub}>
-                        Full Year Priority Access
+                        ₹12,000 (Just ₹2,000/mo)
                       </span>
                     </div>
-                    <span className={styles.savingsBadge}>Recommended</span>
+                    <span className={styles.savingsBadge}>Save 33%</span>
+                  </div>
+
+                  {/* Option 3: Yearly Package (₹20,000) */}
+                  <div
+                    onClick={() => setPlan("yearly")}
+                    className={`${styles.planCard} ${
+                      plan === "yearly" ? styles.planCardActive : ""
+                    }`}
+                  >
+                    <div
+                      className={`${styles.planRadioCircle} ${
+                        plan === "yearly" ? styles.planRadioCircleActive : ""
+                      }`}
+                    >
+                      {plan === "yearly" && (
+                        <div className={styles.planRadioInnerDot} />
+                      )}
+                    </div>
+                    <div className={styles.planDetails}>
+                      <span className={styles.planTitle}>Yearly VIP Package</span>
+                      <span className={styles.planPriceSub}>
+                        ₹20,000 (Only ₹1,667/mo)
+                      </span>
+                    </div>
+                    <span className={styles.savingsBadge}>Save 44% ★</span>
                   </div>
                 </div>
 
                 {/* Dynamic Feature Inclusions */}
                 <div className={styles.breakdownBox}>
                   <div className={styles.breakdownLine}>
-                    <span>Plan Tier:</span>
-                    <span>{plan === "annual" ? "Annual Full-Access" : "Monthly Flexible"}</span>
+                    <span>Package Tier:</span>
+                    <span>{packageBillingText}</span>
                   </div>
                   <div className={styles.breakdownLine}>
-                    <span>Nutritionist Consultation:</span>
-                    <span className={styles.discountGreen}>Included</span>
+                    <span>Dietitian Consultations:</span>
+                    <span className={styles.discountGreen}>
+                      {plan === "yearly"
+                        ? "24+ Video Sessions"
+                        : plan === "six-month"
+                        ? "12 Video Sessions"
+                        : "2 Intake Sessions"}
+                    </span>
                   </div>
                   <div className={styles.breakdownLine}>
-                    <span>Digital Health Protocol:</span>
-                    <span>Included</span>
+                    <span>Daily Food Diary Coaching:</span>
+                    <span>Full Access</span>
+                  </div>
+                  <div className={styles.breakdownLine}>
+                    <span>WhatsApp Direct Access:</span>
+                    <span>{plan === "yearly" ? "VIP 24/7 Priority" : "Included"}</span>
                   </div>
                 </div>
               </div>
@@ -584,9 +636,9 @@ export default function SubscriptionModal({
               {/* Inclusions Summary & Guarantee */}
               <div className={styles.summaryColBottom}>
                 <div className={styles.totalRow}>
-                  <span className={styles.totalLabel}>Status</span>
+                  <span className={styles.totalLabel}>Total Package Price</span>
                   <span className={styles.totalPrice}>
-                    All Inclusions
+                    {packagePrice}
                   </span>
                 </div>
 

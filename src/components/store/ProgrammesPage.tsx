@@ -58,8 +58,8 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
               {selected ? <Check size={18} /> : <ShoppingBag size={18} />}
             </button>
             {selected && (
-              <Link href="/cart" className="ch-text-link ch-view-bag">
-                Continue to your bag
+              <Link href="/packages" className="ch-text-link ch-view-bag">
+                View Care Packages
                 <ArrowUpRight size={17} />
               </Link>
             )}

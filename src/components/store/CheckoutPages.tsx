@@ -249,12 +249,12 @@ export function CheckoutPage() {
           <div className={styles.emptyEmblem}>
             <ShoppingBag size={38} strokeWidth={1.5} />
           </div>
-          <h1 className={styles.emptyHeading}>Your bag is empty.</h1>
+          <h1 className={styles.emptyHeading}>No package selected yet.</h1>
           <p className={styles.emptyDesc}>
-            Please select a programme before proceeding to checkout.
+            Please select a care package before proceeding to consultation checkout.
           </p>
-          <Link className="gl-button" href="/programmes">
-            Explore programmes <ArrowUpRight size={18} />
+          <Link className="gl-button" href="/packages">
+            Explore packages <ArrowUpRight size={18} />
           </Link>
         </div>
       </main>
@@ -527,8 +527,8 @@ export function CheckoutPage() {
           </div>
 
           <div style={{ marginTop: "16px", textAlign: "center" }}>
-            <Link href="/cart" className={styles.continueLink} style={{ fontSize: "13px" }}>
-              <ChevronLeft size={14} /> Back to edit your bag
+            <Link href="/packages" className={styles.continueLink} style={{ fontSize: "13px" }}>
+              <ChevronLeft size={14} /> Back to packages
             </Link>
           </div>
         </aside>

@@ -1,3 +1,138 @@
+export type PackagePlan = {
+  id: "monthly" | "six-month" | "yearly";
+  slug: string;
+  title: string;
+  eyebrow: string;
+  period: string;
+  durationLabel: string;
+  billingNote: string;
+  price: number;
+  effectiveMonthly: number;
+  savingsPercent?: number;
+  savingsText?: string;
+  badge?: string;
+  popular?: boolean;
+  featured?: boolean;
+  tagline: string;
+  description: string;
+  image: string;
+  accent: string;
+  features: string[];
+  inclusions: { label: string; value: string }[];
+};
+
+export const packages: PackagePlan[] = [
+  {
+    id: "monthly",
+    slug: "monthly-care",
+    title: "Per Month Care",
+    eyebrow: "FLEXIBLE STARTER",
+    period: "Per Month",
+    durationLabel: "30-Day Guided Reset",
+    billingNote: "Billed monthly · Cancel or pause anytime",
+    price: 3000,
+    effectiveMonthly: 3000,
+    badge: "FLEXIBLE ENTRY",
+    popular: false,
+    featured: false,
+    tagline: "A gentle 30-day guided reset with clinical dietitian mentorship.",
+    description:
+      "Ideal for establishing dietary awareness, calibrating daily macros, and experiencing high-touch nutrition coaching with zero long-term commitment.",
+    image: "/images/breakfast.jpg",
+    accent: "sand",
+    features: [
+      "Personal clinical nutrition assessment",
+      "1-on-1 onboarding intake consultation with Sujitha C.",
+      "Custom calorie, macro & portion framework",
+      "30 days of active food diary & meal log review",
+      "Weekly routine calibrations & habit feedback",
+      "Full ChatHeal Portal: 100+ Whole-Food Recipes",
+      "Dedicated WhatsApp direct support (Mon–Fri)",
+    ],
+    inclusions: [
+      { label: "1:1 Consultations", value: "2 Sessions" },
+      { label: "Food Diary Coaching", value: "Daily Feedback" },
+      { label: "Diet Recalibration", value: "Weekly" },
+      { label: "Support Access", value: "WhatsApp Direct" },
+    ],
+  },
+  {
+    id: "six-month",
+    slug: "six-month-transformation",
+    title: "6-Month Transformation",
+    eyebrow: "SUSTAINABLE TRANSFORMATION",
+    period: "6 Month Package",
+    durationLabel: "6 Months Habit Mastery",
+    billingNote: "₹12,000 for 6 months (Just ₹2,000/mo)",
+    price: 12000,
+    effectiveMonthly: 2000,
+    savingsPercent: 33,
+    savingsText: "Save ₹6,000 (33% off)",
+    badge: "MOST POPULAR CHOICE ★",
+    popular: true,
+    featured: true,
+    tagline: "Deep metabolic habit mastery & long-term physiological transformation.",
+    description:
+      "The gold-standard timeframe for hormonal balancing, visceral fat reduction, gut health repair, and building unconscious healthy habits that last.",
+    image: "/images/greens.jpg",
+    accent: "sage",
+    features: [
+      "Everything in Monthly Care, plus:",
+      "12 Scheduled 1-on-1 video consultations (bi-weekly)",
+      "Comprehensive blood report & pathology gap analysis",
+      "Personalized anti-inflammatory & gut-health protocol",
+      "Custom dining-out, social events & travel guidance",
+      "Dynamic metabolic adjustments as weight/routine evolves",
+      "Priority WhatsApp coach access (Mon–Sat)",
+      "14-day pause flexibility during vacations",
+    ],
+    inclusions: [
+      { label: "1:1 Consultations", value: "12 Video Sessions" },
+      { label: "Biomarker Review", value: "Bi-Annual Analysis" },
+      { label: "Gut & Hormone Focus", value: "Full Protocol" },
+      { label: "Pause Flexibility", value: "Up to 14 Days" },
+    ],
+  },
+  {
+    id: "yearly",
+    slug: "yearly-vip",
+    title: "Yearly Package",
+    eyebrow: "COMPLETE HEALTH MASTERY",
+    period: "Yearly Package (12 Months)",
+    durationLabel: "365-Day VIP Partnership",
+    billingNote: "₹20,000 billed annually (Only ₹1,667/mo)",
+    price: 20000,
+    effectiveMonthly: 1667,
+    savingsPercent: 44,
+    savingsText: "Save ₹16,000 (44% off · Best Value)",
+    badge: "BEST VALUE · VIP PARTNERSHIP",
+    popular: false,
+    featured: true,
+    tagline: "365 days of dedicated clinical mentorship for lifelong vitality.",
+    description:
+      "Our premier VIP partnership. A year-long transformative alliance with Nutritionist Sujitha C. covering seasonal adaptations, longevity protocols, and total lifestyle harmony.",
+    image: "/images/hero.jpg",
+    accent: "emerald",
+    features: [
+      "Everything in 6-Month Transformation, plus:",
+      "24 Scheduled 1-on-1 video consultations + on-demand check-ins",
+      "Quarterly clinical pathology & biomarker progress tracking (4x/year)",
+      "Bespoke grocery list & pantry makeover consultation",
+      "Seasonal dietary resets & festival detox frameworks",
+      "VIP 24/7 priority response & direct coach line",
+      "Family nutrition alignment & mindful cooking coaching",
+      "30-day vacation pause protection anytime",
+      "Complimentary access to all future wellness masterclasses",
+    ],
+    inclusions: [
+      { label: "1:1 Consultations", value: "24+ Video Sessions" },
+      { label: "Biomarker Review", value: "Quarterly (4x/year)" },
+      { label: "Grocery & Pantry", value: "Personalized Curation" },
+      { label: "Support Level", value: "VIP 24/7 Priority" },
+    ],
+  },
+];
+
 export type Programme = {
   slug: string;
   title: string;
@@ -192,4 +327,4 @@ export const articles = [
     ],
   },
 ];
-export const money = (_n?: number) => "Personalised Care";
+export const money = (n?: number) => (n !== undefined ? "₹" + n.toLocaleString("en-IN") : "Personalised Care");

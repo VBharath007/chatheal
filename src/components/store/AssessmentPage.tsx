@@ -451,15 +451,13 @@ export default function AssessmentPage() {
                     <span>Discuss with ChatHeal Coach</span>
                     <ArrowUpRight size={18} />
                   </Link>
-                  {matchedProgramme && (
-                    <Link
-                      href={`/programmes/${matchedProgramme.slug}`}
-                      className={styles.secondaryActionBtn}
-                    >
-                      <span>Explore this programme</span>
-                      <ArrowRight size={16} />
-                    </Link>
-                  )}
+                  <Link
+                    href="/packages"
+                    className={styles.secondaryActionBtn}
+                  >
+                    <span>Explore Care Packages</span>
+                    <ArrowRight size={16} />
+                  </Link>
                 </div>
 
                 <div>
