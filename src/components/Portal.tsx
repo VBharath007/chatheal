@@ -32,6 +32,7 @@ import {
   Trash2,
   Sun,
   CheckCircle2,
+  ClipboardCheck,
 } from "lucide-react";
 import { api, demoUser } from "@/lib/api";
 import ClientAuthScreen from "./screens/ClientAuthScreen";
@@ -47,6 +48,7 @@ const fmt = (s: string) =>
 const number = (n: number) => Math.round(n || 0).toLocaleString("en-IN");
 const userNav = [
   ["Overview", "/wellness", LayoutDashboard],
+  ["Health Assessment", "/health-assessment", ClipboardCheck],
   ["Food diary", "/diary", Utensils],
   ["Discover", "/discover", BookOpen],
   ["Appointments", "/appointments", CalendarDays],
@@ -190,11 +192,13 @@ export default function Portal({
       <div className="app-shell gl-portal">
         <aside className={"sidebar " + (menu ? "open" : "")}>
           <div
+            className="sidebar-brand-row"
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginBottom: "4px",
+              marginBottom: "12px",
+              minHeight: "56px",
             }}
           >
             <Link
@@ -202,7 +206,7 @@ export default function Portal({
               href="/"
               aria-label="ChatHeal Member Portal"
               onClick={() => setMenu(false)}
-              style={{ display: "block", background: "transparent", padding: 0 }}
+              style={{ display: "inline-flex", alignItems: "center", background: "transparent", padding: 0 }}
             >
               <img src="/logo.png" alt="ChatHeal" className="sidebar-logo" />
             </Link>
@@ -408,23 +412,26 @@ export default function Portal({
                 <span className="eyebrow">
                   {section === "overview"
                     ? "FEEL GOOD EVERY DAY"
-                    : section === "diary"
-                      ? "DAILY NOURISHMENT"
-                      : section === "discover"
-                        ? "CURATED RITUALS"
-                        : section === "appointments"
-                          ? "HUMAN CONNECTION"
-                          : section === "sessions"
-                            ? "TELEHEALTH SESSIONS"
-                            : section === "progress"
-                              ? "CONSISTENCY OVER PERFECTION"
-                              : "PREFERENCES"}
+                    : section === "health-assessment"
+                      ? "CLINICAL INTAKE PROFILE"
+                      : section === "diary"
+                        ? "DAILY NOURISHMENT"
+                        : section === "discover"
+                          ? "CURATED RITUALS"
+                          : section === "appointments"
+                            ? "HUMAN CONNECTION"
+                            : section === "sessions"
+                              ? "TELEHEALTH SESSIONS"
+                              : section === "progress"
+                                ? "CONSISTENCY OVER PERFECTION"
+                                : "PREFERENCES"}
                 </span>
                 <h1>
                   {section === "overview"
                     ? `Feeling good starts here, ${user.name.split(" ")[0]}.`
                     : (
                       {
+                        "health-assessment": "Your Clinical Health & Intake Profile.",
                         diary: "A little awareness. Better nourishment.",
                         discover: "Find your next feel-good habit.",
                         appointments: "Make time for yourself.",
@@ -439,6 +446,8 @@ export default function Portal({
                     ? "Good food, mindful moments, and personalized coaching support. All in one calm space."
                     : (
                       {
+                        "health-assessment":
+                          "Complete anthropometric baseline measurements, circadian sleep rhythm, digestive health history, and nutrition protocol verified with Dietitian Sujitha C.",
                         diary:
                           "Log your daily meals, track macronutrients, and maintain your coach-approved calorie target.",
                         discover:

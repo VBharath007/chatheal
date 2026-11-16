@@ -6,6 +6,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   CalendarDays,
+  ClipboardCheck,
   Droplets,
   Flame,
   Leaf,
@@ -60,12 +61,27 @@ export default function OverviewScreen() {
   const nextAppointment = appointments.find((a) => a.status === "confirmed");
 
   const [waterMl, setWaterMl] = useState<number>(1500);
+  const [hasAssessment, setHasAssessment] = useState<boolean>(false);
+  const [assessment, setAssessment] = useState<any>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const todayKey = new Date().toISOString().slice(0, 10);
       const saved = localStorage.getItem("chatheal-water-" + todayKey);
       if (saved) setWaterMl(parseInt(saved, 10) || 1500);
+
+      const assessSaved = localStorage.getItem("chatheal_client_assessment");
+      if (assessSaved) {
+        try {
+          const parsed = JSON.parse(assessSaved);
+          if (parsed.fullName || parsed.weightKg) {
+            setHasAssessment(true);
+            setAssessment(parsed);
+          }
+        } catch {
+          // ignore parsing error
+        }
+      }
     }
   }, []);
 
@@ -133,11 +149,11 @@ export default function OverviewScreen() {
               <div className="sanctuary-hero-body">
                 <div className="sanctuary-hero-text">
                   <HeroText as="span" delay={0.22} className="sanctuary-eyebrow">
-                    A LITTLE CARE, EVERY DAY
+                    {assessment?.mainGoal ? `TARGET: ${String(assessment.mainGoal).toUpperCase()}` : "A LITTLE CARE, EVERY DAY"}
                   </HeroText>
 
                   <HeroText as="h2" delay={0.3}>
-                    {timeGreeting}, <em>{user?.name || "Member"}.</em>
+                    {timeGreeting}, <em>{assessment?.fullName || user?.name || "Member"}.</em>
                   </HeroText>
 
                   <HeroText as="p" delay={0.38}>
@@ -175,6 +191,14 @@ export default function OverviewScreen() {
                         <Link href="/appointments" className="btn-sanctuary secondary">
                           <CalendarDays size={15} />
                           <span>Book Coach Check-in</span>
+                        </Link>
+                      </motion.div>
+                    </StaggerItem>
+                    <StaggerItem variant="pop">
+                      <motion.div whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.96 }}>
+                        <Link href={hasAssessment ? "/health-assessment" : "/assessment"} className="btn-sanctuary secondary" style={{ borderColor: "#24704d", color: "#24704d", background: "#f0f7f1" }}>
+                          <ClipboardCheck size={15} />
+                          <span>{hasAssessment ? "Review Information" : "Fill Information"}</span>
                         </Link>
                       </motion.div>
                     </StaggerItem>
@@ -282,6 +306,87 @@ export default function OverviewScreen() {
                 </div>
               </motion.div>
             </motion.section>
+
+            {/* =========================================================
+                SANCTUARY INTAKE CONSULTATION CARD (RESPONSIVE & DYNAMIC)
+                ========================================================= */}
+            <FadeUp delay={0.08}>
+              <div className="sanctuary-intake-card">
+                <div className="sanctuary-intake-main">
+                  <div className={`sanctuary-intake-icon ${hasAssessment ? "active" : ""}`}>
+                    <ClipboardCheck size={24} />
+                  </div>
+                  <div className="sanctuary-intake-body">
+                    <div className="sanctuary-intake-tags">
+                      <span className={`sanctuary-intake-badge ${hasAssessment ? "active" : ""}`}>
+                        {hasAssessment ? "✓ Intake Active & Synchronized" : "New Client Protocol"}
+                      </span>
+                      <span className="sanctuary-intake-meta">
+                        {hasAssessment ? `Protocol for ${assessment?.fullName || user?.name || "Client"}` : "13-Point Clinical Assessment"}
+                      </span>
+                    </div>
+                    <h3 className="sanctuary-intake-title">
+                      {hasAssessment
+                        ? `Clinical Baseline: ${assessment?.fullName || user?.name || "Member"}`
+                        : "Health, Lifestyle & Diet Assessment"}
+                    </h3>
+                    <p className="sanctuary-intake-desc">
+                      {hasAssessment
+                        ? `Primary Goal: "${assessment?.mainGoal || "Personalized Whole-Food Nutrition"}". Synchronized directly with Founder Sujitha C. for your weekly protocol calibrations.`
+                        : "Share your baseline body measurements, daily routine, sleep patterns and food preferences so Sujitha can craft your bespoke whole-food diet chart."}
+                    </p>
+
+                    {/* Dynamic Vitals Pill Rail based on user's assessment queries */}
+                    {hasAssessment && assessment && (
+                      <div className="sanctuary-intake-vitals">
+                        {assessment.weightKg && (
+                          <span className="sanctuary-vital-pill">
+                            Weight: <strong>{assessment.weightKg} kg</strong>
+                          </span>
+                        )}
+                        {assessment.heightCm && (
+                          <span className="sanctuary-vital-pill">
+                            Height: <strong>{assessment.heightCm} cm</strong>
+                          </span>
+                        )}
+                        {assessment.weightKg && assessment.heightCm && (
+                          <span className="sanctuary-vital-pill">
+                            BMI: <strong>{(parseFloat(assessment.weightKg) / Math.pow(parseFloat(assessment.heightCm) / 100, 2)).toFixed(1)}</strong>
+                          </span>
+                        )}
+                        {assessment.bloodGroup && (
+                          <span className="sanctuary-vital-pill">
+                            Blood: <strong>{assessment.bloodGroup}</strong>
+                          </span>
+                        )}
+                        {(assessment.dietType || assessment.dietPreference) && (
+                          <span className="sanctuary-vital-pill">
+                            Diet: <strong>{assessment.dietType || assessment.dietPreference}</strong>
+                          </span>
+                        )}
+                        {assessment.totalSleepHours && (
+                          <span className="sanctuary-vital-pill">
+                            Sleep: <strong>{assessment.totalSleepHours} hrs/night</strong>
+                          </span>
+                        )}
+                        {assessment.otherHealthConcerns && (
+                          <span className="sanctuary-vital-pill">
+                            Focus: <strong>{assessment.otherHealthConcerns}</strong>
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="sanctuary-intake-action">
+                  <Link href={hasAssessment ? "/health-assessment" : "/assessment"} className="sanctuary-intake-btn">
+                    <span>{hasAssessment ? "View Assessment" : "Fill Information"}</span>
+                    <ArrowRight size={16} />
+                  </Link>
+                </div>
+              </div>
+            </FadeUp>
 
             {/* =========================================================
                 2. METABOLIC BENTO GRID
@@ -625,10 +730,10 @@ export default function OverviewScreen() {
               >
                 <motion.div
                   className="wisdom-icon-box"
-                  animate={{ rotate: [0, 8, -5, 0] }}
+                  animate={{ rotate: [0, 6, -4, 0], scale: [1, 1.05, 1] }}
                   transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                 >
-                  
+                  <Sparkles size={22} strokeWidth={2.2} />
                 </motion.div>
                 <div className="wisdom-text">
                   <span className="wisdom-kicker">DAILY LONGEVITY RITUAL</span>

@@ -17,32 +17,45 @@
 }
 
 /* ==========================================================================
-   Hero Section (Aesthetic, Airy & Minimalist)
+   Luxury Editorial Split Hero (Bespoke Sanctuary Design)
    ========================================================================== */
 .heroSection {
-  max-width: 960px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 64px 24px 36px;
-  text-align: center;
+  padding: 64px 24px 44px;
   position: relative;
+}
+
+.heroContainer {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 56px;
+}
+
+.heroCopyCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .heroEyebrowPill {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #d8e5d0;
+  gap: 8px;
+  padding: 6px 18px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d4e5ce;
   border-radius: 100px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.12em;
-  color: #2b563f;
+  color: #1f5038;
   text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(27, 67, 50, 0.04);
+  box-shadow: 0 4px 16px rgba(27, 67, 50, 0.05);
   backdrop-filter: blur(10px);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .sparkleGold {
@@ -51,57 +64,352 @@
 
 .heroTitle {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(36px, 4.2vw, 56px);
+  font-size: clamp(34px, 3.8vw, 54px);
   font-weight: 400;
-  line-height: 1.14;
-  color: #14382e;
+  line-height: 1.12;
+  color: #123629;
   letter-spacing: -0.03em;
-  margin: 0 auto 16px;
+  margin: 0 0 18px;
 }
 
 .heroTitle em {
   font-style: italic;
   font-family: Georgia, serif;
-  color: #2e6047;
+  color: #216045;
 }
 
 .heroSubtitle {
-  font-size: clamp(14.5px, 1.2vw, 16.5px);
-  line-height: 1.7;
-  color: #556e61;
-  max-width: 620px;
-  margin: 0 auto 26px;
+  font-size: clamp(14.5px, 1.15vw, 16px);
+  line-height: 1.72;
+  color: #4d6759;
+  max-width: 580px;
+  margin: 0 0 24px;
 }
 
-/* Single-Line Sleek Trust Strip (No ugly wrapping) */
-.trustPillarsRow {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  padding: 10px 22px;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(220, 234, 203, 0.85);
-  border-radius: 100px;
-  margin: 0 auto;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 18px rgba(27, 67, 50, 0.04);
-}
-
-.trustPillarItem {
+/* Founder Trust Card */
+.founderTrustCard {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #2b543e;
-  white-space: nowrap;
+  gap: 14px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid #d7e8d2;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(18, 54, 38, 0.05);
+  backdrop-filter: blur(12px);
+  margin-bottom: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.trustPillarDot {
-  color: #9cb5a5;
-  font-size: 16px;
-  line-height: 1;
+.founderTrustCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(18, 54, 38, 0.08);
+}
+
+.founderAvatarWrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.founderAvatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2e7352;
+}
+
+.founderVerifiedDot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: #196347;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+.founderTrustInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.founderNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.founderNameRow strong {
+  font-size: 13.5px;
+  color: #14382e;
+  font-weight: 750;
+}
+
+.founderVerifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #e5f3e8;
+  color: #1a5e42;
+  font-size: 10.5px;
+  font-weight: 750;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+.founderTrustInfo > span {
+  font-size: 12px;
+  color: #637e70;
+}
+
+/* 4-Pillar Micro Cards Grid */
+.trustPillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 580px;
+  margin-bottom: 28px;
+}
+
+.trustPillarCard {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid #dcece0;
+  border-radius: 12px;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: #24503a;
+  box-shadow: 0 2px 8px rgba(18, 54, 38, 0.03);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.trustPillarCard:hover {
+  background: #ffffff;
+  border-color: #a4ceb3;
+  transform: translateY(-1px);
+}
+
+.pillarIconGreen {
+  color: #2d8a59;
+  flex-shrink: 0;
+}
+
+.pillarIconGold {
+  color: #b38d48;
+  flex-shrink: 0;
+}
+
+.pillarIconBlue {
+  color: #2b7496;
+  flex-shrink: 0;
+}
+
+.pillarIconEmerald {
+  color: #1f6b4e;
+  flex-shrink: 0;
+}
+
+/* Hero Action Buttons */
+.heroActionsRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.heroPrimaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #184835, #103525);
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 750;
+  padding: 12px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(23, 72, 52, 0.28);
+  transition: all 0.25s ease;
+}
+
+.heroPrimaryBtn:hover {
+  background: linear-gradient(135deg, #1f5a43, #143e2d);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(23, 72, 52, 0.35);
+  color: #ffffff;
+}
+
+.heroSecondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #1e5239 !important;
+  border: 1.5px solid #c9dec9;
+  font-size: 13.5px;
+  font-weight: 750;
+  padding: 11px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+}
+
+.heroSecondaryBtn:hover {
+  background: #ffffff;
+  border-color: #88be9a;
+  color: #123927 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(18, 54, 38, 0.08);
+}
+
+/* Right Visual Column */
+.heroVisualCol {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroArtStage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+}
+
+.heroArtGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(162, 219, 177, 0.4) 0%, rgba(209, 238, 203, 0.18) 50%, transparent 75%);
+  pointer-events: none;
+  filter: blur(28px);
+  z-index: 0;
+}
+
+.heroImgFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3.4;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px -12px rgba(18, 54, 38, 0.18), 0 0 0 1px rgba(220, 238, 222, 0.85);
+  background: #eef6ec;
+  z-index: 1;
+}
+
+.heroMainImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.heroImgFrame:hover .heroMainImg {
+  transform: scale(1.03);
+}
+
+/* Floating Glass Cards */
+.floatGlassTop {
+  position: absolute;
+  top: 24px;
+  left: -24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(220, 238, 222, 0.9);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(18, 54, 38, 0.12);
+  backdrop-filter: blur(14px);
+  z-index: 3;
+  animation: floatSubtle 4s ease-in-out infinite alternate;
+}
+
+.floatGlassBottom {
+  position: absolute;
+  bottom: 24px;
+  right: -24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(220, 238, 222, 0.9);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(18, 54, 38, 0.12);
+  backdrop-filter: blur(14px);
+  z-index: 3;
+  animation: floatSubtle 4s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatSubtle {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-6px); }
+}
+
+.floatIconCircleRose {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #fbebee;
+  color: #c94b62;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.floatIconCircleGold {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #fbf5e6;
+  color: #b58d3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.floatGlassTop strong,
+.floatGlassBottom strong {
+  display: block;
+  font-size: 13px;
+  color: #14382e;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.floatGlassTop small,
+.floatGlassBottom small {
+  display: block;
+  font-size: 11px;
+  color: #637e70;
+  line-height: 1.25;
 }
 
 /* ==========================================================================
@@ -428,77 +736,326 @@
 }
 
 /* ==========================================================================
-   Comparison Table Section
+   Side-by-Side Inclusions Comparison Table (Luxury Sanctuary Card)
    ========================================================================== */
 .tableSection {
-  max-width: 1140px;
+  max-width: 1220px;
   margin: 30px auto 60px;
   padding: 0 24px;
 }
 
+.tableSanctuaryCard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 252, 244, 0.88));
+  border: 1.5px solid #d5ead8;
+  border-radius: 28px;
+  padding: 44px 36px;
+  box-shadow: 0 18px 45px -12px rgba(18, 54, 38, 0.08);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.tableSanctuaryCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(162, 219, 177, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 .tableHeading {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 34px;
+}
+
+.tableEyebrowPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  background: #eef6ec;
+  border: 1px solid #d0e7d5;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  color: #1a563a;
+  text-transform: uppercase;
+  margin-bottom: 14px;
 }
 
 .tableHeading h2 {
   font-family: Georgia, serif;
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: clamp(28px, 2.8vw, 38px);
   color: #14382e;
   font-weight: 400;
-  margin: 0 0 8px;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  margin: 0 0 10px;
+}
+
+.tableHeading h2 em {
+  font-style: italic;
+  font-family: Georgia, serif;
+  color: #266347;
 }
 
 .tableHeading p {
   color: #557262;
   font-size: 14.5px;
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mobileTableHint {
+  display: none;
 }
 
 .tableWrapper {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid #dce8d5;
-  border-radius: 22px;
+  background: #ffffff;
+  border: 1.5px solid #dce8d5;
+  border-radius: 20px;
   overflow-x: auto;
-  box-shadow: 0 10px 30px rgba(23, 62, 46, 0.04);
-  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 22px rgba(23, 62, 46, 0.04);
+  -webkit-overflow-scrolling: touch;
 }
 
 .compareTable {
   width: 100%;
-  border-collapse: collapse;
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 0;
   text-align: left;
 }
 
 .compareTable th,
 .compareTable td {
-  padding: 15px 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid #e7efe3;
   font-size: 13px;
+  vertical-align: middle;
 }
 
-.compareTable thead th {
-  background: #f1f6ed;
-  color: #1c4535;
+/* Table Header Styles */
+.thFeatureCol {
+  width: 37%;
+  background: #f7faf5;
+  border-top-left-radius: 18px;
+}
+
+.thFeatureTitle {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #244d3a;
+  text-transform: uppercase;
+}
+
+.thPlanCol {
+  width: 21%;
+  background: #fbfdf9;
+  text-align: center;
+}
+
+.thPlanColPopular {
+  background: #f2f8ee;
+  border-left: 1.5px solid #c9dec9;
+  border-right: 1.5px solid #c9dec9;
+  position: relative;
+}
+
+.thPlanColVip {
+  background: #fdfaf2;
+  border-top-right-radius: 18px;
+}
+
+.thPlanHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 0;
+}
+
+.thPlanName {
+  font-size: 13.5px;
   font-weight: 750;
-  font-size: 13px;
+  color: #173f30;
 }
 
-.compareTable thead th:first-child {
-  width: 38%;
+.thPlanPrice {
+  font-size: 20px;
+  font-weight: 800;
+  color: #14382e;
+  letter-spacing: -0.02em;
 }
 
+.thPlanMeta {
+  font-size: 11px;
+  font-weight: 650;
+  color: #5d7a6b;
+}
+
+.thPopularBadge {
+  display: inline-block;
+  background: #19523a;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 4px;
+}
+
+.thVipBadge {
+  display: inline-block;
+  background: #b58d3c;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 4px;
+}
+
+/* Rows & Hover */
 .compareTable tbody tr:hover td {
-  background: rgba(238, 246, 223, 0.35);
+  background: rgba(236, 246, 230, 0.45);
 }
 
 .featureNameCol {
-  color: #244837;
+  color: #163c2c;
+}
+
+.featureNameCol strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #163c2c;
+  line-height: 1.35;
+}
+
+.featureNameCol small {
+  display: block;
+  font-size: 11.5px;
+  color: #637d70;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* Columns Highlighting */
+.highlightCol {
+  background: rgba(242, 248, 238, 0.6);
+  border-left: 1px solid #dceada;
+  border-right: 1px solid #dceada;
+  text-align: center;
+}
+
+.highlightVipCol {
+  background: rgba(253, 250, 242, 0.6);
+  text-align: center;
+}
+
+.compareTable tbody td:nth-child(2) {
+  text-align: center;
+  color: #3b5f4c;
   font-weight: 600;
 }
 
-.checkCell {
-  color: #276842;
+/* Badges inside Cells */
+.cellBadgeGreen {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: #e3f2e7;
+  color: #175239;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.cellBadgeGold {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: #fbf4e2;
+  color: #8c671b;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.cellBadgeSoft {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: #eef5eb;
+  color: #2e5f47;
+  font-size: 12px;
+  font-weight: 650;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.dashMuted {
+  color: #a4beae;
+  font-size: 16px;
   font-weight: 600;
+}
+
+/* Bottom Rates Row */
+.rateRow td {
+  border-bottom: none;
+  background: #f7faf4 !important;
+  padding-block: 20px;
+}
+
+.rateMonthly {
+  font-size: 15px;
+  font-weight: 750;
+  color: #244e39;
+}
+
+.ratePopular {
+  font-size: 16px;
+  font-weight: 800;
+  color: #18523a;
+}
+
+.rateVip {
+  font-size: 16px;
+  font-weight: 800;
+  color: #9c731e;
+}
+
+/* Bottom Guarantee Footer */
+.tableGuaranteeFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #d9ebd8;
+  border-radius: 14px;
+  margin-top: 24px;
+  font-size: 12.5px;
+  color: #3b5f4c;
+  font-weight: 600;
+  text-align: center;
 }
 
 /* ==========================================================================
@@ -560,51 +1117,362 @@
 }
 
 /* ==========================================================================
-   FAQ Section
+   FAQ Section (Interactive Luxury Accordion)
    ========================================================================== */
 .faqSection {
   max-width: 860px;
-  margin: 0 auto 60px;
+  margin: 0 auto 70px;
   padding: 0 24px;
 }
 
 .faqHeading {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 34px;
+}
+
+.faqEyebrowPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  background: #eef6ec;
+  border: 1px solid #d0e7d5;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  color: #1a563a;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
 .faqHeading h2 {
   font-family: Georgia, serif;
-  font-size: 32px;
+  font-size: clamp(28px, 3vw, 38px);
   color: #143b2e;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
 }
 
-.faqList {
+.faqHeading p {
+  font-size: 14.5px;
+  color: #5d786a;
+  margin: 0;
+}
+
+.faqAccordionList {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.faqAccordionItem {
+  background: #ffffff;
+  border: 1.5px solid #dbece0;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(20, 56, 42, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.faqAccordionItem:hover {
+  border-color: #a4ceb3;
+  box-shadow: 0 6px 20px rgba(20, 56, 42, 0.06);
+}
+
+.faqAccordionOpen {
+  border-color: #2a6f4a;
+  background: linear-gradient(180deg, #ffffff 0%, #f7faf5 100%);
+  box-shadow: 0 10px 28px rgba(20, 56, 42, 0.08);
+}
+
+.faqAccordionBtn {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.faqQuestionContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.faqTagPill {
+  font-size: 11px;
+  font-weight: 750;
+  background: #edf5eb;
+  color: #1d5f3e;
+  padding: 3px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.faqQuestionTitle {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #13392a;
+  line-height: 1.35;
+}
+
+.faqChevronWrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0f6ee;
+  color: #275c3f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, color 0.2s ease;
+}
+
+.faqAccordionBtn:hover .faqChevronWrap {
+  background: #e1efe2;
+}
+
+.chevronRotated {
+  transform: rotate(180deg);
+  background: #174834;
+  color: #ffffff;
+}
+
+.faqAnswerContainer {
+  padding: 0 22px 20px;
+}
+
+.faqAnswerDivider {
+  height: 1px;
+  background: #e2ede3;
+  margin-bottom: 14px;
+}
+
+.faqAnswerBody {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #4a6657;
+}
+
+.faqAnswerBody p {
+  margin: 0;
+}
+
+.faqAnswerBreakdown p {
+  margin: 0 0 8px;
+  font-weight: 600;
+  color: #264a39;
+}
+
+.faqShortList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faqShortList li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #4b6658;
+}
+
+.faqShortList li::before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  color: #2e7a54;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.faqShortList strong {
+  color: #133829;
+}
+
+/* ==========================================================================
+   Included in Every Plan (Signature Universal Standards Card)
+   ========================================================================== */
+.inclusionsSection {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+}
+
+.inclusionsCard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 252, 244, 0.88));
+  border: 1.5px solid #d5ead8;
+  border-radius: 28px;
+  padding: 48px 44px;
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 48px;
+  align-items: center;
+  box-shadow: 0 18px 45px -12px rgba(18, 54, 38, 0.08);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.inclusionsCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(162, 219, 177, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.inclusionsCopyCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.inclusionsEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  background: #eef6ec;
+  border: 1px solid #d0e7d5;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  color: #1a563a;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.inclusionsTitle {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 2.8vw, 40px);
+  font-weight: 400;
+  line-height: 1.18;
+  color: #14382e;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px;
+}
+
+.inclusionsTitle em {
+  font-style: italic;
+  font-family: Georgia, serif;
+  color: #266347;
+}
+
+.inclusionsDesc {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #557062;
+  margin: 0 0 24px;
+}
+
+.inclusionsGuaranteeBadge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #d4e8d8;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(18, 54, 38, 0.04);
+}
+
+.guaranteeShieldIcon {
+  color: #1f6b4e;
+  flex-shrink: 0;
+}
+
+.inclusionsGuaranteeBadge strong {
+  display: block;
+  font-size: 13px;
+  color: #14382e;
+  font-weight: 750;
+}
+
+.inclusionsGuaranteeBadge small {
+  display: block;
+  font-size: 11.5px;
+  color: #637e70;
+  margin-top: 2px;
+}
+
+/* Inclusions Grid */
+.inclusionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
 
-.faqItem {
+.inclusionItemCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
   background: #ffffff;
-  border: 1px solid #dce8d5;
+  border: 1px solid #dbece0;
   border-radius: 16px;
-  padding: 20px 24px;
-  box-shadow: 0 3px 14px rgba(20, 56, 42, 0.03);
+  box-shadow: 0 4px 14px rgba(18, 54, 38, 0.03);
+  transition: all 0.25s ease;
 }
 
-.faqQuestion {
-  font-size: 15px;
-  font-weight: 700;
-  color: #194334;
-  margin: 0 0 6px;
+.inclusionItemCard:hover {
+  transform: translateY(-2px);
+  border-color: #9eccaa;
+  box-shadow: 0 8px 22px rgba(18, 54, 38, 0.08);
 }
 
-.faqAnswer {
+.inclusionIconCircle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e3f3e8;
+  color: #174834;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.inclusionTextContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.inclusionTextContent h3 {
   font-size: 13.5px;
-  line-height: 1.65;
-  color: #516d5f;
+  font-weight: 750;
+  color: #14382e;
+  margin: 0 0 4px;
+  line-height: 1.35;
+}
+
+.inclusionTextContent p {
+  font-size: 12px;
+  color: #5d786a;
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -612,6 +1480,44 @@
    Responsive Adaptations
    ========================================================================== */
 @media (max-width: 1024px) {
+  .heroContainer {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .heroCopyCol {
+    align-items: center;
+    text-align: center;
+  }
+
+  .founderTrustCard {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .trustPillarsGrid {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroActionsRow {
+    justify-content: center;
+  }
+
+  .heroVisualCol {
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .floatGlassTop {
+    left: -12px;
+  }
+
+  .floatGlassBottom {
+    right: -12px;
+  }
+
   .packagesGrid {
     grid-template-columns: 1fr;
     max-width: 520px;
@@ -633,22 +1539,100 @@
     padding: 28px 20px;
     gap: 16px;
   }
+
+  .inclusionsCard {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 36px 28px;
+  }
+
+  .tableSanctuaryCard {
+    padding: 32px 22px;
+    border-radius: 22px;
+  }
+
+  .mobileTableHint {
+    display: block;
+    text-align: center;
+    padding: 9px 12px;
+    background: #f1f8ee;
+    border-bottom: 1px solid #e1eedb;
+    font-size: 11.5px;
+    font-weight: 650;
+    color: #2b6a4a;
+    letter-spacing: 0.02em;
+  }
 }
 
 @media (max-width: 640px) {
-  .heroSection {
-    padding: 44px 18px 24px;
+  .inclusionsSection {
+    padding: 16px 16px 40px;
   }
 
-  .trustPillarsRow {
-    flex-wrap: wrap;
-    border-radius: 18px;
-    padding: 10px 14px;
+  .inclusionsCard {
+    padding: 28px 18px;
+    border-radius: 20px;
+  }
+
+  .inclusionsGrid {
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 
-  .trustPillarDot {
-    display: none;
+  .inclusionItemCard {
+    padding: 14px;
+  }
+  .heroSection {
+    padding: 36px 16px 24px;
+  }
+
+  .heroTitle {
+    font-size: 28px;
+  }
+
+  .heroSubtitle {
+    font-size: 14px;
+  }
+
+  .founderTrustCard {
+    width: 100%;
+    padding: 10px 14px;
+  }
+
+  .trustPillarsGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .heroActionsRow {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .heroPrimaryBtn,
+  .heroSecondaryBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+  }
+
+  .heroVisualCol {
+    max-width: 310px;
+  }
+
+  .heroImgFrame {
+    border-radius: 24px;
+  }
+
+  .floatGlassTop,
+  .floatGlassBottom {
+    position: static;
+    margin: 8px 0;
+    width: 100%;
+    justify-content: flex-start;
+    animation: none;
   }
 
   .packageCard {
@@ -657,6 +1641,24 @@
 
   .priceAmount {
     font-size: 34px;
+  }
+
+  .tableSection {
+    padding: 0 14px;
+    margin: 20px auto 40px;
+  }
+
+  .tableSanctuaryCard {
+    padding: 24px 14px;
+    border-radius: 20px;
+  }
+
+  .tableHeading {
+    margin-bottom: 22px;
+  }
+
+  .tableHeading h2 {
+    font-size: 24px;
   }
 
   .compareTable th,

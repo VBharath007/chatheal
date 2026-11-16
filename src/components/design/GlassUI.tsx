@@ -4,16 +4,27 @@ import { useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, ChevronDown, Leaf, type LucideIcon } from "lucide-react";
 
-export function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const reduced = useReducedMotion();
-  return <motion.div className={`gl-reveal ${className}`} initial={reduced ? false : { y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .08 }} transition={{ duration: .45, delay, ease: [.16, 1, .3, 1] }}>{children}</motion.div>;
+export function Reveal({ children, className = "", delay = 0, style }: { children: ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
+  return (
+    <motion.div
+      className={`gl-reveal ${className}`}
+      style={style}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 export function IconTile({ icon: Icon, tone = "green", small = false }: { icon: LucideIcon; tone?: string; small?: boolean }) {
   return <span className={`gl-icon gl-icon-${tone} ${small ? 'gl-icon-small' : ''}`}><Icon size={small ? 18 : 23} strokeWidth={1.8} aria-hidden="true"/></span>;
 }
-export function Action({ children, href, secondary = false, className = "" }: { children: ReactNode; href: string; secondary?: boolean; className?: string }) {
-  return <Link href={href} className={`gl-button ${secondary ? 'gl-button-secondary' : ''} ${className}`}>{children}<ArrowUpRight size={18} aria-hidden="true"/></Link>;
+export function Action({ children, href, secondary = false, className = "", style }: { children: ReactNode; href: string; secondary?: boolean; className?: string; style?: React.CSSProperties }) {
+  return <Link href={href} style={style} className={`gl-button ${secondary ? 'gl-button-secondary' : ''} ${className}`}>{children}<ArrowUpRight size={18} aria-hidden="true"/></Link>;
 }
+export const Button = Action;
 export function SectionHeading({ eyebrow, title, text, centered = false }: { eyebrow: string; title: ReactNode; text?: string; centered?: boolean }) {
   return <Reveal className={`gl-section-heading ${centered ? 'gl-centered' : ''}`}><span className="gl-kicker">{eyebrow}</span><h2>{title}</h2>{text && <p>{text}</p>}</Reveal>;
 }

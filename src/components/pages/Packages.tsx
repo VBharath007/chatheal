@@ -12,6 +12,7 @@ import {
   Leaf,
   Heart,
   ArrowUpRight,
+  ChevronDown,
 } from "lucide-react";
 import { packages } from "@/lib/catalog";
 import SubscriptionModal from "@/components/store/SubscriptionModal";
@@ -21,48 +22,187 @@ export default function PackagesPage() {
   const [activeModalPackage, setActiveModalPackage] = useState<
     "monthly" | "six-month" | "yearly" | null
   >(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const handleSelectPackage = (pkgId: "monthly" | "six-month" | "yearly") => {
     setActiveModalPackage(pkgId);
   };
 
+  const faqItems = [
+    {
+      tag: "Plan Choice",
+      q: "Which plan is right for me?",
+      a: (
+        <div className={styles.faqAnswerBreakdown}>
+          <p>Choose based on your immediate health goal:</p>
+          <ul className={styles.faqShortList}>
+            <li>
+              <strong>1 Month (₹3,000)</strong> — Quick reset &amp; trial to jumpstart clean food habits.
+            </li>
+            <li>
+              <strong>6 Months (₹12,000)</strong> — Best for weight balance, PCOS, thyroid &amp; sustained metabolic healing.
+            </li>
+            <li>
+              <strong>1 Year VIP (₹20,000)</strong> — Deepest lifestyle transformation with 24/7 dedicated coach line.
+            </li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      tag: "Next Steps",
+      q: "What happens right after I choose a plan?",
+      a: (
+        <p>
+          You will complete a quick 5-minute health assessment form. Dietitian Sujitha reviews your routine and conducts your <strong>1-on-1 video onboarding consultation</strong> within 24 hours.
+        </p>
+      ),
+    },
+    {
+      tag: "Upgrades",
+      q: "Can I upgrade my plan later?",
+      a: (
+        <p>
+          <strong>Yes, anytime!</strong> Upgrading within the first 30 days credits your full ₹3,000 payment towards the 6-month or yearly plan.
+        </p>
+      ),
+    },
+    {
+      tag: "Vacation Pause",
+      q: "What if I travel or go on vacation?",
+      a: (
+        <p>
+          <strong>Pause protection is included.</strong> The 6-month plan has a 14-day pause, and the yearly plan has a 30-day pause. Just message on WhatsApp to freeze your days anytime.
+        </p>
+      ),
+    },
+    {
+      tag: "Diet Approach",
+      q: "Do you prescribe medicine pills or strict fasting?",
+      a: (
+        <p>
+          <strong>Zero pills. Zero starving.</strong> 100% natural kitchen whole foods, home-cooked regional recipes, and natural herbal detox drinks crafted specifically for your body.
+        </p>
+      ),
+    },
+  ];
+
   return (
     <main className={styles.pageWrapper}>
       {/* ==========================================================
-          LUXURY EDITORIAL HERO
+          LUXURY EDITORIAL SPLIT HERO
           ========================================================== */}
       <section className={styles.heroSection} aria-label="Care Packages Overview">
-        <div className={styles.heroEyebrowPill}>
-          <Sparkles size={13} className={styles.sparkleGold} />
-          <span>Transparent Clinical Care</span>
-        </div>
+        <div className={styles.heroContainer}>
+          {/* Left Column: Editorial Copy & Trust Badges */}
+          <div className={styles.heroCopyCol}>
+            <div className={styles.heroEyebrowPill}>
+              <Sparkles size={13} className={styles.sparkleGold} />
+              <span>ONE BODY · ONE UNIQUE HEALTH PLAN</span>
+            </div>
 
-        <h1 className={styles.heroTitle}>
-          Simple, Thoughtful Care.
-          <br />
-          <em>Crafted for Your Life.</em>
-        </h1>
+            <h1 className={styles.heroTitle}>
+              Personalized Wellness Programs.
+              <br />
+              <em>Crafted for Your Life.</em>
+            </h1>
 
-        <p className={styles.heroSubtitle}>
-          1-on-1 clinical nutrition mentorship with Founder & Dietitian Sujitha C.
-          Honest pricing, tailored whole-food protocols, and zero shortcuts.
-        </p>
+            <p className={styles.heroSubtitle}>
+              1-on-1 personalized nutrition &amp; holistic wellness guidance with Founder Sujitha C.
+              We don&apos;t give everyone the same diet plan — tailored whole-food protocols, natural detox routines, and zero shortcuts.
+            </p>
 
-        {/* Clean 3-Pillar Micro Badges */}
-        <div className={styles.trustPillarsRow}>
-          <div className={styles.trustPillarItem}>
-            <Leaf size={14} className={styles.sparkleGold} />
-            <span>100% Whole-Food Focus</span>
+            {/* Founder Verification Bar */}
+            <div className={styles.founderTrustCard}>
+              <div className={styles.founderAvatarWrap}>
+                <img
+                  src="/images/sujitha_executive_portrait.jpeg"
+                  alt="Dietitian Sujitha C."
+                  className={styles.founderAvatarImg}
+                />
+                <span className={styles.founderVerifiedDot} title="Verified Practitioner">✓</span>
+              </div>
+              <div className={styles.founderTrustInfo}>
+                <div className={styles.founderNameRow}>
+                  <strong>Guided directly by Sujitha C.</strong>
+                  <span className={styles.founderVerifiedBadge}>
+                    <ShieldCheck size={12} /> Verified
+                  </span>
+                </div>
+                <span>Founder &amp; Clinical Nutritionist · ChatHeal</span>
+              </div>
+            </div>
+
+            {/* Clean 4-Pillar Micro Badges in Responsive Grid */}
+            <div className={styles.trustPillarsGrid}>
+              <div className={styles.trustPillarCard}>
+                <Leaf size={15} className={styles.pillarIconGreen} />
+                <span>100% Whole Foods</span>
+              </div>
+              <div className={styles.trustPillarCard}>
+                <Sparkles size={15} className={styles.pillarIconGold} />
+                <span>Detox &amp; Hydration</span>
+              </div>
+              <div className={styles.trustPillarCard}>
+                <Video size={15} className={styles.pillarIconBlue} />
+                <span>1-on-1 Consultations</span>
+              </div>
+              <div className={styles.trustPillarCard}>
+                <MessageCircle size={15} className={styles.pillarIconEmerald} />
+                <span>Direct WhatsApp Mentorship</span>
+              </div>
+            </div>
+
+            {/* Hero Quick Actions */}
+            <div className={styles.heroActionsRow}>
+              <a href="#available-packages" className={styles.heroPrimaryBtn}>
+                <span>Explore Care Packages</span>
+                <ArrowRight size={16} />
+              </a>
+              <Link href="/assessment" className={styles.heroSecondaryBtn}>
+                <span>Fill Assessment Form</span>
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
           </div>
-          <span className={styles.trustPillarDot} aria-hidden="true">·</span>
-          <div className={styles.trustPillarItem}>
-            <Video size={14} className={styles.sparkleGold} />
-            <span>1-on-1 Video Care</span>
-          </div>
-          <span className={styles.trustPillarDot} aria-hidden="true">·</span>
-          <div className={styles.trustPillarItem}>
-            <MessageCircle size={14} className={styles.sparkleGold} />
-            <span>Daily WhatsApp Mentorship</span>
+
+          {/* Right Column: Visual Showcase with Overlaid Floating Cards */}
+          <div className={styles.heroVisualCol}>
+            <div className={styles.heroArtStage}>
+              {/* Soft ambient orbit / glowing background circle */}
+              <div className={styles.heroArtGlow} />
+
+              {/* Main Visual Picture Frame */}
+              <div className={styles.heroImgFrame}>
+                <img
+                  src="/images/stage4_custom_plan_clean.jpg"
+                  alt="Bespoke whole-food nutrition plan and fresh nourish bowl"
+                  className={styles.heroMainImg}
+                />
+              </div>
+
+              {/* Floating Glass Micro Card - Top Left */}
+              <div className={styles.floatGlassTop}>
+                <div className={styles.floatIconCircleRose}>
+                  <Heart size={16} />
+                </div>
+                <div>
+                  <strong>Root-Cause Nutrition</strong>
+                  <small>No starvation diets or pills</small>
+                </div>
+              </div>
+
+              {/* Floating Glass Micro Card - Bottom Right */}
+              <div className={styles.floatGlassBottom}>
+                <div className={styles.floatIconCircleGold}>
+                  <Sparkles size={16} />
+                </div>
+                <div>
+                  <strong>Daily Accountability</strong>
+                  <small>Meal feedback &amp; habit tracking</small>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -70,7 +210,7 @@ export default function PackagesPage() {
       {/* ==========================================================
           PACKAGES SHOWCASE (3 MINIMALIST LUXURY CARDS)
           ========================================================== */}
-      <section className={styles.packagesSection} aria-label="Available Packages">
+      <section id="available-packages" className={styles.packagesSection} aria-label="Available Packages">
         <div className={styles.packagesGrid}>
           {packages.map((pkg) => {
             const isPopular = pkg.id === "six-month";
@@ -175,83 +315,150 @@ export default function PackagesPage() {
         </div>
       </section>
 
-      {/* ==========================================================
-          SIDE-BY-SIDE INCLUSIONS COMPARISON TABLE
-          ========================================================== */}
-      <section className={styles.tableSection} aria-label="Package Inclusions Comparison">
-        <div className={styles.tableHeading}>
-          <h2>Compare Package Inclusions</h2>
-          <p>A transparent breakdown of each tier to help you choose the right level of support.</p>
-        </div>
 
-        <div className={styles.tableWrapper}>
-          <table className={styles.compareTable}>
-            <thead>
-              <tr>
-                <th>Care Features</th>
-                <th>Per Month (₹3,000)</th>
-                <th>6 Months (₹12,000)</th>
-                <th>Yearly VIP (₹20,000)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className={styles.featureNameCol}>1:1 Video Consultations</td>
-                <td>2 Sessions</td>
-                <td className={styles.checkCell}>12 Scheduled Sessions</td>
-                <td className={styles.checkCell}>24+ Sessions + On-Demand</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>Daily Meal & Food Diary Review</td>
-                <td className={styles.checkCell}>Included (30 Days)</td>
-                <td className={styles.checkCell}>Included (6 Months)</td>
-                <td className={styles.checkCell}>VIP Priority (365 Days)</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>Clinical Pathology & Blood Work Review</td>
-                <td>—</td>
-                <td className={styles.checkCell}>Bi-Annual (2 Reviews)</td>
-                <td className={styles.checkCell}>Quarterly (4 Reviews/yr)</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>WhatsApp Direct Coach Access</td>
-                <td>Mon–Fri Standard</td>
-                <td className={styles.checkCell}>Priority Mon–Sat</td>
-                <td className={styles.checkCell}>VIP 24/7 Dedicated Line</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>Hormone & Gut-Health Protocol</td>
-                <td>Basic Guidelines</td>
-                <td className={styles.checkCell}>Customized Protocol</td>
-                <td className={styles.checkCell}>Advanced Clinical Strategy</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>Bespoke Grocery & Pantry Overhaul</td>
-                <td>—</td>
-                <td>Starter Checklist</td>
-                <td className={styles.checkCell}>Personalized Curation</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>Vacation Pause Protection</td>
-                <td>—</td>
-                <td className={styles.checkCell}>Up to 14 Days</td>
-                <td className={styles.checkCell}>Up to 30 Days Anytime</td>
-              </tr>
-              <tr>
-                <td className={styles.featureNameCol}>Effective Monthly Rate</td>
-                <td>₹3,000 / mo</td>
-                <td className={styles.checkCell}>₹2,000 / mo</td>
-                <td className={styles.checkCell}>₹1,667 / mo (Save 44%)</td>
-              </tr>
-            </tbody>
-          </table>
+      {/* ==========================================================
+          INCLUDED IN EVERY PLAN (SIGNATURE FOUNDATIONAL STANDARDS TABLE)
+          ========================================================== */}
+      <section className={styles.inclusionsSection} aria-label="Features Included in Every Plan">
+        <div className={styles.tableSanctuaryCard}>
+          {/* Top Heading Block */}
+          <div className={styles.tableHeading}>
+            <div className={styles.tableEyebrowPill}>
+              <Sparkles size={13} className={styles.sparkleGold} />
+              <span>INCLUDED IN EVERY PLAN</span>
+            </div>
+            <h2>
+              A plan for your food.
+              <br />
+              <em>Support for your routine.</em>
+            </h2>
+            <p>
+              Six-month and yearly prices are totals for the full duration. These 6 foundational pillars are 100% guaranteed across all packages from Day 01.
+            </p>
+          </div>
+
+          {/* Table Container */}
+          <div className={styles.tableWrapper}>
+            <div className={styles.mobileTableHint}>
+              <span>← Swipe horizontally to compare all 3 plans →</span>
+            </div>
+
+            <table className={styles.compareTable}>
+              <thead>
+                <tr>
+                  <th className={styles.thFeatureCol}>
+                    <span className={styles.thFeatureTitle}>Foundational Care Pillars</span>
+                  </th>
+                  <th className={styles.thPlanCol}>
+                    <div className={styles.thPlanHeader}>
+                      <span className={styles.thPlanName}>Per Month</span>
+                      <strong className={styles.thPlanPrice}>₹3,000</strong>
+                      <span className={styles.thPlanMeta}>30 Days Reset</span>
+                    </div>
+                  </th>
+                  <th className={`${styles.thPlanCol} ${styles.thPlanColPopular}`}>
+                    <div className={styles.thPopularBadge}>★ Most Popular</div>
+                    <div className={styles.thPlanHeader}>
+                      <span className={styles.thPlanName}>6 Months</span>
+                      <strong className={styles.thPlanPrice}>₹12,000</strong>
+                      <span className={styles.thPlanMeta}>₹2,000 / month</span>
+                    </div>
+                  </th>
+                  <th className={`${styles.thPlanCol} ${styles.thPlanColVip}`}>
+                    <div className={styles.thVipBadge}>👑 Save 44%</div>
+                    <div className={styles.thPlanHeader}>
+                      <span className={styles.thPlanName}>Yearly VIP</span>
+                      <strong className={styles.thPlanPrice}>₹20,000</strong>
+                      <span className={styles.thPlanMeta}>₹1,667 / month</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    title: "Complete Body & Lifestyle Assessment",
+                    desc: "Biometrics, daily routine, sleep rhythm & digestive health baseline review",
+                    monthly: "Included (Day 01)",
+                    sixMonth: "Included (Day 01)",
+                    yearly: "Included (Day 01)",
+                  },
+                  {
+                    title: "Clinical Blood Test & Biomarker Review",
+                    desc: "Doctor & dietitian analysis of recent lab reports and metabolic markers",
+                    monthly: "Included (Intake)",
+                    sixMonth: "Included (Bi-Annual)",
+                    yearly: "Included (Quarterly VIP)",
+                  },
+                  {
+                    title: "Personalized Weekly Whole-Food Plan",
+                    desc: "Custom recipes, portion guidance, pantry swaps and kitchen integration",
+                    monthly: "Included (Weekly)",
+                    sixMonth: "Included (Weekly)",
+                    yearly: "Included (Priority Weekly)",
+                  },
+                  {
+                    title: "Hydration & Botanical Detox Guidance",
+                    desc: "Targeted botanical infusions and cellular cleansing water routines",
+                    monthly: "Included (Daily Routine)",
+                    sixMonth: "Included (Daily Routine)",
+                    yearly: "Included (Daily VIP Support)",
+                  },
+                  {
+                    title: "Suitable Workout & Mindful Yoga",
+                    desc: "Low-impact physical movements harmonized with your daily energy",
+                    monthly: "Included",
+                    sixMonth: "Included",
+                    yearly: "Included (Personalized)",
+                  },
+                  {
+                    title: "Weekly Check-Ins & Plan Adjustments",
+                    desc: "Continuous progress monitoring, routine feedback and gentle calibrations",
+                    monthly: "Included (Every 7 Days)",
+                    sixMonth: "Included (Every 7 Days)",
+                    yearly: "Included (Every 7 Days VIP)",
+                  },
+                ].map((item) => (
+                  <tr key={item.title}>
+                    <td className={styles.featureNameCol}>
+                      <strong>{item.title}</strong>
+                      <small>{item.desc}</small>
+                    </td>
+                    <td>
+                      <span className={styles.cellBadgeGreen}>
+                        <Check size={12} strokeWidth={3} /> {item.monthly}
+                      </span>
+                    </td>
+                    <td className={styles.highlightCol}>
+                      <span className={styles.cellBadgeGreen}>
+                        <Check size={12} strokeWidth={3} /> {item.sixMonth}
+                      </span>
+                    </td>
+                    <td className={styles.highlightVipCol}>
+                      <span className={styles.cellBadgeGold}>
+                        <Sparkles size={12} /> {item.yearly}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Bottom Table Guarantee Footnote */}
+          <div className={styles.tableGuaranteeFooter}>
+            <ShieldCheck size={16} className={styles.guaranteeShieldIcon} />
+            <span>
+              Zero Hidden Charges · Transparent pricing · All 6 foundational pillars 100% guaranteed across every plan duration.
+            </span>
+          </div>
         </div>
       </section>
 
       {/* ==========================================================
           FOUNDER SUJITHA C. CLINICAL PROMISE NOTE
           ========================================================== */}
-      <section className={styles.tableSection}>
+      {/* <section className={styles.tableSection}>
         <div className={styles.coachNoteCard}>
           <div className={styles.coachAvatar}>SC</div>
           <div className={styles.coachBody}>
@@ -270,45 +477,53 @@ export default function PackagesPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ==========================================================
-          FREQUENTLY ASKED QUESTIONS
+          FREQUENTLY ASKED QUESTIONS (INTERACTIVE LUXURY ACCORDION)
           ========================================================== */}
       <section className={styles.faqSection} aria-label="Frequently Asked Questions">
         <div className={styles.faqHeading}>
+          <div className={styles.faqEyebrowPill}>
+            <Sparkles size={13} className={styles.sparkleGold} />
+            <span>TRANSPARENT ANSWERS</span>
+          </div>
           <h2>Common Questions</h2>
           <p>Everything you need to know about our packages and clinical process.</p>
         </div>
 
-        <div className={styles.faqList}>
-          <div className={styles.faqItem}>
-            <h3 className={styles.faqQuestion}>How do I know which package is right for me?</h3>
-            <p className={styles.faqAnswer}>
-              If you wish to test nutrition coaching or jumpstart your dietary habits, the <strong>Per Month (₹3,000)</strong> plan is ideal. If you are addressing metabolic health, PCOS, weight balance, or long-term habits, the <strong>6-Month Package (₹12,000)</strong> provides the essential physiological window. For comprehensive year-round VIP support, the <strong>Yearly Package (₹20,000)</strong> delivers our best value and deepest transformation.
-            </p>
-          </div>
+        <div className={styles.faqAccordionList}>
+          {faqItems.map((item, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={item.q}
+                className={`${styles.faqAccordionItem} ${isOpen ? styles.faqAccordionOpen : ""}`}
+              >
+                <button
+                  type="button"
+                  className={styles.faqAccordionBtn}
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  aria-expanded={isOpen}
+                >
+                  <div className={styles.faqQuestionContent}>
+                    <span className={styles.faqTagPill}>{item.tag}</span>
+                    <span className={styles.faqQuestionTitle}>{item.q}</span>
+                  </div>
+                  <div className={`${styles.faqChevronWrap} ${isOpen ? styles.chevronRotated : ""}`}>
+                    <ChevronDown size={18} />
+                  </div>
+                </button>
 
-          <div className={styles.faqItem}>
-            <h3 className={styles.faqQuestion}>What happens immediately after I select a package?</h3>
-            <p className={styles.faqAnswer}>
-              Upon confirming your package, you will be invited to complete your detailed intake questionnaire in your private wellness portal. Dietitian Sujitha C. will review your medical history, food routines, and lifestyle before your first 1-on-1 video onboarding session.
-            </p>
-          </div>
-
-          <div className={styles.faqItem}>
-            <h3 className={styles.faqQuestion}>Can I upgrade from Monthly to a 6-Month or Yearly package?</h3>
-            <p className={styles.faqAnswer}>
-              Yes! You can easily upgrade your plan within the first 30 days, and your initial ₹3,000 payment will be credited toward your 6-month or yearly package.
-            </p>
-          </div>
-
-          <div className={styles.faqItem}>
-            <h3 className={styles.faqQuestion}>What if I travel or go on vacation during my package?</h3>
-            <p className={styles.faqAnswer}>
-              The 6-month package includes a 14-day pause option, and the yearly VIP package includes a 30-day pause option. Simply notify coach Sujitha, and your duration will be frozen until you return.
-            </p>
-          </div>
+                {isOpen && (
+                  <div className={styles.faqAnswerContainer}>
+                    <div className={styles.faqAnswerDivider} />
+                    <div className={styles.faqAnswerBody}>{item.a}</div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 

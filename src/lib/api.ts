@@ -63,15 +63,66 @@ const seed = () => {
   };
 };
 export function demoUser(admin: boolean) {
-  return admin
-    ? {
-        id: "coach",
-        name: "Ananya",
-        email: "coach@chatheal.local",
-        role: "admin",
-        goal: 2000,
+  if (admin) {
+    return {
+      id: "coach",
+      name: "Ananya",
+      email: "coach@chatheal.local",
+      role: "admin",
+      goal: 2000,
+    };
+  }
+
+  // Check if client has completed assessment form
+  if (typeof window !== "undefined") {
+    try {
+      const saved = localStorage.getItem("chatheal_client_assessment");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.fullName) {
+          const w = parseFloat(parsed.weightKg) || 68;
+          const h = parseFloat(parsed.heightCm) || 165;
+          const hM = h / 100;
+          const calcBmi = parseFloat((w / (hM * hM)).toFixed(1));
+          let goalKcal = 1900;
+          if (parsed.weightKg && parsed.heightCm) {
+            goalKcal = Math.round(10 * w + 6.25 * h - 5 * (parseFloat(parsed.age) || 30) + 200);
+            if (goalKcal < 1400) goalKcal = 1500;
+            if (goalKcal > 2500) goalKcal = 2200;
+          }
+          return {
+            id: "client",
+            name: parsed.fullName,
+            email: parsed.email || `${parsed.fullName.toLowerCase().replace(/[^a-z0-9]/g, "")}@chatheal.com`,
+            phone: parsed.contactNumber,
+            goal: goalKcal,
+            role: "client",
+            active: 1,
+            weight: w,
+            height: h,
+            bmi: calcBmi,
+            age: parsed.age || "30",
+            bloodGroup: parsed.bloodGroup || "O+",
+            waist: parsed.waistCm || "-",
+            hip: parsed.hipCm || "-",
+            chest: parsed.chestCm || "-",
+            arm: parsed.armCm || "-",
+            thigh: parsed.thighCm || "-",
+            mainGoal: parsed.mainGoal || "Personalized Whole-Food Nutrition",
+            dietPreference: parsed.dietType || parsed.dietPreference || "Balanced Whole Food",
+            dietType: parsed.dietType || "Balanced Whole Food",
+            sleepHours: parsed.totalSleepHours || "7-8",
+            sleepTime: parsed.sleepTime || "10:30 PM",
+            wakeTime: parsed.wakeTime || "06:30 AM",
+            healthConcerns: parsed.otherHealthConcerns || "General Vitality & Wellness",
+            assessment: parsed,
+          };
+        }
       }
-    : seed().users[0];
+    } catch {}
+  }
+
+  return seed().users[0];
 }
 export async function api(
   path: string,

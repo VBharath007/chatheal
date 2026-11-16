@@ -2184,23 +2184,46 @@ small {
   display: flex;
   align-items: center;
   gap: 20px;
-  background: linear-gradient(135deg, #fdfbf7 0%, #f6f3ed 100%);
+  background: linear-gradient(135deg, #fdfbf7 0%, #f7f3eb 100%);
   border: 1px solid #ebdccb;
   border-radius: var(--radius-xl);
   padding: 24px 30px;
-  box-shadow: 0 4px 18px rgba(180, 130, 80, 0.06);
+  box-shadow: 0 6px 24px rgba(180, 130, 80, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.daily-wisdom-card::after {
+  content: "“";
+  position: absolute;
+  right: 24px;
+  bottom: -22px;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 110px;
+  line-height: 1;
+  color: rgba(180, 130, 80, 0.07);
+  pointer-events: none;
+  font-style: italic;
+  font-weight: 700;
 }
 
 .wisdom-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: #fef3c7;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 45%, #fde68a 100%);
   color: #b45309;
+  border: 1px solid rgba(245, 158, 11, 0.4);
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.12);
+  box-shadow: 0 6px 18px rgba(180, 83, 9, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  position: relative;
+}
+
+.wisdom-icon-box svg {
+  color: #b45309;
+  filter: drop-shadow(0 2px 4px rgba(180, 83, 9, 0.22));
 }
 
 .wisdom-text {
@@ -3988,6 +4011,10 @@ footer {
     grid-template-columns: 1.1fr 1fr;
     gap: 18px;
   }
+}
+
+.mobile-close {
+  display: none !important;
 }
 
 /* Tablet Landscape & Portrait (769px - 1024px) */

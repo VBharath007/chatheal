@@ -17,6 +17,7 @@ import {
   Utensils,
   Video,
   Pencil,
+  ClipboardCheck,
 } from "lucide-react";
 import { api, demoUser, today, RecordData } from "@/lib/api";
 const imageHero = "/images/hero.jpg";
@@ -30,6 +31,7 @@ const fmt = (s: string) =>
 const number = (n: number) => Math.round(n || 0).toLocaleString("en-IN");
 const userNav = [
   ["Overview", "/wellness", LayoutDashboard],
+  ["Health Assessment", "/health-assessment", ClipboardCheck],
   ["Food diary", "/diary", Utensils],
   ["Discover", "/discover", BookOpen],
   ["Appointments", "/appointments", CalendarDays],
@@ -84,7 +86,10 @@ export function usePortalState(admin: boolean) {
     api(p, m, b, demo, admin);
   useEffect(() => {
     const mode = sessionStorage.getItem(key);
-    if (mode === "demo") {
+    const hasClientAssessment =
+      !admin && typeof window !== "undefined" && !!localStorage.getItem("chatheal_client_assessment");
+
+    if (mode === "demo" || hasClientAssessment) {
       setDemo(true);
       setUser(demoUser(admin));
       setReady(true);
@@ -92,9 +97,20 @@ export function usePortalState(admin: boolean) {
       setReady(true);
       api("/auth/me")
         .then((u) => {
-          if ((u.role === "admin") === admin) setUser(u);
+          if ((u.role === "admin") === admin) {
+            if (!admin && typeof window !== "undefined" && localStorage.getItem("chatheal_client_assessment")) {
+              setUser({ ...u, ...demoUser(false) });
+            } else {
+              setUser(u);
+            }
+          }
         })
-        .catch(() => {})
+        .catch(() => {
+          if (!admin && typeof window !== "undefined" && localStorage.getItem("chatheal_client_assessment")) {
+            setDemo(true);
+            setUser(demoUser(false));
+          }
+        })
         .finally(() => setReady(true));
     }
     setSaved(JSON.parse(localStorage.getItem(key + "-saved") || "[]"));

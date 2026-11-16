@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -11,6 +12,7 @@ import {
   Sparkles,
   TrendingUp,
   Video,
+  ClipboardCheck,
 } from "lucide-react";
 import {
   PageTransition,
@@ -36,8 +38,19 @@ const number = (n: number) => Math.round(n || 0).toLocaleString("en-IN");
 
 export default function ProgressScreen() {
   const { admin, section, progress, appointments, goal } = usePortal();
-
   const nextAppointment = appointments.find((a) => a.status === "confirmed");
+
+  const [assessment, setAssessment] = useState<any>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("chatheal_client_assessment");
+      if (saved) {
+        try {
+          setAssessment(JSON.parse(saved));
+        } catch {}
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -200,6 +213,134 @@ export default function ProgressScreen() {
                 </p>
               </FadeUp>
             </div>
+
+            {/* Clinical Assessment Baseline Card */}
+            {assessment && (
+              <FadeUp delay={0.3} as="section" className="panel">
+                <div className="section-heading" style={{ marginBottom: "16px" }}>
+                  <div>
+                    <span className="eyebrow">YOUR CLINICAL ASSESSMENT BASELINE</span>
+                    <h2>Initial Body Measurements &amp; Targets</h2>
+                  </div>
+                  <Link href="/health-assessment" className="pill" style={{ textDecoration: "none" }}>
+                    <ClipboardCheck size={14} style={{ marginRight: "4px" }} />
+                    Full Assessment Profile
+                  </Link>
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                    gap: "14px",
+                    marginBottom: "16px",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "#f7faf5",
+                      border: "1px solid #dbe9dc",
+                      borderRadius: "14px",
+                      padding: "14px 16px",
+                    }}
+                  >
+                    <span style={{ fontSize: "11px", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700 }}>
+                      Starting Weight
+                    </span>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
+                      {assessment.weightKg} <small style={{ fontSize: "12px" }}>kg</small>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      background: "#f7faf5",
+                      border: "1px solid #dbe9dc",
+                      borderRadius: "14px",
+                      padding: "14px 16px",
+                    }}
+                  >
+                    <span style={{ fontSize: "11px", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700 }}>
+                      Height
+                    </span>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
+                      {assessment.heightCm} <small style={{ fontSize: "12px" }}>cm</small>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      background: "#f7faf5",
+                      border: "1px solid #dbe9dc",
+                      borderRadius: "14px",
+                      padding: "14px 16px",
+                    }}
+                  >
+                    <span style={{ fontSize: "11px", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700 }}>
+                      Baseline BMI
+                    </span>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
+                      {(parseFloat(assessment.weightKg) / Math.pow(parseFloat(assessment.heightCm) / 100, 2)).toFixed(1)}
+                    </div>
+                  </div>
+
+                  {assessment.waistCm && (
+                    <div
+                      style={{
+                        background: "#f7faf5",
+                        border: "1px solid #dbe9dc",
+                        borderRadius: "14px",
+                        padding: "14px 16px",
+                      }}
+                    >
+                      <span style={{ fontSize: "11px", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700 }}>
+                        Waist
+                      </span>
+                      <div style={{ fontSize: "22px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
+                        {assessment.waistCm} <small style={{ fontSize: "12px" }}>cm</small>
+                      </div>
+                    </div>
+                  )}
+
+                  {assessment.hipCm && (
+                    <div
+                      style={{
+                        background: "#f7faf5",
+                        border: "1px solid #dbe9dc",
+                        borderRadius: "14px",
+                        padding: "14px 16px",
+                      }}
+                    >
+                      <span style={{ fontSize: "11px", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700 }}>
+                        Hip
+                      </span>
+                      <div style={{ fontSize: "22px", fontWeight: 800, color: "var(--primary)", marginTop: "4px" }}>
+                        {assessment.hipCm} <small style={{ fontSize: "12px" }}>cm</small>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    background: "#edf6ee",
+                    border: "1px solid #cce5d2",
+                    borderRadius: "14px",
+                    padding: "14px 18px",
+                    fontSize: "13.5px",
+                    color: "#184934",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <Sparkles size={16} style={{ color: "#184934", flexShrink: 0 }} />
+                  <span>
+                    <strong>Primary Target:</strong> {assessment.mainGoal || "Whole-Food Nutrition & Routine Optimization"}
+                  </span>
+                </div>
+              </FadeUp>
+            )}
           </div>
         </PageTransition>
       )}
