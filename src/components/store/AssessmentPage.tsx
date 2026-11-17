@@ -738,18 +738,56 @@ export default function AssessmentPage() {
                   <span>{heightCm} cm · {weightKg} kg</span>
                 </div>
                 <div className={styles.summaryItem}>
-                  <label>Dietary Lifestyle</label>
-                  <span>{foodPrefTitle}</span>
+                  <label>Food Preference</label>
+                  <span>
+                    {FOOD_PREFERENCES.find((f) => f.id === selectedFoodPref)?.icon}{" "}
+                    {foodPrefTitle}
+                    {FOOD_PREFERENCES.find((f) => f.id === selectedFoodPref)?.hint && (
+                      <small style={{ color: "#5d7568", fontWeight: 500 }}>
+                        {" "}
+                        ({FOOD_PREFERENCES.find((f) => f.id === selectedFoodPref)?.hint})
+                      </small>
+                    )}
+                  </span>
                 </div>
               </div>
 
-              <div style={{ marginTop: "16px" }}>
+              {/* Health Background / Conditions (Section 03) */}
+              <div className={styles.summarySectionDivider}>
                 <div className={styles.summaryItem}>
-                  <label>Selected Goals</label>
+                  <label>Health Background & Concerns</label>
+                  <div className={styles.tagsRow}>
+                    {selectedConditions.map((c) => {
+                      if (c === "other") {
+                        return (
+                          <span key={c} className={`${styles.tagPill} ${styles.tagPillAmber}`}>
+                            📝 {otherConditionText ? otherConditionText : "Other Health Concern"}
+                          </span>
+                        );
+                      }
+                      const cond = HEALTH_CONDITIONS.find((item) => item.id === c);
+                      return (
+                        <span key={c} className={styles.tagPill}>
+                          {cond?.icon} {cond?.title || c}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Wellness Goals (Section 05) */}
+              <div className={styles.summarySectionDivider}>
+                <div className={styles.summaryItem}>
+                  <label>Selected Wellness Goals</label>
                   <div className={styles.tagsRow}>
                     {selectedGoals.map((g) => {
-                      const t = WELLNESS_GOALS.find((item) => item.id === g)?.title;
-                      return <span key={g} className={styles.tagPill}>{t}</span>;
+                      const goal = WELLNESS_GOALS.find((item) => item.id === g);
+                      return (
+                        <span key={g} className={`${styles.tagPill} ${styles.tagPillGoal}`}>
+                          {goal?.icon} {goal?.title || g}
+                        </span>
+                      );
                     })}
                   </div>
                 </div>
