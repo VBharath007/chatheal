@@ -802,10 +802,12 @@ export default function AssessmentPage() {
                 rel="noopener noreferrer"
                 className={styles.whatsappCta}
               >
-                <MessageCircle size={20} /> Connect with Sujitha on WhatsApp <ExternalLink size={15} />
+                <MessageCircle size={19} />
+                <span>Chat with Sujitha on WhatsApp</span>
               </a>
               <Link href="/" className={styles.secondaryReturnBtn}>
-                <ArrowLeft size={16} /> Return to Home
+                <ArrowLeft size={16} />
+                <span>Return to Home</span>
               </Link>
             </div>
           </motion.div>
