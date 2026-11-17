@@ -1,2448 +1,769 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useId } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronLeft,
-  ChevronRight,
-  Send,
-  Copy,
-  Printer,
-  RotateCcw,
-  ShieldCheck,
+  ArrowLeft,
+  ArrowRight,
   Check,
   Sparkles,
-  AlertCircle,
+  ShieldCheck,
   Clock,
-  ArrowRight,
+  HeartPulse,
   User,
-  Moon,
-  Activity,
-  Dumbbell,
-  Utensils,
+  Phone,
   CheckCircle2,
-  ClipboardCheck,
+  AlertCircle,
+  ExternalLink,
+  MessageCircle,
 } from "lucide-react";
 import styles from "./AssessmentPage.module.css";
 
-export interface AssessmentData {
-  // 1. Personal Details
-  fullName: string;
-  age: string;
-  dob: string;
-  bloodGroup: string;
-  contactNumber: string;
+// --- DATA STRUCTURES & OPTIONS ---
 
-  // 2. Body Measurements
-  weightKg: string;
-  heightCm: string;
-  waistCm: string;
-  hipCm: string;
-  chestCm: string;
-  armCm: string;
-  thighCm: string;
-
-  // 3. Education & Work
-  qualification: string;
-  occupation: string;
-  workType: "Sitting" | "Standing" | "Physical" | "Mixed";
-  workingHours: string;
-
-  // 4. Sleep
-  sleepTime: string;
-  wakeTime: string;
-  totalSleepHours: string;
-  fallAsleepImmediately: "Yes" | "No";
-  fallAsleepDuration: string;
-  wakeDuringNight: "Yes" | "No";
-  refreshedAfterWaking: "Yes" | "No" | "Sometimes";
-
-  // 5. Health
-  takingMedicines: "Yes" | "No";
-  medicinesDetails: string;
-  constipation: "Yes" | "No";
-  irregularPeriods: "Yes" | "No" | "Not Applicable";
-  surgeries: "Yes" | "No";
-  surgeriesDetails: string;
-  jointOrBodyPain: "Yes" | "No";
-  painDetails: string;
-  otherHealthConcerns: string;
-
-  // 6. Meditation
-  meditation: "Yes" | "No";
-  meditationFrequency: string;
-
-  // 7. Exercise & Physical Activity
-  exercise: "Yes" | "No";
-  gym: "Yes" | "No";
-  gymDays: string;
-  walking: "Yes" | "No";
-  walkingDuration: string;
-  cardio: "Yes" | "No";
-  cardioType: string;
-  yoga: "Yes" | "No";
-  yogaDays: string;
-  otherSports: string;
-
-  // 8. Food & Diet
-  foodAllergies: "Yes" | "No";
-  allergiesDetails: string;
-  dietType: "Vegetarian" | "Non-Vegetarian" | "Eggetarian" | "Vegan" | "Other";
-  veganDuration: string;
-  consumeTofu: "Yes" | "No";
-  consumePlantProtein: "Yes" | "No";
-  plantProteinDetails: string;
-  nonVegFoods: string[];
-  avoidNonVegSpecificDays: "Yes" | "No";
-  avoidNonVegDays: string[];
-  dislikedFoods: string;
-
-  // 9. Tea & Coffee
-  drinkTea: "Yes" | "No";
-  teaCups: string;
-  drinkCoffee: "Yes" | "No";
-  coffeeCups: string;
-  addSugar: "Yes" | "No";
-  sugarAmount: string;
-
-  // 10. Meal Timing & Convenience
-  usualBreakfastTime: string;
-  usualLunchTime: string;
-  usualDinnerTime: string;
-  snacksBetweenMeals: "Yes" | "No";
-  snackTime: string;
-  convenientBreakfastTime: string;
-  convenientLunchTime: string;
-  convenientDinnerTime: string;
-  difficultyFixedTiming: "Yes" | "No";
-  difficultyTimingDetails: string;
-
-  // 11. Alcohol & Other Substances
-  alcohol: "No" | "Occasionally" | "Yes";
-  tobacco: "No" | "Occasionally" | "Yes";
-  otherSubstances: "No" | "Occasionally" | "Yes";
-
-  // 12. Diet Chart
-  planRequired: string;
-  planDuration: "6 Months" | "1 Year";
-  mainGoal: string;
-
-  // 13. Additional Information & Declaration
-  additionalInfo: string;
-  confirmedAccurate: boolean;
-  signature: string;
-  submittedAt: string;
+interface HealthConditionOption {
+  id: string;
+  title: string;
+  desc: string;
+  icon: string;
 }
 
-const initialData: AssessmentData = {
-  fullName: "",
-  age: "",
-  dob: "",
-  bloodGroup: "",
-  contactNumber: "",
+const HEALTH_CONDITIONS: HealthConditionOption[] = [
+  { id: "pcod", title: "PCOD / PCOS", desc: "Hormonal balance & cycle health", icon: "🌸" },
+  { id: "thyroid", title: "Thyroid Imbalance", desc: "Hypo / Hyperthyroid or metabolic sluggishness", icon: "🦋" },
+  { id: "diabetes", title: "Diabetes / Blood Sugar", desc: "Insulin resistance, pre-diabetes, HbA1c", icon: "🩸" },
+  { id: "cholesterol", title: "Cholesterol / Heart", desc: "Lipid profile optimization & cardiac wellness", icon: "🫀" },
+  { id: "fatty_liver", title: "Fatty Liver", desc: "Grade 1/2 reversal & metabolic reset", icon: "🌿" },
+  { id: "weight", title: "Weight & Stubborn Fat", desc: "Sustainable fat loss & inch reduction", icon: "⚖️" },
+  { id: "gut", title: "Gut Health & Bloating", desc: "Acidity, IBS, constipation, indigestion", icon: "🥣" },
+  { id: "fatigue", title: "Fatigue / Low Energy", desc: "Cellular vitality & stamina boost", icon: "⚡" },
+  { id: "hair_skin", title: "Hair Fall & Skin Concerns", desc: "Nutrient absorption & hormonal glow", icon: "✨" },
+  { id: "hypertension", title: "Hypertension / BP", desc: "Blood pressure regulation & heart calm", icon: "💓" },
+  { id: "general", title: "None / General Vitality", desc: "Preventative wellness & optimal living", icon: "🌱" },
+  { id: "other", title: "Other Condition", desc: "Specific medical history or other concerns", icon: "📝" },
+];
 
-  weightKg: "",
-  heightCm: "",
-  waistCm: "",
-  hipCm: "",
-  chestCm: "",
-  armCm: "",
-  thighCm: "",
+interface FoodPreferenceOption {
+  id: string;
+  title: string;
+  desc: string;
+  icon: string;
+  hint?: string;
+}
 
-  qualification: "",
-  occupation: "",
-  workType: "Sitting",
-  workingHours: "8",
+const FOOD_PREFERENCES: FoodPreferenceOption[] = [
+  { id: "veg", title: "Vegetarian", desc: "Pure plant & wholesome dairy meals", icon: "🥗" },
+  { id: "non_veg", title: "Non-Vegetarian", desc: "Includes poultry, fish, meat & eggs", icon: "🍗" },
+  { id: "eggetarian", title: "Eggetarian", desc: "Plant-based & dairy meals enriched with eggs", icon: "🥚", hint: "Vegetarian + eggs" },
+  { id: "vegan", title: "Vegan", desc: "100% plant-derived, zero animal/dairy products", icon: "🥑" },
+  { id: "jain", title: "Jain / Sattvic", desc: "Vegetarian without root vegetables, onion or garlic", icon: "🌿" },
+];
 
-  sleepTime: "22:30",
-  wakeTime: "06:30",
-  totalSleepHours: "8",
-  fallAsleepImmediately: "Yes",
-  fallAsleepDuration: "",
-  wakeDuringNight: "No",
-  refreshedAfterWaking: "Yes",
+interface GoalOption {
+  id: string;
+  title: string;
+  desc: string;
+  icon: string;
+}
 
-  takingMedicines: "No",
-  medicinesDetails: "",
-  constipation: "No",
-  irregularPeriods: "No",
-  surgeries: "No",
-  surgeriesDetails: "",
-  jointOrBodyPain: "No",
-  painDetails: "",
-  otherHealthConcerns: "",
-
-  meditation: "No",
-  meditationFrequency: "",
-
-  exercise: "Yes",
-  gym: "No",
-  gymDays: "",
-  walking: "Yes",
-  walkingDuration: "30 mins",
-  cardio: "No",
-  cardioType: "",
-  yoga: "No",
-  yogaDays: "",
-  otherSports: "",
-
-  foodAllergies: "No",
-  allergiesDetails: "",
-  dietType: "Non-Vegetarian",
-  veganDuration: "",
-  consumeTofu: "No",
-  consumePlantProtein: "No",
-  plantProteinDetails: "",
-  nonVegFoods: ["Chicken", "Egg"],
-  avoidNonVegSpecificDays: "Yes",
-  avoidNonVegDays: ["Tuesday", "Friday"],
-  dislikedFoods: "",
-
-  drinkTea: "Yes",
-  teaCups: "1",
-  drinkCoffee: "No",
-  coffeeCups: "",
-  addSugar: "Yes",
-  sugarAmount: "1 tsp",
-
-  usualBreakfastTime: "08:30",
-  usualLunchTime: "13:30",
-  usualDinnerTime: "20:30",
-  snacksBetweenMeals: "No",
-  snackTime: "",
-  convenientBreakfastTime: "08:30",
-  convenientLunchTime: "13:30",
-  convenientDinnerTime: "20:30",
-  difficultyFixedTiming: "No",
-  difficultyTimingDetails: "",
-
-  alcohol: "No",
-  tobacco: "No",
-  otherSubstances: "No",
-
-  planRequired: "Diet Chart Only",
-  planDuration: "6 Months",
-  mainGoal: "",
-
-  additionalInfo: "",
-  confirmedAccurate: false,
-  signature: "",
-  submittedAt: "",
-};
-
-const stages = [
-  { id: 1, label: "Personal & Measurements", icon: User },
-  { id: 2, label: "Work, Lifestyle & Sleep", icon: Moon },
-  { id: 3, label: "Health & Digestion History", icon: Activity },
-  { id: 4, label: "Fitness & Physical Activity", icon: Dumbbell },
-  { id: 5, label: "Diet, Timings & Goals", icon: Utensils },
+const WELLNESS_GOALS: GoalOption[] = [
+  { id: "fat_loss", title: "Targeted Weight & Fat Loss", desc: "Sustainable calorie balance without starvation", icon: "🎯" },
+  { id: "muscle_tone", title: "Lean Toning & Strength", desc: "Muscle definition, core strength & vitality", icon: "💪" },
+  { id: "hormone_balance", title: "Hormonal Balance & Peace", desc: "Cycle regularity & endocrine restoration", icon: "🌸" },
+  { id: "gut_reset", title: "Gut Reset & Bloat Relief", desc: "Effortless digestion & microbiome health", icon: "🥣" },
+  { id: "restorative_sleep", title: "Restorative Sleep & Rejuvenation", desc: "Deep sleep, low cortisol & stress relief", icon: "🌙" },
+  { id: "disease_reversal", title: "Metabolic Disease Reversal", desc: "Clinically guided biomarker correction", icon: "🩺" },
+  { id: "glowing_skin", title: "Glowing Skin & Vitality", desc: "Biochemical nutrient nourishment from within", icon: "✨" },
 ];
 
 export default function AssessmentPage() {
-  const [formData, setFormData] = useState<AssessmentData>(initialData);
-  const [currentStage, setCurrentStage] = useState<number>(1);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [copied, setCopied] = useState<boolean>(false);
-  const [validationError, setValidationError] = useState<string | null>(null);
+  const otherConditionId = useId();
+  // Form State
+  const [fullName, setFullName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState<"Female" | "Male" | "Other" | "Prefer not to say">("Female");
+  const [whatsApp, setWhatsApp] = useState("");
 
-  // Restore draft from localStorage
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("chatheal_client_assessment");
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          setFormData((prev) => ({ ...prev, ...parsed }));
-          if (parsed.submittedAt) {
-            const isEditMode = typeof window !== "undefined" && window.location.search.includes("edit=true");
-            if (!isEditMode) {
-              setIsSubmitted(true);
-            }
-          }
-        } catch {
-          // ignore parsing error
-        }
-      }
-    }
-  }, []);
+  // Height & Weight State
+  const [heightUnit, setHeightUnit] = useState<"cm" | "ft">("cm");
+  const [heightCm, setHeightCm] = useState("165");
+  const [heightFt, setHeightFt] = useState("5");
+  const [heightIn, setHeightIn] = useState("5");
+  const [weightKg, setWeightKg] = useState("64");
 
-  // Auto-save draft
-  const updateField = <K extends keyof AssessmentData>(field: K, value: AssessmentData[K]) => {
-    setFormData((prev) => {
-      const next = { ...prev, [field]: value };
-      if (typeof window !== "undefined") {
-        localStorage.setItem("chatheal_client_assessment", JSON.stringify(next));
-      }
-      return next;
-    });
-    if (validationError) setValidationError(null);
-  };
+  // Selection Cards State
+  const [selectedConditions, setSelectedConditions] = useState<string[]>(["weight"]);
+  const [otherConditionText, setOtherConditionText] = useState("");
+  const [selectedFoodPref, setSelectedFoodPref] = useState<string>("veg");
+  const [selectedGoals, setSelectedGoals] = useState<string[]>(["fat_loss", "gut_reset"]);
 
-  // BMI calculation
-  const weight = parseFloat(formData.weightKg);
-  const height = parseFloat(formData.heightCm);
-  let bmi: number | null = null;
-  let bmiCategory = "Enter height & weight";
-  let bmiCategoryId: "underweight" | "normal" | "overweight" | "obese" | null = null;
-  let bmiStyle = styles.bmiNormal;
+  // Consent & Status
+  const [consent, setConsent] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
-  if (weight > 20 && height > 80) {
-    const heightM = height / 100;
-    bmi = parseFloat((weight / (heightM * heightM)).toFixed(1));
-    if (bmi < 18.5) {
-      bmiCategory = "Underweight (< 18.5)";
-      bmiCategoryId = "underweight";
-      bmiStyle = styles.bmiUnderweight;
-    } else if (bmi <= 24.9) {
-      bmiCategory = "Healthy Weight (18.5 - 24.9)";
-      bmiCategoryId = "normal";
-      bmiStyle = styles.bmiNormal;
-    } else if (bmi <= 29.9) {
-      bmiCategory = "Overweight (25 - 29.9)";
-      bmiCategoryId = "overweight";
-      bmiStyle = styles.bmiWarning;
+  // Sync Height when switching units
+  const handleUnitToggle = (unit: "cm" | "ft") => {
+    if (unit === heightUnit) return;
+    if (unit === "ft") {
+      const cmVal = parseFloat(heightCm) || 165;
+      const totalInches = cmVal / 2.54;
+      const ft = Math.floor(totalInches / 12);
+      const inches = Math.round(totalInches % 12);
+      setHeightFt(String(ft));
+      setHeightIn(String(inches));
     } else {
-      bmiCategory = "Obese Range (≥ 30)";
-      bmiCategoryId = "obese";
-      bmiStyle = styles.bmiAlert;
+      const ftVal = parseFloat(heightFt) || 5;
+      const inVal = parseFloat(heightIn) || 5;
+      const totalInches = ftVal * 12 + inVal;
+      const cm = Math.round(totalInches * 2.54);
+      setHeightCm(String(cm));
     }
-  }
-
-  const getBmiPercent = (val: number | null): number => {
-    if (!val) return 37.5; // default center of normal zone
-    if (val < 18.5) {
-      const ratio = Math.max(0, (val - 14) / (18.5 - 14));
-      return 2 + ratio * 21; // 2% to 23%
-    }
-    if (val <= 24.9) {
-      const ratio = (val - 18.5) / (24.9 - 18.5);
-      return 26 + ratio * 22; // 26% to 48%
-    }
-    if (val <= 29.9) {
-      const ratio = (val - 25.0) / (29.9 - 25.0);
-      return 52 + ratio * 22; // 52% to 74%
-    }
-    const ratio = Math.min(1, Math.max(0, (val - 30.0) / (40.0 - 30.0)));
-    return 77 + ratio * 21; // 77% to 98%
-  };
-  const bmiPercent = getBmiPercent(bmi);
-
-  // Stage validation
-  const validateStage = (stage: number): boolean => {
-    if (stage === 1) {
-      if (!formData.fullName.trim()) {
-        setValidationError("Please enter your full name.");
-        return false;
-      }
-      if (!formData.contactNumber.trim()) {
-        setValidationError("Please enter your WhatsApp contact number.");
-        return false;
-      }
-      if (!formData.weightKg || !formData.heightCm) {
-        setValidationError("Please enter your current weight (kg) and height (cm).");
-        return false;
-      }
-    } else if (stage === 5) {
-      if (!formData.mainGoal.trim()) {
-        formData.mainGoal = "Personalized Whole-Food Nutrition & Energy Reset";
-      }
-      if (!formData.confirmedAccurate) {
-        formData.confirmedAccurate = true;
-      }
-      if (!formData.signature.trim()) {
-        formData.signature = formData.fullName.trim() || "Verified Client";
-      }
-    }
-    setValidationError(null);
-    return true;
+    setHeightUnit(unit);
   };
 
-  const handleNext = () => {
-    if (!validateStage(currentStage)) {
-      window.scrollTo({ top: 100, behavior: "smooth" });
+  const handleFtInChange = (newFt: string, newIn: string) => {
+    setHeightFt(newFt);
+    setHeightIn(newIn);
+    const f = parseFloat(newFt) || 0;
+    const i = parseFloat(newIn) || 0;
+    const totalInches = f * 12 + i;
+    const cm = Math.round(totalInches * 2.54);
+    if (cm > 0) setHeightCm(String(cm));
+  };
+
+  const handleCmChange = (val: string) => {
+    setHeightCm(val);
+    const cmVal = parseFloat(val) || 0;
+    if (cmVal > 0) {
+      const totalInches = cmVal / 2.54;
+      const ft = Math.floor(totalInches / 12);
+      const inches = Math.round(totalInches % 12);
+      setHeightFt(String(ft));
+      setHeightIn(String(inches));
+    }
+  };
+
+  // Toggle multi-select card
+  const toggleCondition = (id: string) => {
+    if (id === "general") {
+      setSelectedConditions(["general"]);
       return;
     }
-    if (currentStage < stages.length) {
-      setCurrentStage((prev) => prev + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      handleSubmit();
-    }
+    setSelectedConditions((prev) => {
+      const filtered = prev.filter((item) => item !== "general");
+      if (filtered.includes(id)) {
+        return filtered.filter((item) => item !== id);
+      } else {
+        return [...filtered, id];
+      }
+    });
   };
 
-  const handleBack = () => {
-    if (currentStage > 1) {
-      setCurrentStage((prev) => prev - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  const toggleGoal = (id: string) => {
+    setSelectedGoals((prev) =>
+      prev.includes(id) ? (prev.length > 1 ? prev.filter((g) => g !== id) : prev) : [...prev, id]
+    );
   };
 
-  const handleSubmit = () => {
-    const finalData: AssessmentData = {
-      ...formData,
-      signature: formData.signature.trim() || formData.fullName.trim() || "Verified Client",
-      confirmedAccurate: true,
-      mainGoal: formData.mainGoal.trim() || "Personalized Whole-Food Nutrition & Energy Reset",
+  // Form Submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg("");
+
+    if (!fullName.trim()) {
+      setErrorMsg("Please enter your full name.");
+      window.scrollTo({ top: 300, behavior: "smooth" });
+      return;
+    }
+
+    if (!age.trim() || parseInt(age, 10) < 10) {
+      setErrorMsg("Please enter a valid age.");
+      window.scrollTo({ top: 300, behavior: "smooth" });
+      return;
+    }
+
+    if (!whatsApp.trim() || whatsApp.replace(/\D/g, "").length < 8) {
+      setErrorMsg("Please enter a valid WhatsApp or contact number.");
+      window.scrollTo({ top: 300, behavior: "smooth" });
+      return;
+    }
+
+    if (!consent) {
+      setErrorMsg("Please agree to the privacy consent to complete your assessment.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const submissionData = {
+      fullName: fullName.trim(),
+      age: age.trim(),
+      gender,
+      contactNumber: whatsApp.trim(),
+      heightCm,
+      heightDisplay: `${heightFt} ft ${heightIn} in (${heightCm} cm)`,
+      weightKg,
+      healthConditions: selectedConditions,
+      otherCondition: otherConditionText,
+      dietType: selectedFoodPref,
+      wellnessGoals: selectedGoals,
       submittedAt: new Date().toISOString(),
+      source: "quick_assessment",
     };
-    setFormData(finalData);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("chatheal_client_assessment", JSON.stringify(finalData));
-      sessionStorage.setItem("chatheal-client-mode", "demo");
-      try {
-        const demoDb = JSON.parse(localStorage.getItem("chatheal-demo-v1") || "null");
-        if (demoDb && demoDb.users && demoDb.users[0]) {
-          demoDb.users[0].name = finalData.fullName;
-          demoDb.users[0].email = (finalData as any).email || `${finalData.fullName.toLowerCase().replace(/[^a-z0-9]/g, "")}@chatheal.com`;
-          demoDb.users[0].phone = finalData.contactNumber;
-          demoDb.users[0].weight = parseFloat(finalData.weightKg) || 68;
-          demoDb.users[0].height = parseFloat(finalData.heightCm) || 165;
-          localStorage.setItem("chatheal-demo-v1", JSON.stringify(demoDb));
-        }
-      } catch {}
-    }
-    setIsSubmitted(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
-  const formatWhatsAppText = () => {
-    return `*HEALTH, LIFESTYLE & DIET ASSESSMENT*
-*Client:* ${formData.fullName}
-*Contact:* ${formData.contactNumber}
-
-*1. PERSONAL DETAILS*
-• Name: ${formData.fullName}
-• Age: ${formData.age || "-"}
-• Date of Birth: ${formData.dob || "-"}
-• Blood Group: ${formData.bloodGroup || "-"}
-• Contact Number: ${formData.contactNumber}
-
-*2. CURRENT BODY MEASUREMENTS*
-• Weight: ${formData.weightKg} kg
-• Height: ${formData.heightCm} cm
-• Calculated BMI: ${bmi ? `${bmi} (${bmiCategory})` : "N/A"}
-• Waist: ${formData.waistCm ? `${formData.waistCm} cm` : "-"}
-• Hip: ${formData.hipCm ? `${formData.hipCm} cm` : "-"}
-• Chest: ${formData.chestCm ? `${formData.chestCm} cm` : "-"}
-• Arm: ${formData.armCm ? `${formData.armCm} cm` : "-"}
-• Thigh: ${formData.thighCm ? `${formData.thighCm} cm` : "-"}
-
-*3. EDUCATION & WORK*
-• Qualification: ${formData.qualification || "-"}
-• Occupation: ${formData.occupation || "-"}
-• Work Type: ${formData.workType}
-• Working Hours/Day: ${formData.workingHours} hrs
-
-*4. SLEEP*
-• Sleeping Time: ${formData.sleepTime}
-• Wake-up Time: ${formData.wakeTime}
-• Total Sleep: ${formData.totalSleepHours} hrs
-• Fall Asleep Immediately: ${formData.fallAsleepImmediately} ${formData.fallAsleepDuration ? `(${formData.fallAsleepDuration})` : ""}
-• Wake During Night: ${formData.wakeDuringNight}
-• Refreshed After Waking: ${formData.refreshedAfterWaking}
-
-*5. HEALTH & DIGESTION*
-• Medicines / Supplements: ${formData.takingMedicines} ${formData.medicinesDetails ? `(${formData.medicinesDetails})` : ""}
-• Constipation: ${formData.constipation}
-• Irregular Periods: ${formData.irregularPeriods}
-• Previous Surgeries: ${formData.surgeries} ${formData.surgeriesDetails ? `(${formData.surgeriesDetails})` : ""}
-• Joint / Body Pain: ${formData.jointOrBodyPain} ${formData.painDetails ? `(${formData.painDetails})` : ""}
-• Other Health Concerns: ${formData.otherHealthConcerns || "None"}
-
-*6. MEDITATION*
-• Practice Meditation: ${formData.meditation} ${formData.meditationFrequency ? `(${formData.meditationFrequency})` : ""}
-
-*7. EXERCISE & ACTIVITY*
-• Exercise Regularly: ${formData.exercise}
-• Gym: ${formData.gym} ${formData.gymDays ? `(${formData.gymDays} days/wk)` : ""}
-• Walking: ${formData.walking} ${formData.walkingDuration ? `(${formData.walkingDuration})` : ""}
-• Cardio: ${formData.cardio} ${formData.cardioType ? `(${formData.cardioType})` : ""}
-• Yoga: ${formData.yoga} ${formData.yogaDays ? `(${formData.yogaDays} days/wk)` : ""}
-• Other Sports/Activities: ${formData.otherSports || "None"}
-
-*8. FOOD & DIET*
-• Food Allergies: ${formData.foodAllergies} ${formData.allergiesDetails ? `(${formData.allergiesDetails})` : ""}
-• Diet Type: ${formData.dietType} ${formData.veganDuration ? `(Vegan for: ${formData.veganDuration})` : ""}
-• Consumes Tofu: ${formData.consumeTofu}
-• Plant Protein Foods: ${formData.consumePlantProtein} ${formData.plantProteinDetails ? `(${formData.plantProteinDetails})` : ""}
-• Non-Veg Foods Eaten: ${formData.nonVegFoods.length > 0 ? formData.nonVegFoods.join(", ") : "None"}
-• Avoid Non-Veg on Specific Days: ${formData.avoidNonVegSpecificDays} ${formData.avoidNonVegDays.length > 0 ? `(${formData.avoidNonVegDays.join(", ")})` : ""}
-• Foods Avoided / Disliked: ${formData.dislikedFoods || "None"}
-
-*9. TEA & COFFEE*
-• Drink Tea: ${formData.drinkTea} ${formData.teaCups ? `(${formData.teaCups} cups/day)` : ""}
-• Drink Coffee: ${formData.drinkCoffee} ${formData.coffeeCups ? `(${formData.coffeeCups} cups/day)` : ""}
-• Added Sugar: ${formData.addSugar} ${formData.sugarAmount ? `(~${formData.sugarAmount} per cup)` : ""}
-
-*10. MEAL TIMINGS & CONVENIENCE*
-• Usual Timings: Breakfast ${formData.usualBreakfastTime} | Lunch ${formData.usualLunchTime} | Dinner ${formData.usualDinnerTime}
-• Snacks Between Meals: ${formData.snacksBetweenMeals} ${formData.snackTime ? `(at ${formData.snackTime})` : ""}
-• Convenient Timings: Breakfast ${formData.convenientBreakfastTime} | Lunch ${formData.convenientLunchTime} | Dinner ${formData.convenientDinnerTime}
-• Difficulty Following Fixed Timings: ${formData.difficultyFixedTiming} ${formData.difficultyTimingDetails ? `(${formData.difficultyTimingDetails})` : ""}
-
-*11. ALCOHOL & OTHER SUBSTANCES*
-• Alcohol: ${formData.alcohol}
-• Tobacco / Nicotine: ${formData.tobacco}
-• Other Substances: ${formData.otherSubstances}
-
-*12. DIET CHART*
-• Plan Required: ${formData.planRequired}
-• Duration: ${formData.planDuration}
-• Main Goal / Requirement: ${formData.mainGoal}
-
-*13. ADDITIONAL INFORMATION*
-• Additional Notes: ${formData.additionalInfo || "None"}
-• Declaration: Confirmed accurate by ${formData.signature || formData.fullName} on ${formData.submittedAt || new Date().toISOString().slice(0, 10)}`;
-  };
-
-  const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(formatWhatsAppText());
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    } catch {
-      alert("Please manually copy the text.");
-    }
+      // Store locally for portal hydration & instant client review
+      localStorage.setItem("chatheal_client_assessment", JSON.stringify(submissionData));
+      localStorage.setItem("chatheal_quick_assessment", JSON.stringify(submissionData));
+    } catch {}
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsCompleted(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 600);
   };
 
-  const progressPercent = Math.round(((currentStage) / stages.length) * 100);
+  // Build WhatsApp Message for Thank You screen CTA
+  const foodPrefTitle = FOOD_PREFERENCES.find((f) => f.id === selectedFoodPref)?.title || selectedFoodPref;
+  const goalsTitles = selectedGoals
+    .map((g) => WELLNESS_GOALS.find((item) => item.id === g)?.title)
+    .filter(Boolean)
+    .join(", ");
+  const conditionsTitles = selectedConditions
+    .map((c) => (c === "other" && otherConditionText ? otherConditionText : HEALTH_CONDITIONS.find((item) => item.id === c)?.title))
+    .filter(Boolean)
+    .join(", ");
+
+  const waMessage = encodeURIComponent(
+    `Hello Sujitha, I completed my ChatHeal Wellness Assessment!\n\n` +
+      `👤 Name: ${fullName}\n` +
+      `🎂 Age: ${age} | Gender: ${gender}\n` +
+      `📏 Height: ${heightCm} cm (${heightFt}'${heightIn}") | Weight: ${weightKg} kg\n` +
+      `🥗 Food Preference: ${foodPrefTitle}\n` +
+      `🎯 Primary Goals: ${goalsTitles}\n` +
+      `🩺 Health Background: ${conditionsTitles}\n\n` +
+      `Looking forward to our personalized consultation call.`
+  );
+  const waUrl = `https://wa.me/918248862343?text=${waMessage}`;
 
   return (
-    <main className={styles.page}>
-      {/* Top Luminous Progress Bar */}
-      <div className={styles.topProgressBar}>
-        <div className={styles.topProgressFill} style={{ width: `${progressPercent}%` }} />
-      </div>
+    <div className={styles.page}>
+      <div className={styles.ambientOrb1} />
+      <div className={styles.ambientOrb2} />
 
-      {/* Minimalist Dedicated Top Bar */}
-      <header className={styles.studioBar}>
-        <div className={styles.studioBarInner}>
-          <Link href="/wellness" className={styles.returnBtn}>
-            <ChevronLeft size={16} />
-            <span>Return to Portal</span>
+      {/* 1. Header: Logo & Return to Portal Link */}
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <Link href="/" className={styles.brandLink} aria-label="ChatHeal Home">
+            <Image
+              src="/logo.png"
+              alt="ChatHeal - Wellness by Sujitha"
+              width={160}
+              height={44}
+              className={styles.brandLogo}
+              priority
+            />
           </Link>
-
-          <div className={styles.studioBrand}>
-            <img src="/logo.png" alt="ChatHeal" className={styles.studioLogo} />
-            <span className={styles.studioBrandSubtitle}>
-              Clinical Intake • Dietitian Sujitha C.
+          <div className={styles.headerActions}>
+            <span className={styles.badgePill}>
+              <Sparkles size={13} /> Quick Intake
             </span>
-          </div>
-
-          <div className={styles.statusPills}>
-            <span className={styles.stepPill}>
-              Stage {currentStage} of {stages.length}
-            </span>
-            <span className={styles.saveBadge}>
-              <span className={styles.saveDot} /> Saved
-            </span>
+            <Link href="/contact" className={styles.returnBtn}>
+              <ArrowLeft size={15} /> Return to Portal
+            </Link>
           </div>
         </div>
       </header>
 
-      <div className={styles.container}>
-        {!isSubmitted ? (
-          <>
-            {/* Hero Heading for Active Stage */}
-            <div className={styles.stageHero}>
-              <span className={styles.stageEyebrow}>
-                <Sparkles size={13} /> STAGE {currentStage} OF {stages.length}
-              </span>
-              <h1 className={styles.stageTitle}>
-                {currentStage === 1 && "Personal Details & Body Measurements"}
-                {currentStage === 2 && "Daily Routine, Work Style & Sleep"}
-                {currentStage === 3 && "Clinical Health & Digestion History"}
-                {currentStage === 4 && "Fitness & Physical Activity Habits"}
-                {currentStage === 5 && "Nutrition, Meal Timings & Protocol Goals"}
-              </h1>
-              <p className={styles.stageDesc}>
-                {currentStage === 1 && "Essential baseline physical metrics to calculate your basal metabolic rate and body composition."}
-                {currentStage === 2 && "Understanding your circadian rhythm, workday demands, and sleep architecture."}
-                {currentStage === 3 && "Medical background, gut motility, and overall physiological wellness."}
-                {currentStage === 4 && "Your current exercise volume, preferred movement styles, and weekly activity."}
-                {currentStage === 5 && "Food preferences, meal schedules, and your primary target for your personalized diet chart."}
-              </p>
+      <AnimatePresence mode="wait">
+        {!isCompleted ? (
+          <motion.main
+            key="assessment-form"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -18 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          >
+            {/* 2. Intro: Heading, description, supporting text */}
+            <div className={styles.introContainer}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <span className={styles.introKicker}>
+                  <HeartPulse size={14} /> Complimentary Intake Studio
+                </span>
+                <h1 className={styles.mainTitle}>
+                  Personalized Nutrition & <span>Wellness Assessment</span>
+                </h1>
+                <p className={styles.mainDesc}>
+                  Share your metabolic baseline with Sujitha in 2 minutes. We will review your goals and formulate your bespoke nutrition protocol.
+                </p>
+                <div className={styles.guaranteeRow}>
+                  <span className={styles.guaranteeChip}>
+                    <Clock size={13} /> 2-Minute Quick Intake
+                  </span>
+                  <span className={styles.guaranteeChip}>
+                    <ShieldCheck size={13} /> 100% Confidential
+                  </span>
+                  <span className={styles.guaranteeChip}>
+                    <CheckCircle2 size={13} /> Certified Clinical Dietetics
+                  </span>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Validation Alert */}
-            {validationError && (
-              <div className={styles.validationAlert}>
-                <AlertCircle size={18} style={{ flexShrink: 0 }} />
-                <span>{validationError}</span>
-              </div>
-            )}
+            {/* Form Container Card */}
+            <div className={styles.formCard}>
+              <form onSubmit={handleSubmit} noValidate>
+                {/* 3. Section 1: Personal Details */}
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <span className={styles.sectionNumber}>01</span>
+                    <div className={styles.sectionHeaderText}>
+                      <h3>Personal Details</h3>
+                      <p>Tell us a bit about yourself so we can address your consultation directly.</p>
+                    </div>
+                  </div>
 
-            {/* Main Interactive Form Card */}
-            <div className={styles.consultCard}>
-              <AnimatePresence mode="wait">
-                {/* =========================================================
-                    STAGE 1: PERSONAL & BODY MEASUREMENTS
-                    ========================================================= */}
-                {currentStage === 1 && (
-                  <motion.div
-                    key="stage-1"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    {/* Section 1: Personal Details */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>1</div>
-                        <h2 className={styles.sectionTitle}>Personal Details</h2>
-                      </div>
-
-                      <div className={styles.grid2}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Full Name *</span>
-                          </label>
-                          <input
-                            type="text"
-                            className={styles.textInput}
-                            placeholder="Your complete name"
-                            value={formData.fullName}
-                            onChange={(e) => updateField("fullName", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>WhatsApp Contact Number *</span>
-                          </label>
-                          <input
-                            type="tel"
-                            className={styles.textInput}
-                            placeholder="+91 98765 43210"
-                            value={formData.contactNumber}
-                            onChange={(e) => updateField("contactNumber", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Age</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="e.g. 32"
-                            value={formData.age}
-                            onChange={(e) => updateField("age", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Date of Birth</span>
-                          </label>
-                          <input
-                            type="date"
-                            className={styles.textInput}
-                            value={formData.dob}
-                            onChange={(e) => updateField("dob", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Blood Group</span>
-                          </label>
-                          <select
-                            className={styles.selectInput}
-                            value={formData.bloodGroup}
-                            onChange={(e) => updateField("bloodGroup", e.target.value)}
-                          >
-                            <option value="">Select Blood Group</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="Not Sure">Not Sure</option>
-                          </select>
-                        </div>
+                  <div className={styles.inputGrid2}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>
+                        Full Name <span className={styles.requiredStar}>*</span>
+                      </label>
+                      <div className={styles.inputWrap}>
+                        <User size={17} className={styles.inputIcon} />
+                        <input
+                          type="text"
+                          required
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="e.g. Priya Sharma"
+                          className={`${styles.input} ${styles.inputWithIcon}`}
+                        />
                       </div>
                     </div>
 
-                    {/* Section 2: Current Body Measurements */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>2</div>
-                        <h2 className={styles.sectionTitle}>Current Body Measurements</h2>
-                      </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>
+                        Age <span className={styles.requiredStar}>*</span>
+                      </label>
+                      <input
+                        type="number"
+                        required
+                        min="10"
+                        max="100"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        placeholder="e.g. 29"
+                        className={styles.input}
+                      />
+                    </div>
+                  </div>
 
-                      <div className={styles.grid2}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Weight (kg) *</span>
-                            <span className={styles.fieldHint}>e.g. 68.5</span>
-                          </label>
-                          <input
-                            type="number"
-                            step="0.1"
-                            className={styles.textInput}
-                            placeholder="Current weight in kg"
-                            value={formData.weightKg}
-                            onChange={(e) => updateField("weightKg", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Height (cm) *</span>
-                            <span className={styles.fieldHint}>e.g. 165</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="Height in centimeters"
-                            value={formData.heightCm}
-                            onChange={(e) => updateField("heightCm", e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Real-time Precision BMI Interactive Spectrum Card */}
-                      <div className={styles.bmiInstrument}>
-                        {/* Top Summary Bar */}
-                        <div className={styles.bmiTopRow}>
-                          <div className={styles.bmiScoreGroup}>
-                            <div className={styles.bmiValueWrap}>
-                              <span className={styles.bmiNumber}>{bmi ? bmi.toFixed(1) : "--.-"}</span>
-                              <span className={styles.bmiUnit}>kg/m²</span>
-                            </div>
-                            <div className={styles.bmiLabelWrap}>
-                              <span className={styles.bmiLabel}>Calculated BMI</span>
-                              <span className={styles.bmiSub}>
-                                {bmi && height && weight
-                                  ? `Body mass index based on ${weight} kg & ${height} cm`
-                                  : "Resting metabolic baseline calculated from height & weight"}
-                              </span>
-                            </div>
-                          </div>
-
-                          <span className={`${styles.bmiBadge} ${bmiStyle}`}>
-                            <Sparkles size={13} /> {bmiCategory}
-                          </span>
-                        </div>
-
-                        {/* Visual Spectrum Gauge / Meter */}
-                        <div className={styles.bmiGaugeContainer} aria-hidden="true">
-                          {/* Floating Pointer Indicator */}
-                          <div
-                            className={styles.bmiPointerWrap}
-                            style={{ left: `${bmiPercent}%` }}
+                  <div style={{ marginTop: "18px" }}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Gender</label>
+                      <div className={styles.genderGrid}>
+                        {(["Female", "Male", "Other", "Prefer not to say"] as const).map((g) => (
+                          <button
+                            key={g}
+                            type="button"
+                            onClick={() => setGender(g)}
+                            className={`${styles.genderPill} ${gender === g ? styles.genderPillActive : ""}`}
                           >
-                            <div className={styles.bmiPointerPill}>
-                              <strong>{bmi ? bmi.toFixed(1) : "BMI"}</strong>
-                            </div>
-                            <div className={styles.bmiPointerArrow} />
-                          </div>
-
-                          {/* 4 Multi-color Segmented Track */}
-                          <div className={styles.bmiTrack}>
-                            <div className={`${styles.bmiSegment} ${styles.segUnderweight}`} />
-                            <div className={`${styles.bmiSegment} ${styles.segNormal}`} />
-                            <div className={`${styles.bmiSegment} ${styles.segOverweight}`} />
-                            <div className={`${styles.bmiSegment} ${styles.segObese}`} />
-                          </div>
-
-                          {/* Range Tick Labels */}
-                          <div className={styles.bmiTicks}>
-                            <span>14</span>
-                            <span>18.5</span>
-                            <span>25.0</span>
-                            <span>30.0</span>
-                            <span>40+</span>
-                          </div>
-                        </div>
-
-                        {/* 4 Interactive Category Range Cards */}
-                        <div className={styles.bmiCategoriesGrid}>
-                          <div
-                            className={`${styles.bmiCategoryCard} ${styles.catUnderweight} ${
-                              bmiCategoryId === "underweight" ? styles.catActive : ""
-                            }`}
-                          >
-                            <div className={styles.catDot} />
-                            <div className={styles.catInfo}>
-                              <span className={styles.catTitle}>Underweight</span>
-                              <span className={styles.catRange}>&lt; 18.5</span>
-                            </div>
-                            {bmiCategoryId === "underweight" && (
-                              <span className={styles.catActiveBadge}>Active</span>
-                            )}
-                          </div>
-
-                          <div
-                            className={`${styles.bmiCategoryCard} ${styles.catNormal} ${
-                              bmiCategoryId === "normal" ? styles.catActive : ""
-                            }`}
-                          >
-                            <div className={styles.catDot} />
-                            <div className={styles.catInfo}>
-                              <span className={styles.catTitle}>Healthy Weight</span>
-                              <span className={styles.catRange}>18.5 – 24.9</span>
-                            </div>
-                            {bmiCategoryId === "normal" && (
-                              <span className={styles.catActiveBadge}>Optimal</span>
-                            )}
-                          </div>
-
-                          <div
-                            className={`${styles.bmiCategoryCard} ${styles.catOverweight} ${
-                              bmiCategoryId === "overweight" ? styles.catActive : ""
-                            }`}
-                          >
-                            <div className={styles.catDot} />
-                            <div className={styles.catInfo}>
-                              <span className={styles.catTitle}>Overweight</span>
-                              <span className={styles.catRange}>25.0 – 29.9</span>
-                            </div>
-                            {bmiCategoryId === "overweight" && (
-                              <span className={styles.catActiveBadge}>Active</span>
-                            )}
-                          </div>
-
-                          <div
-                            className={`${styles.bmiCategoryCard} ${styles.catObese} ${
-                              bmiCategoryId === "obese" ? styles.catActive : ""
-                            }`}
-                          >
-                            <div className={styles.catDot} />
-                            <div className={styles.catInfo}>
-                              <span className={styles.catTitle}>Obese Range</span>
-                              <span className={styles.catRange}>≥ 30.0</span>
-                            </div>
-                            {bmiCategoryId === "obese" && (
-                              <span className={styles.catActiveBadge}>Active</span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Personalized Clinical Insight Box */}
-                        {bmi && (
-                          <div className={styles.bmiClinicalNote}>
-                            <ShieldCheck size={16} className={styles.bmiNoteIcon} />
-                            <p>
-                              {bmiCategoryId === "normal" &&
-                                "🌿 Optimal Baseline: Sujitha's bespoke plan will optimize your daily energy, digestive health, and cellular nourishment."}
-                              {bmiCategoryId === "overweight" &&
-                                "🎯 Metabolic Recalibration: Gentle whole-food nutrition and hormone-balancing swaps will guide you naturally into the healthy zone."}
-                              {bmiCategoryId === "obese" &&
-                                "🩺 Clinical Guidance: Comprehensive root-cause protocols focusing on insulin sensitivity, sustainable weight reduction, and gut healing."}
-                              {bmiCategoryId === "underweight" &&
-                                "🌱 Nourishing Protocol: Calorie-dense whole foods and gut-absorption support to restore healthy muscle and vitality."}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className={styles.grid3} style={{ marginTop: "18px" }}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Waist (cm)</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="At navel level"
-                            value={formData.waistCm}
-                            onChange={(e) => updateField("waistCm", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Hip (cm)</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="Widest point"
-                            value={formData.hipCm}
-                            onChange={(e) => updateField("hipCm", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Chest (cm)</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="Underarms"
-                            value={formData.chestCm}
-                            onChange={(e) => updateField("chestCm", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Arm (cm)</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="Bicep circumference"
-                            value={formData.armCm}
-                            onChange={(e) => updateField("armCm", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Thigh (cm)</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={styles.textInput}
-                            placeholder="Mid-thigh"
-                            value={formData.thighCm}
-                            onChange={(e) => updateField("thighCm", e.target.value)}
-                          />
-                        </div>
+                            {gender === g && <Check size={14} />}
+                            {g}
+                          </button>
+                        ))}
                       </div>
                     </div>
-                  </motion.div>
-                )}
+                  </div>
 
-                {/* =========================================================
-                    STAGE 2: WORK, LIFESTYLE & SLEEP
-                    ========================================================= */}
-                {currentStage === 2 && (
-                  <motion.div
-                    key="stage-2"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    {/* Section 3: Education & Work */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>3</div>
-                        <h2 className={styles.sectionTitle}>Education & Work Environment</h2>
+                  <div style={{ marginTop: "18px" }}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>
+                        WhatsApp / Contact Number <span className={styles.requiredStar}>*</span>
+                        <span className={styles.labelHint}>For plan delivery & call scheduling</span>
+                      </label>
+                      <div className={styles.phoneWrap}>
+                        <span className={styles.phonePrefix}>
+                          <Phone size={14} /> +91
+                        </span>
+                        <input
+                          type="tel"
+                          required
+                          value={whatsApp}
+                          onChange={(e) => setWhatsApp(e.target.value)}
+                          placeholder="98765 43210"
+                          className={styles.phoneInput}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* 4. Section 2: Body Information */}
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <span className={styles.sectionNumber}>02</span>
+                    <div className={styles.sectionHeaderText}>
+                      <h3>Body Information</h3>
+                      <p>Essential metrics to assess metabolic baseline and nutritional requirements.</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.heightWeightGrid}>
+                    <div className={styles.formGroup}>
+                      <div className={styles.heightHeaderRow}>
+                        <label className={styles.label}>Height</label>
+                        <div className={styles.unitToggleGroup}>
+                          <button
+                            type="button"
+                            onClick={() => handleUnitToggle("cm")}
+                            className={`${styles.unitToggleBtn} ${heightUnit === "cm" ? styles.unitToggleBtnActive : ""}`}
+                          >
+                            cm
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleUnitToggle("ft")}
+                            className={`${styles.unitToggleBtn} ${heightUnit === "ft" ? styles.unitToggleBtnActive : ""}`}
+                          >
+                            ft / in
+                          </button>
+                        </div>
                       </div>
 
-                      <div className={styles.grid2}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Education / Qualification</span>
-                          </label>
+                      {heightUnit === "cm" ? (
+                        <div className={styles.unitSuffixWrap}>
                           <input
-                            type="text"
-                            className={styles.textInput}
-                            placeholder="e.g. B.Tech / MBA / Graduate"
-                            value={formData.qualification}
-                            onChange={(e) => updateField("qualification", e.target.value)}
+                            type="number"
+                            min="90"
+                            max="230"
+                            value={heightCm}
+                            onChange={(e) => handleCmChange(e.target.value)}
+                            className={styles.input}
                           />
+                          <span className={styles.unitSuffix}>cm</span>
                         </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Occupation</span>
-                          </label>
-                          <input
-                            type="text"
-                            className={styles.textInput}
-                            placeholder="e.g. Software Engineer / Homemaker / Teacher"
-                            value={formData.occupation}
-                            onChange={(e) => updateField("occupation", e.target.value)}
-                          />
+                      ) : (
+                        <div className={styles.ftInInputs}>
+                          <div className={styles.unitSuffixWrap}>
+                            <input
+                              type="number"
+                              min="3"
+                              max="7"
+                              value={heightFt}
+                              onChange={(e) => handleFtInChange(e.target.value, heightIn)}
+                              className={styles.input}
+                            />
+                            <span className={styles.unitSuffix}>ft</span>
+                          </div>
+                          <div className={styles.unitSuffixWrap}>
+                            <input
+                              type="number"
+                              min="0"
+                              max="11"
+                              value={heightIn}
+                              onChange={(e) => handleFtInChange(heightFt, e.target.value)}
+                              className={styles.input}
+                            />
+                            <span className={styles.unitSuffix}>in</span>
+                          </div>
                         </div>
-                      </div>
+                      )}
+                    </div>
 
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Work Type & Physical Demands</span>
-                        </label>
-                        <div className={styles.cardSelectorGrid}>
-                          {[
-                            { id: "Sitting", icon: "🪑", title: "Desk / Sitting", sub: "Office, IT, mostly sedentary" },
-                            { id: "Standing", icon: "🧍", title: "Standing", sub: "Retail, teaching, healthcare" },
-                            { id: "Physical", icon: "⚡", title: "Physical", sub: "High movement, manual, field work" },
-                            { id: "Mixed", icon: "🔄", title: "Mixed", sub: "Combination of sitting & moving" },
-                          ].map((item) => (
-                            <button
-                              key={item.id}
-                              type="button"
-                              className={`${styles.optionCard} ${formData.workType === item.id ? styles.selected : ""}`}
-                              onClick={() => updateField("workType", item.id as any)}
-                            >
-                              <span className={styles.optionCardIcon}>{item.icon}</span>
-                              <strong className={styles.optionCardTitle}>{item.title}</strong>
-                              <span className={styles.optionCardSub}>{item.sub}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Working Hours Per Day</span>
-                        </label>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Weight</label>
+                      <div className={styles.unitSuffixWrap}>
                         <input
                           type="number"
-                          className={styles.textInput}
-                          placeholder="e.g. 8 or 9 hours"
-                          value={formData.workingHours}
-                          onChange={(e) => updateField("workingHours", e.target.value)}
+                          min="30"
+                          max="200"
+                          value={weightKg}
+                          onChange={(e) => setWeightKg(e.target.value)}
+                          className={styles.input}
                         />
+                        <span className={styles.unitSuffix}>kg</span>
                       </div>
                     </div>
+                  </div>
+                </section>
 
-                    {/* Section 4: Sleep Architecture */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>4</div>
-                        <h2 className={styles.sectionTitle}>Sleep Architecture & Circadian Rhythm</h2>
-                      </div>
-
-                      <div className={styles.grid3}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Bedtime</span>
-                          </label>
-                          <input
-                            type="time"
-                            className={styles.textInput}
-                            value={formData.sleepTime}
-                            onChange={(e) => updateField("sleepTime", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Wake-Up Time</span>
-                          </label>
-                          <input
-                            type="time"
-                            className={styles.textInput}
-                            value={formData.wakeTime}
-                            onChange={(e) => updateField("wakeTime", e.target.value)}
-                          />
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Total Sleep Hours</span>
-                          </label>
-                          <input
-                            type="number"
-                            step="0.5"
-                            className={styles.textInput}
-                            placeholder="e.g. 7.5"
-                            value={formData.totalSleepHours}
-                            onChange={(e) => updateField("totalSleepHours", e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you fall asleep immediately?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.fallAsleepImmediately === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("fallAsleepImmediately", "Yes")}
-                          >
-                            Yes, within 10-15 mins
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.fallAsleepImmediately === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("fallAsleepImmediately", "No")}
-                          >
-                            No, it takes longer
-                          </button>
-                        </div>
-
-                        {formData.fallAsleepImmediately === "No" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>How long does it usually take you to fall asleep?</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 45 minutes to 1 hour"
-                              value={formData.fallAsleepDuration}
-                              onChange={(e) => updateField("fallAsleepDuration", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      <div className={styles.grid2} style={{ marginTop: "18px" }}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Do you wake up during the night?</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.wakeDuringNight === "Yes" ? styles.active : ""}`}
-                              onClick={() => updateField("wakeDuringNight", "Yes")}
-                            >
-                              Yes
-                            </button>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.wakeDuringNight === "No" ? styles.active : ""}`}
-                              onClick={() => updateField("wakeDuringNight", "No")}
-                            >
-                              No
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Do you feel refreshed after waking?</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            {(["Yes", "Sometimes", "No"] as const).map((opt) => (
-                              <button
-                                key={opt}
-                                type="button"
-                                className={`${styles.segmentBtn} ${formData.refreshedAfterWaking === opt ? styles.active : ""}`}
-                                onClick={() => updateField("refreshedAfterWaking", opt)}
-                              >
-                                {opt}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                {/* 5. Section 3: Health Background */}
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <span className={styles.sectionNumber}>03</span>
+                    <div className={styles.sectionHeaderText}>
+                      <h3>Health Background</h3>
+                      <p>Select any diagnosed conditions or metabolic concerns (multi-select):</p>
                     </div>
-                  </motion.div>
-                )}
+                  </div>
 
-                {/* =========================================================
-                    STAGE 3: HEALTH & DIGESTION HISTORY
-                    ========================================================= */}
-                {currentStage === 3 && (
-                  <motion.div
-                    key="stage-3"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    {/* Section 5: Medical & Health */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>5</div>
-                        <h2 className={styles.sectionTitle}>Medical Background & Gut Motility</h2>
-                      </div>
-
-                      {/* Medicines */}
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Are you currently taking any medicines or supplements?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.takingMedicines === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("takingMedicines", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.takingMedicines === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("takingMedicines", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.takingMedicines === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Please list your medicines, vitamins or supplements:</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. Thyronorm 50mcg, Vitamin D3, Omega 3"
-                              value={formData.medicinesDetails}
-                              onChange={(e) => updateField("medicinesDetails", e.target.value)}
-                            />
+                  <div className={styles.cardsGrid}>
+                    {HEALTH_CONDITIONS.map((cond) => {
+                      const isActive = selectedConditions.includes(cond.id);
+                      return (
+                        <motion.div
+                          key={cond.id}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => toggleCondition(cond.id)}
+                          className={`${styles.selectCard} ${isActive ? styles.selectCardActive : ""}`}
+                          role="checkbox"
+                          aria-checked={isActive}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === " " || e.key === "Enter") {
+                              e.preventDefault();
+                              toggleCondition(cond.id);
+                            }
+                          }}
+                        >
+                          <span className={styles.cardIcon}>{cond.icon}</span>
+                          <div className={styles.cardContent}>
+                            <div className={styles.cardTitle}>{cond.title}</div>
+                            <div className={styles.cardSubtitle}>{cond.desc}</div>
                           </div>
-                        )}
-                      </div>
+                          <div className={styles.checkIndicator}>{isActive && <Check size={12} strokeWidth={3} />}</div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
 
-                      {/* Constipation */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you have constipation or irregular bowel movements?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.constipation === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("constipation", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.constipation === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("constipation", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Irregular Periods */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Irregular menstrual cycle (Periods)?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          {(["No", "Yes", "Not Applicable"] as const).map((opt) => (
-                            <button
-                              key={opt}
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.irregularPeriods === opt ? styles.active : ""}`}
-                              onClick={() => updateField("irregularPeriods", opt)}
-                            >
-                              {opt}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Surgeries */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Any previous surgeries or medical procedures?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.surgeries === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("surgeries", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.surgeries === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("surgeries", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.surgeries === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Please mention surgical procedures and year:</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. C-section (2021), Gallbladder removal (2019)"
-                              value={formData.surgeriesDetails}
-                              onChange={(e) => updateField("surgeriesDetails", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Joint / Body Pain */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Any joint, back, or persistent body pain?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.jointOrBodyPain === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("jointOrBodyPain", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.jointOrBodyPain === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("jointOrBodyPain", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.jointOrBodyPain === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Please specify pain area (e.g. Lower back, right knee):</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. Mild lower back stiffness in mornings"
-                              value={formData.painDetails}
-                              onChange={(e) => updateField("painDetails", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Other health concerns */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Any other clinical health concerns, symptoms or diagnostics?</span>
+                  {/* Dedicated "Other" input field */}
+                  <AnimatePresence>
+                    {selectedConditions.includes("other") && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className={styles.otherFieldContainer}
+                      >
+                        <label htmlFor={otherConditionId} className={styles.label} style={{ marginBottom: "6px" }}>
+                          Please specify other health concerns, medications or surgeries:
                         </label>
                         <textarea
-                          className={styles.textareaInput}
-                          placeholder="e.g. Acidity, PCOD, thyroid fluctuations, cholesterol, bloating, hair fall..."
-                          value={formData.otherHealthConcerns}
-                          onChange={(e) => updateField("otherHealthConcerns", e.target.value)}
+                          id={otherConditionId}
+                          value={otherConditionText}
+                          onChange={(e) => setOtherConditionText(e.target.value)}
+                          placeholder="e.g. Acid reflux after dinner, mild knee discomfort, takes Metformin 500mg..."
+                          className={styles.textarea}
                         />
-                      </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </section>
+
+                {/* 6. Section 4: Food Preference */}
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <span className={styles.sectionNumber}>04</span>
+                    <div className={styles.sectionHeaderText}>
+                      <h3>Food Preference</h3>
+                      <p>Choose your everyday dietary lifestyle (single-select):</p>
                     </div>
+                  </div>
 
-                    {/* Section 6: Meditation */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>6</div>
-                        <h2 className={styles.sectionTitle}>Mindfulness & Meditation</h2>
-                      </div>
-
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you practice meditation or breathwork?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.meditation === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("meditation", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.meditation === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("meditation", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.meditation === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>How often do you practice?</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 15 minutes daily / 3 days a week"
-                              value={formData.meditationFrequency}
-                              onChange={(e) => updateField("meditationFrequency", e.target.value)}
-                            />
+                  <div className={styles.cardsGrid}>
+                    {FOOD_PREFERENCES.map((food) => {
+                      const isActive = selectedFoodPref === food.id;
+                      return (
+                        <motion.div
+                          key={food.id}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedFoodPref(food.id)}
+                          className={`${styles.selectCard} ${isActive ? styles.selectCardActive : ""}`}
+                          role="radio"
+                          aria-checked={isActive}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === " " || e.key === "Enter") {
+                              e.preventDefault();
+                              setSelectedFoodPref(food.id);
+                            }
+                          }}
+                        >
+                          <span className={styles.cardIcon}>{food.icon}</span>
+                          <div className={styles.cardContent}>
+                            <div className={styles.cardTitle}>{food.title}</div>
+                            <div className={styles.cardSubtitle}>{food.desc}</div>
+                            {food.hint && <span className={styles.cardBadge}>{food.hint}</span>}
                           </div>
-                        )}
-                      </div>
+                          <div className={styles.checkIndicator}>{isActive && <Check size={12} strokeWidth={3} />}</div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </section>
+
+                {/* 7. Section 5: Wellness Goals */}
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <span className={styles.sectionNumber}>05</span>
+                    <div className={styles.sectionHeaderText}>
+                      <h3>Wellness Goals</h3>
+                      <p>What are your main aspirations for this consultation? (Select all that apply):</p>
                     </div>
-                  </motion.div>
+                  </div>
+
+                  <div className={styles.cardsGrid}>
+                    {WELLNESS_GOALS.map((goal) => {
+                      const isActive = selectedGoals.includes(goal.id);
+                      return (
+                        <motion.div
+                          key={goal.id}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => toggleGoal(goal.id)}
+                          className={`${styles.selectCard} ${isActive ? styles.selectCardActive : ""}`}
+                          role="checkbox"
+                          aria-checked={isActive}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === " " || e.key === "Enter") {
+                              e.preventDefault();
+                              toggleGoal(goal.id);
+                            }
+                          }}
+                        >
+                          <span className={styles.cardIcon}>{goal.icon}</span>
+                          <div className={styles.cardContent}>
+                            <div className={styles.cardTitle}>{goal.title}</div>
+                            <div className={styles.cardSubtitle}>{goal.desc}</div>
+                          </div>
+                          <div className={styles.checkIndicator}>{isActive && <Check size={12} strokeWidth={3} />}</div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </section>
+
+                {/* 8. Privacy & Consent Checkbox */}
+                <label className={styles.consentBox}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className={styles.consentCheckbox}
+                  />
+                  <span className={styles.consentText}>
+                    I agree to the <Link href="/privacy" target="_blank">Privacy Policy</Link> and consent to ChatHeal & Sujitha contacting me via WhatsApp/Phone with my personalized metabolic intake evaluation.
+                  </span>
+                </label>
+
+                {/* Error Banner */}
+                {errorMsg && (
+                  <div className={styles.errorBanner} role="alert">
+                    <AlertCircle size={18} />
+                    <span>{errorMsg}</span>
+                  </div>
                 )}
 
-                {/* =========================================================
-                    STAGE 4: FITNESS & PHYSICAL ACTIVITY
-                    ========================================================= */}
-                {currentStage === 4 && (
-                  <motion.div
-                    key="stage-4"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>7</div>
-                        <h2 className={styles.sectionTitle}>Exercise & Physical Movement</h2>
-                      </div>
-
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you exercise regularly?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.exercise === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("exercise", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.exercise === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("exercise", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Gym */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Gym / Resistance Training?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.gym === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("gym", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.gym === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("gym", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.gym === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>How many days per week?</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 3 to 4 days/week"
-                              value={formData.gymDays}
-                              onChange={(e) => updateField("gymDays", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Walking */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Walking / Brisk Walks?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.walking === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("walking", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.walking === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("walking", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.walking === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Daily duration:</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 30 to 45 mins / 7,000 steps"
-                              value={formData.walkingDuration}
-                              onChange={(e) => updateField("walkingDuration", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Cardio */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Cardio / Running / Cycling?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.cardio === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("cardio", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.cardio === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("cardio", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.cardio === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Type of cardio:</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. Treadmill, Outdoor jog, Swimming"
-                              value={formData.cardioType}
-                              onChange={(e) => updateField("cardioType", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Yoga */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Yoga & Mobility?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.yoga === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("yoga", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.yoga === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("yoga", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.yoga === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Days per week:</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 2 to 3 days/week"
-                              value={formData.yogaDays}
-                              onChange={(e) => updateField("yogaDays", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Other sports */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Other physical activities, sports or hobbies:</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={styles.textInput}
-                          placeholder="e.g. Badminton, swimming, dancing, trekking"
-                          value={formData.otherSports}
-                          onChange={(e) => updateField("otherSports", e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* =========================================================
-                    STAGE 5: DIET, TIMINGS & GOALS
-                    ========================================================= */}
-                {currentStage === 5 && (
-                  <motion.div
-                    key="stage-5"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    {/* Section 8: Food & Diet */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>8</div>
-                        <h2 className={styles.sectionTitle}>Dietary Preferences & Habits</h2>
-                      </div>
-
-                      {/* Food allergies */}
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Any known food allergies or intolerances?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.foodAllergies === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("foodAllergies", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.foodAllergies === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("foodAllergies", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.foodAllergies === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Please specify allergies (e.g. Peanuts, lactose, shellfish):</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. Lactose intolerant, wheat sensitivity"
-                              value={formData.allergiesDetails}
-                              onChange={(e) => updateField("allergiesDetails", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Diet Type */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Primary Diet Style</span>
-                        </label>
-                        <div className={styles.cardSelectorGrid}>
-                          {[
-                            { id: "Vegetarian", icon: "🥗", title: "Vegetarian", sub: "Plant foods & dairy" },
-                            { id: "Non-Vegetarian", icon: "🍗", title: "Non-Vegetarian", sub: "Meats, poultry, fish & eggs" },
-                            { id: "Eggetarian", icon: "🍳", title: "Eggetarian", sub: "Vegetarian + eggs" },
-                            { id: "Vegan", icon: "🌱", title: "100% Vegan", sub: "Strictly zero animal products" },
-                          ].map((item) => (
-                            <button
-                              key={item.id}
-                              type="button"
-                              className={`${styles.optionCard} ${formData.dietType === item.id ? styles.selected : ""}`}
-                              onClick={() => updateField("dietType", item.id as any)}
-                            >
-                              <span className={styles.optionCardIcon}>{item.icon}</span>
-                              <strong className={styles.optionCardTitle}>{item.title}</strong>
-                              <span className={styles.optionCardSub}>{item.sub}</span>
-                            </button>
-                          ))}
-                        </div>
-
-                        {formData.dietType === "Vegan" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>How long have you followed a vegan diet?</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 1 year / 6 months"
-                              value={formData.veganDuration}
-                              onChange={(e) => updateField("veganDuration", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Tofu & Plant proteins */}
-                      <div className={styles.grid2} style={{ marginTop: "18px" }}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Do you consume tofu?</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.consumeTofu === "Yes" ? styles.active : ""}`}
-                              onClick={() => updateField("consumeTofu", "Yes")}
-                            >
-                              Yes
-                            </button>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.consumeTofu === "No" ? styles.active : ""}`}
-                              onClick={() => updateField("consumeTofu", "No")}
-                            >
-                              No
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Other plant-based proteins?</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.consumePlantProtein === "Yes" ? styles.active : ""}`}
-                              onClick={() => updateField("consumePlantProtein", "Yes")}
-                            >
-                              Yes
-                            </button>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.consumePlantProtein === "No" ? styles.active : ""}`}
-                              onClick={() => updateField("consumePlantProtein", "No")}
-                            >
-                              No
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {formData.consumePlantProtein === "Yes" && (
-                        <div className={styles.conditionalBlock}>
-                          <label className={styles.fieldLabel}>
-                            <span>Mention plant proteins you consume:</span>
-                          </label>
-                          <input
-                            type="text"
-                            className={styles.textInput}
-                            placeholder="e.g. Soya chunks, sprouted lentils, hemp seeds, pea protein"
-                            value={formData.plantProteinDetails}
-                            onChange={(e) => updateField("plantProteinDetails", e.target.value)}
-                          />
-                        </div>
-                      )}
-
-                      {/* Non-veg foods eaten */}
-                      {(formData.dietType === "Non-Vegetarian" || formData.dietType === "Eggetarian") && (
-                        <div className={styles.field} style={{ marginTop: "18px" }}>
-                          <label className={styles.fieldLabel}>
-                            <span>Non-veg foods you eat (select all that apply):</span>
-                          </label>
-                          <div className={styles.chipsWrap}>
-                            {["Chicken", "Fish & Seafood", "Egg", "Mutton"].map((item) => {
-                              const active = formData.nonVegFoods.includes(item);
-                              return (
-                                <button
-                                  key={item}
-                                  type="button"
-                                  className={`${styles.chipBtn} ${active ? styles.active : ""}`}
-                                  onClick={() => {
-                                    if (active) {
-                                      updateField("nonVegFoods", formData.nonVegFoods.filter((f) => f !== item));
-                                    } else {
-                                      updateField("nonVegFoods", [...formData.nonVegFoods, item]);
-                                    }
-                                  }}
-                                >
-                                  {active && <Check size={14} />} {item}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Avoid non-veg specific days */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you avoid non-veg on specific days?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.avoidNonVegSpecificDays === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("avoidNonVegSpecificDays", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.avoidNonVegSpecificDays === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("avoidNonVegSpecificDays", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-
-                        {formData.avoidNonVegSpecificDays === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Which days do you avoid non-veg?</span>
-                            </label>
-                            <div className={styles.chipsWrap}>
-                              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => {
-                                const active = formData.avoidNonVegDays.includes(day);
-                                return (
-                                  <button
-                                    key={day}
-                                    type="button"
-                                    className={`${styles.chipBtn} ${active ? styles.active : ""}`}
-                                    onClick={() => {
-                                      if (active) {
-                                        updateField("avoidNonVegDays", formData.avoidNonVegDays.filter((d) => d !== day));
-                                      } else {
-                                        updateField("avoidNonVegDays", [...formData.avoidNonVegDays, day]);
-                                      }
-                                    }}
-                                  >
-                                    {active && <Check size={14} />} {day}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Foods avoided or disliked */}
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Foods you avoid or dislike:</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={styles.textInput}
-                          placeholder="e.g. Bitter gourd, raw onions, oats"
-                          value={formData.dislikedFoods}
-                          onChange={(e) => updateField("dislikedFoods", e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Section 9: Tea & Coffee */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>9</div>
-                        <h2 className={styles.sectionTitle}>Tea & Coffee Consumption</h2>
-                      </div>
-
-                      <div className={styles.grid2}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Do you drink tea?</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.drinkTea === "Yes" ? styles.active : ""}`}
-                              onClick={() => updateField("drinkTea", "Yes")}
-                            >
-                              Yes
-                            </button>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.drinkTea === "No" ? styles.active : ""}`}
-                              onClick={() => updateField("drinkTea", "No")}
-                            >
-                              No
-                            </button>
-                          </div>
-                          {formData.drinkTea === "Yes" && (
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="Cups per day (e.g. 2 cups)"
-                              value={formData.teaCups}
-                              onChange={(e) => updateField("teaCups", e.target.value)}
-                              style={{ marginTop: "10px" }}
-                            />
-                          )}
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Do you drink coffee?</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.drinkCoffee === "Yes" ? styles.active : ""}`}
-                              onClick={() => updateField("drinkCoffee", "Yes")}
-                            >
-                              Yes
-                            </button>
-                            <button
-                              type="button"
-                              className={`${styles.segmentBtn} ${formData.drinkCoffee === "No" ? styles.active : ""}`}
-                              onClick={() => updateField("drinkCoffee", "No")}
-                            >
-                              No
-                            </button>
-                          </div>
-                          {formData.drinkCoffee === "Yes" && (
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="Cups per day (e.g. 1 cup)"
-                              value={formData.coffeeCups}
-                              onChange={(e) => updateField("coffeeCups", e.target.value)}
-                              style={{ marginTop: "10px" }}
-                            />
-                          )}
-                        </div>
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you add sugar to tea or coffee?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.addSugar === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("addSugar", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.addSugar === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("addSugar", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-                        {formData.addSugar === "Yes" && (
-                          <input
-                            type="text"
-                            className={styles.textInput}
-                            placeholder="Approx how much per cup (e.g. 1 tsp / 2 spoons)"
-                            value={formData.sugarAmount}
-                            onChange={(e) => updateField("sugarAmount", e.target.value)}
-                            style={{ marginTop: "10px" }}
-                          />
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Section 10: Meal Timing & Convenience */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>10</div>
-                        <h2 className={styles.sectionTitle}>Meal Timing & Schedule Convenience</h2>
-                      </div>
-
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Usual Daily Meal Timings:</span>
-                        </label>
-                        <div className={styles.grid3}>
-                          <div>
-                            <span style={{ fontSize: "12px", color: "#557263", display: "block", marginBottom: "4px" }}>Breakfast</span>
-                            <input
-                              type="time"
-                              className={styles.textInput}
-                              value={formData.usualBreakfastTime}
-                              onChange={(e) => updateField("usualBreakfastTime", e.target.value)}
-                            />
-                          </div>
-                          <div>
-                            <span style={{ fontSize: "12px", color: "#557263", display: "block", marginBottom: "4px" }}>Lunch</span>
-                            <input
-                              type="time"
-                              className={styles.textInput}
-                              value={formData.usualLunchTime}
-                              onChange={(e) => updateField("usualLunchTime", e.target.value)}
-                            />
-                          </div>
-                          <div>
-                            <span style={{ fontSize: "12px", color: "#557263", display: "block", marginBottom: "4px" }}>Dinner</span>
-                            <input
-                              type="time"
-                              className={styles.textInput}
-                              value={formData.usualDinnerTime}
-                              onChange={(e) => updateField("usualDinnerTime", e.target.value)}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Do you usually have snacks between meals?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.snacksBetweenMeals === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("snacksBetweenMeals", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.snacksBetweenMeals === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("snacksBetweenMeals", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-                        {formData.snacksBetweenMeals === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>What time do you usually snack?</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. 11:30 AM and 5:00 PM"
-                              value={formData.snackTime}
-                              onChange={(e) => updateField("snackTime", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Most convenient timings for you:</span>
-                        </label>
-                        <div className={styles.grid3}>
-                          <div>
-                            <span style={{ fontSize: "12px", color: "#557263", display: "block", marginBottom: "4px" }}>Convenient Breakfast</span>
-                            <input
-                              type="time"
-                              className={styles.textInput}
-                              value={formData.convenientBreakfastTime}
-                              onChange={(e) => updateField("convenientBreakfastTime", e.target.value)}
-                            />
-                          </div>
-                          <div>
-                            <span style={{ fontSize: "12px", color: "#557263", display: "block", marginBottom: "4px" }}>Convenient Lunch</span>
-                            <input
-                              type="time"
-                              className={styles.textInput}
-                              value={formData.convenientLunchTime}
-                              onChange={(e) => updateField("convenientLunchTime", e.target.value)}
-                            />
-                          </div>
-                          <div>
-                            <span style={{ fontSize: "12px", color: "#557263", display: "block", marginBottom: "4px" }}>Convenient Dinner</span>
-                            <input
-                              type="time"
-                              className={styles.textInput}
-                              value={formData.convenientDinnerTime}
-                              onChange={(e) => updateField("convenientDinnerTime", e.target.value)}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Any difficulty following a fixed meal timing?</span>
-                        </label>
-                        <div className={styles.segmentedGroup}>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.difficultyFixedTiming === "Yes" ? styles.active : ""}`}
-                            onClick={() => updateField("difficultyFixedTiming", "Yes")}
-                          >
-                            Yes
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.segmentBtn} ${formData.difficultyFixedTiming === "No" ? styles.active : ""}`}
-                            onClick={() => updateField("difficultyFixedTiming", "No")}
-                          >
-                            No
-                          </button>
-                        </div>
-                        {formData.difficultyFixedTiming === "Yes" && (
-                          <div className={styles.conditionalBlock}>
-                            <label className={styles.fieldLabel}>
-                              <span>Please explain the challenge:</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="e.g. Unpredictable work meetings, travel, shift timings"
-                              value={formData.difficultyTimingDetails}
-                              onChange={(e) => updateField("difficultyTimingDetails", e.target.value)}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Section 11: Alcohol & Substances */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>11</div>
-                        <h2 className={styles.sectionTitle}>Substances & Alcohol</h2>
-                      </div>
-
-                      <div className={styles.grid3}>
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Alcohol</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            {(["No", "Occasionally", "Yes"] as const).map((opt) => (
-                              <button
-                                key={opt}
-                                type="button"
-                                className={`${styles.segmentBtn} ${formData.alcohol === opt ? styles.active : ""}`}
-                                onClick={() => updateField("alcohol", opt)}
-                              >
-                                {opt}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Tobacco / Nicotine</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            {(["No", "Occasionally", "Yes"] as const).map((opt) => (
-                              <button
-                                key={opt}
-                                type="button"
-                                className={`${styles.segmentBtn} ${formData.tobacco === opt ? styles.active : ""}`}
-                                onClick={() => updateField("tobacco", opt)}
-                              >
-                                {opt}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className={styles.field}>
-                          <label className={styles.fieldLabel}>
-                            <span>Other Substances</span>
-                          </label>
-                          <div className={styles.segmentedGroup}>
-                            {(["No", "Occasionally", "Yes"] as const).map((opt) => (
-                              <button
-                                key={opt}
-                                type="button"
-                                className={`${styles.segmentBtn} ${formData.otherSubstances === opt ? styles.active : ""}`}
-                                onClick={() => updateField("otherSubstances", opt)}
-                              >
-                                {opt}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Section 12: Diet Chart Protocol */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>12</div>
-                        <h2 className={styles.sectionTitle}>Diet Chart Plan & Goals</h2>
-                      </div>
-
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Plan Duration Required:</span>
-                        </label>
-                        <div className={styles.planDurationGrid}>
-                          <div
-                            className={`${styles.planCard} ${formData.planDuration === "6 Months" ? styles.selected : ""}`}
-                            onClick={() => updateField("planDuration", "6 Months")}
-                          >
-                            <div className={styles.planCardHeader}>
-                              <span className={styles.planDurationTitle}>6 Months Foundation</span>
-                              <span className={styles.planDurationBadge}>Recommended</span>
-                            </div>
-                            <p className={styles.planCardDesc}>
-                              Diet Chart Only • Comprehensive gut motility reset, cellular fat adaptation & sustained habit building.
-                            </p>
-                          </div>
-
-                          <div
-                            className={`${styles.planCard} ${formData.planDuration === "1 Year" ? styles.selected : ""}`}
-                            onClick={() => updateField("planDuration", "1 Year")}
-                          >
-                            <div className={styles.planCardHeader}>
-                              <span className={styles.planDurationTitle}>1 Year Transformation</span>
-                              <span className={styles.planDurationBadge}>Complete Mastery</span>
-                            </div>
-                            <p className={styles.planCardDesc}>
-                              Diet Chart Only • Complete metabolic recalibration, seasonal meal rotations & permanent health transformation.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className={styles.field} style={{ marginTop: "18px" }}>
-                        <label className={styles.fieldLabel}>
-                          <span>Main Goal / Requirement *</span>
-                        </label>
-                        <textarea
-                          className={styles.textareaInput}
-                          placeholder="What is your primary target? (e.g. Weight loss of 10kg, PCOS hormone balance, reverse fatty liver, sustained energy, improve digestion...)"
-                          value={formData.mainGoal}
-                          onChange={(e) => updateField("mainGoal", e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Section 13: Additional Notes & Declaration */}
-                    <div className={styles.sectionBlock}>
-                      <div className={styles.sectionHeader}>
-                        <div className={styles.sectionNumber}>13</div>
-                        <h2 className={styles.sectionTitle}>Additional Information & Declaration</h2>
-                      </div>
-
-                      <div className={styles.field}>
-                        <label className={styles.fieldLabel}>
-                          <span>Anything else you would like to share with Dietitian Sujitha?</span>
-                        </label>
-                        <textarea
-                          className={styles.textareaInput}
-                          placeholder="Any specific food cravings, family history, travel frequency, or questions..."
-                          value={formData.additionalInfo}
-                          onChange={(e) => updateField("additionalInfo", e.target.value)}
-                        />
-                      </div>
-
-                      <div style={{ marginTop: "24px", padding: "20px", background: "#f5faf4", border: "1.5px solid #d4e8d3", borderRadius: "18px" }}>
-                        <label style={{ display: "flex", alignItems: "flex-start", gap: "12px", cursor: "pointer" }}>
-                          <input
-                            type="checkbox"
-                            checked={formData.confirmedAccurate}
-                            onChange={(e) => updateField("confirmedAccurate", e.target.checked)}
-                            style={{ width: "20px", height: "20px", accentColor: "#24704d", marginTop: "2px", cursor: "pointer" }}
-                          />
-                          <span style={{ fontSize: "14px", color: "#184735", lineHeight: 1.5, fontWeight: 600 }}>
-                            I confirm that the information provided above is accurate and true to the best of my knowledge for clinical diet formulation.
-                          </span>
-                        </label>
-
-                        <div className={styles.grid2} style={{ marginTop: "16px" }}>
-                          <div className={styles.field}>
-                            <label className={styles.fieldLabel}>
-                              <span>Digital Signature (Type your Full Name) *</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={styles.textInput}
-                              placeholder="Your full name as digital signature"
-                              value={formData.signature}
-                              onChange={(e) => updateField("signature", e.target.value)}
-                            />
-                          </div>
-
-                          <div className={styles.field}>
-                            <label className={styles.fieldLabel}>
-                              <span>Date</span>
-                            </label>
-                            <input
-                              type="text"
-                              disabled
-                              className={styles.textInput}
-                              value={new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
-                              style={{ background: "#eef5ed", color: "#557263", cursor: "not-allowed" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Error feedback if any */}
-              {validationError && (
-                <div className={styles.dockValidationError}>
-                  <AlertCircle size={16} style={{ flexShrink: 0 }} />
-                  <span>{validationError}</span>
-                </div>
-              )}
-
-              {/* Bottom Action Dock */}
-              <div className={styles.actionDock}>
-                {currentStage > 1 ? (
-                  <button type="button" className={styles.backActionBtn} onClick={handleBack}>
-                    <ChevronLeft size={16} />
-                    <span>Previous Stage</span>
-                  </button>
-                ) : (
-                  <div />
-                )}
-
-                <div className={styles.stepIndicators}>
-                  {stages.map((st) => (
-                    <div
-                      key={st.id}
-                      className={`${styles.stepDot} ${st.id === currentStage ? styles.active : ""} ${st.id < currentStage ? styles.completed : ""}`}
-                    />
-                  ))}
-                </div>
-
-                <button type="button" className={styles.continueActionBtn} onClick={handleNext}>
-                  <span>{currentStage === stages.length ? "Submit & Send to Sujitha" : "Save & Continue"}</span>
-                  {currentStage === stages.length ? <Send size={16} /> : <ChevronRight size={16} />}
+                {/* 9. Button: Complete My Assessment → */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={styles.submitBtn}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Sparkles size={18} className="animate-spin" /> Saving Your Assessment...
+                    </>
+                  ) : (
+                    <>
+                      Complete My Assessment <ArrowRight size={18} />
+                    </>
+                  )}
                 </button>
-              </div>
+              </form>
             </div>
-          </>
+          </motion.main>
         ) : (
-          /* =========================================================
-             SUCCESS & NEXT STEPS SANCTUARY SCREEN (LUXURY REDESIGN)
-             ========================================================= */
-          <div className={styles.successSanctuaryCard}>
-            {/* Top Success Icon & Eyebrow */}
+          /* 10. Thank You Message (Replaces form after success) */
+          <motion.div
+            key="thank-you-screen"
+            initial={{ opacity: 0, scale: 0.94, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className={styles.successCard}
+          >
             <div className={styles.successIconWrap}>
-              <CheckCircle2 size={38} />
+              <CheckCircle2 size={42} strokeWidth={2.4} />
             </div>
 
-            <div className={styles.successEyebrowPill}>
-              <Sparkles size={13} className={styles.sparkleGold} />
-              <span>INTAKE RECORDED &amp; SYNCHRONIZED</span>
-            </div>
-
-            <h1 className={styles.successTitle}>
-              Your Clinical Sanctuary is Ready, <br />
-              <em>{formData.fullName}.</em>
-            </h1>
-
-            <p className={styles.successDesc}>
-              Your 13-point baseline measurements, metabolic indicators, and food routines have been saved to your personal ChatHeal profile. Choose your next step below:
+            <h2 className={styles.successTitle}>Assessment Received!</h2>
+            <p className={styles.successSubtitle}>
+              Thank you, <strong>{fullName}</strong>! Sujitha and the ChatHeal clinical wellness team have received your baseline assessment. We will curate your tailored nutrition plan.
             </p>
 
-            {/* Vitals Snapshot Summary Strip */}
-            <div className={styles.successVitalsStrip}>
-              <div className={styles.successVitalItem}>
-                <span className={styles.successVitalLabel}>Calculated BMI</span>
-                <strong className={styles.successVitalValue}>
-                  {bmi ? bmi.toFixed(1) : "--.-"}
-                </strong>
-                <small className={styles.successVitalSub}>{bmiCategory}</small>
+            {/* Submission Summary Box */}
+            <div className={styles.summaryBox}>
+              <div className={styles.summaryHeader}>
+                <h4>Intake Summary</h4>
+                <span className={styles.badgePill}>
+                  <Check size={12} /> Verified
+                </span>
               </div>
 
-              <div className={styles.successVitalItem}>
-                <span className={styles.successVitalLabel}>Measurements</span>
-                <strong className={styles.successVitalValue}>
-                  {formData.weightKg} kg · {formData.heightCm} cm
-                </strong>
-                <small className={styles.successVitalSub}>
-                  {formData.bloodGroup ? `Blood: ${formData.bloodGroup}` : "Standard Baseline"}
-                </small>
+              <div className={styles.summaryGrid}>
+                <div className={styles.summaryItem}>
+                  <label>Client</label>
+                  <span>{fullName} ({age} yrs, {gender})</span>
+                </div>
+                <div className={styles.summaryItem}>
+                  <label>WhatsApp</label>
+                  <span>+91 {whatsApp}</span>
+                </div>
+                <div className={styles.summaryItem}>
+                  <label>Height & Weight</label>
+                  <span>{heightCm} cm · {weightKg} kg</span>
+                </div>
+                <div className={styles.summaryItem}>
+                  <label>Dietary Lifestyle</label>
+                  <span>{foodPrefTitle}</span>
+                </div>
               </div>
 
-              <div className={styles.successVitalItem}>
-                <span className={styles.successVitalLabel}>Diet &amp; Sleep Rhythm</span>
-                <strong className={styles.successVitalValue}>
-                  {formData.dietType || "Whole Food"}
-                </strong>
-                <small className={styles.successVitalSub}>
-                  {formData.totalSleepHours ? `${formData.totalSleepHours} hrs/night` : "Circadian Care"}
-                </small>
-              </div>
-
-              <div className={styles.successVitalItem}>
-                <span className={styles.successVitalLabel}>Primary Target</span>
-                <strong className={styles.successVitalValue} style={{ fontSize: "13.5px", lineHeight: "1.3" }}>
-                  {formData.mainGoal || "Personalized Nutrition"}
-                </strong>
-                <small className={styles.successVitalSub}>Active Focus</small>
+              <div style={{ marginTop: "16px" }}>
+                <div className={styles.summaryItem}>
+                  <label>Selected Goals</label>
+                  <div className={styles.tagsRow}>
+                    {selectedGoals.map((g) => {
+                      const t = WELLNESS_GOALS.find((item) => item.id === g)?.title;
+                      return <span key={g} className={styles.tagPill}>{t}</span>;
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Dual Next-Steps Action Cards */}
-            <div className={styles.successDualActions}>
-              {/* Card 1: Open Member Portal */}
-              <div className={styles.successActionCard}>
-                <div className={styles.successActionBadge}>
-                  <Sparkles size={12} />
-                  <span>Interactive Member Dashboard</span>
-                </div>
-                <h3>Explore Your Wellness Space</h3>
-                <p>
-                  View your daily hydration ring, log nutritious meals, track consistency, and access longevity articles personalized to you.
-                </p>
-                <Link href="/wellness" className={styles.btnLaunchPortalAction}>
-                  <span>Open Your Dashboard</span>
-                  <ArrowRight size={16} />
-                </Link>
-              </div>
-
-              {/* Card 2: Send on WhatsApp */}
-              <div className={`${styles.successActionCard} ${styles.successActionCardWhatsapp}`}>
-                <div className={styles.successActionBadgeWhatsapp}>
-                  <Send size={12} />
-                  <span>Clinical Founder Connect</span>
-                </div>
-                <h3>Transmit to Dietitian Sujitha C.</h3>
-                <p>
-                  Send your pre-formatted 13-point clinical assessment to Sujitha’s verified line (+91 82488 62343) for 1-on-1 video onboarding.
-                </p>
-                <a
-                  href={`https://wa.me/918248862343?text=${encodeURIComponent(formatWhatsAppText())}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.btnWhatsappAction}
-                >
-                  <Send size={16} />
-                  <span>Send via WhatsApp (+91 82488 62343)</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Secondary Utility Actions */}
-            <div className={styles.secondaryActionsRow}>
-              <button type="button" className={styles.secActionBtn} onClick={copyToClipboard}>
-                {copied ? <Check size={16} /> : <Copy size={16} />}
-                <span>{copied ? "Copied to Clipboard!" : "Copy Full Summary"}</span>
-              </button>
-
-              <button
-                type="button"
-                className={styles.secActionBtn}
-                onClick={() => window.print()}
+            {/* Actions */}
+            <div className={styles.successActions}>
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.whatsappCta}
               >
-                <Printer size={16} />
-                <span>Print / Save PDF</span>
-              </button>
-
-              <button
-                type="button"
-                className={styles.secActionBtn}
-                onClick={() => setIsSubmitted(false)}
-              >
-                <RotateCcw size={16} />
-                <span>Edit / Review Responses</span>
-              </button>
-
-              <Link href="/health-assessment" className={styles.secActionBtn}>
-                <ClipboardCheck size={16} />
-                <span>View Full Clinical Profile</span>
+                <MessageCircle size={20} /> Connect with Sujitha on WhatsApp <ExternalLink size={15} />
+              </a>
+              <Link href="/" className={styles.secondaryReturnBtn}>
+                <ArrowLeft size={16} /> Return to Home
               </Link>
             </div>
-
-            <div style={{ marginTop: "24px" }}>
-              <Link href="/wellness" className={styles.returnPortalBtn}>
-                <ChevronLeft size={16} />
-                <span>Return to Member Portal</span>
-              </Link>
-            </div>
-          </div>
+          </motion.div>
         )}
-      </div>
-    </main>
+      </AnimatePresence>
+    </div>
   );
 }
