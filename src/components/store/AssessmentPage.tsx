@@ -274,7 +274,9 @@ export default function AssessmentPage() {
               <Sparkles size={13} /> Quick Intake
             </span>
             <Link href="/contact" className={styles.returnBtn}>
-              <ArrowLeft size={15} /> Return to Portal
+              <ArrowLeft size={14} />
+              <span className={styles.returnBtnTextFull}>Return to Portal</span>
+              <span className={styles.returnBtnTextShort}>Portal</span>
             </Link>
           </div>
         </div>

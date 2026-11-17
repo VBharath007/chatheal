@@ -111,6 +111,7 @@
   text-decoration: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .returnBtn:hover {
@@ -118,6 +119,14 @@
   color: #166a50;
   border-color: #166a50;
   transform: translateX(-2px);
+}
+
+.returnBtnTextFull {
+  display: inline;
+}
+
+.returnBtnTextShort {
+  display: none;
 }
 
 /* Page Intro Container */
@@ -206,10 +215,106 @@
 }
 
 @media (max-width: 640px) {
+  .headerInner {
+    padding: 10px 16px;
+    gap: 12px;
+  }
+
+  .brandLogo {
+    height: 36px;
+    width: auto;
+  }
+
+  .badgePill {
+    display: none; /* Hide redundant header badge on mobile to prevent clutter & ugly wrapping */
+  }
+
+  .returnBtn {
+    padding: 6px 12px;
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .returnBtnTextFull {
+    display: none;
+  }
+
+  .returnBtnTextShort {
+    display: inline;
+  }
+
+  /* Intro Section Mobile Optimization */
+  .introContainer {
+    margin: 22px auto 18px;
+    padding: 0 16px;
+  }
+
+  .introKicker {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .mainTitle {
+    font-size: clamp(21px, 5.8vw, 26px);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+  }
+
+  .mainDesc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 auto 14px;
+    color: #556c60;
+  }
+
+  .guaranteeRow {
+    gap: 6px 8px;
+    margin-top: 10px;
+  }
+
+  .guaranteeChip {
+    font-size: 11px;
+    padding: 4px 9px;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Form Card Mobile */
   .formCard {
-    padding: 24px 18px;
+    padding: 22px 16px;
     border-radius: 20px;
-    margin: 0 12px;
+    margin: 0 10px;
+    box-shadow: 0 10px 30px -10px rgba(22, 63, 44, 0.08);
+  }
+
+  .section {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+
+  .sectionHeader {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .sectionNumber {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 11.5px;
+  }
+
+  .sectionHeaderText h3 {
+    font-size: 16.5px;
+    margin-bottom: 2px;
+  }
+
+  .sectionHeaderText p {
+    font-size: 12.5px;
   }
 }
 
