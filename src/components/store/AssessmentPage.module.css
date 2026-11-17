@@ -437,41 +437,57 @@
 /* Section 2: Height & Weight */
 .heightWeightGrid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
+  align-items: flex-start;
 }
 
 @media (max-width: 640px) {
   .heightWeightGrid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 
-.heightHeaderRow {
+.fieldHeaderRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  min-height: 32px;
+  margin-bottom: 8px;
+}
+
+.fieldHeaderRow .label {
+  margin: 0;
+  line-height: 1;
 }
 
 .unitToggleGroup {
   display: inline-flex;
+  align-items: center;
   background: #eaf3e7;
   border: 1px solid #d2e4d4;
   border-radius: 30px;
   padding: 2px;
+  height: 28px;
+  box-sizing: border-box;
 }
 
 .unitToggleBtn {
   border: none;
   background: transparent;
-  padding: 4px 11px;
-  border-radius: 24px;
+  padding: 0 11px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 20px;
   font-size: 11.5px;
   font-weight: 700;
   color: #4b6859;
   cursor: pointer;
   transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .unitToggleBtnActive {

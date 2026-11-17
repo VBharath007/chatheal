@@ -421,8 +421,10 @@ export default function AssessmentPage() {
 
                   <div className={styles.heightWeightGrid}>
                     <div className={styles.formGroup}>
-                      <div className={styles.heightHeaderRow}>
-                        <label className={styles.label}>Height</label>
+                      <div className={styles.fieldHeaderRow}>
+                        <label className={styles.label}>
+                          Height <span className={styles.requiredStar}>*</span>
+                        </label>
                         <div className={styles.unitToggleGroup}>
                           <button
                             type="button"
@@ -482,7 +484,12 @@ export default function AssessmentPage() {
                     </div>
 
                     <div className={styles.formGroup}>
-                      <label className={styles.label}>Weight</label>
+                      <div className={styles.fieldHeaderRow}>
+                        <label className={styles.label}>
+                          Weight <span className={styles.requiredStar}>*</span>
+                        </label>
+                        <span className={styles.labelHint}>Standard (kg)</span>
+                      </div>
                       <div className={styles.unitSuffixWrap}>
                         <input
                           type="number"
