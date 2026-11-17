@@ -263,8 +263,8 @@ export default function AssessmentPage() {
             <Image
               src="/logo.png"
               alt="ChatHeal - Wellness by Sujitha"
-              width={160}
-              height={44}
+              width={180}
+              height={52}
               className={styles.brandLogo}
               priority
             />
