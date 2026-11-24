@@ -413,7 +413,7 @@ export default function ClientAuthScreen({
                             <span>Filled (password123)</span>
                           </>
                         ) : (
-                          <span>Fill Demo (password123)</span>
+                          <span>Quick Fill (password123)</span>
                         )}
                       </button>
 
@@ -533,7 +533,7 @@ export default function ClientAuthScreen({
                       onClick={() => setSelectedPlan("starter")}
                     >
                       <div className={styles.planOptionHeader}>
-                        <strong>Free Demo</strong>
+                        <strong>Starter Access</strong>
                       </div>
                       <small className={styles.planOptionSub}>Explore portal</small>
                     </button>

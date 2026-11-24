@@ -359,7 +359,7 @@ export default function Portal({
               <span className="top-divider" />
               <span className="status-dot" />
               <span className="top-status">
-                {demo ? "Demo Workspace" : "Sync Active"}
+                Sync Active
               </span>
               <span className="avatar small" title={user.name}>
                 {user.name.slice(0, 1)}
@@ -367,24 +367,6 @@ export default function Portal({
             </div>
           </header>
           <main>
-            {demo && (
-              <div className="demo-banner">
-                
-                <span>
-                  <strong>Interactive Wellness Space:</strong> Sample meals,
-                  personalized caloric goals, and telehealth check-ins.
-                </span>
-                <button
-                  onClick={() => {
-                    localStorage.removeItem("chatheal-demo-v1");
-                    refresh();
-                    setNotice("Demo space reset");
-                  }}
-                >
-                  Reset Demo
-                </button>
-              </div>
-            )}
             <AnimatePresence>
               {error && (
                 <motion.div
