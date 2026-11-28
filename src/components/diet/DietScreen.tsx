@@ -122,7 +122,6 @@ export default function DietScreen() {
   const [confirmed, setConfirmed] = useState(false);
 
   useEffect(() => {
-    if (demo) return;
     let active = true;
     setBusy(true);
     setData(null);
@@ -216,23 +215,6 @@ export default function DietScreen() {
       submit
         ? "Submitted. Your coach can now view and download your report."
         : "Draft saved. Return later to finish and submit.",
-    );
-  }
-
-  if (demo) {
-    return (
-      <section className="diet">
-        <div className="diet-card diet-empty-card">
-          <div className="diet-empty-icon">
-            <Utensils size={26} />
-          </div>
-          <h3>My Diet Plan</h3>
-          <p>
-            Sign in with the client account created by your coach to see your
-            assigned meals and submit your daily nourishment report.
-          </p>
-        </div>
-      </section>
     );
   }
 
