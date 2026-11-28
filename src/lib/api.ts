@@ -267,6 +267,20 @@ export async function api(
       ),
       name: db.users.find((u: RecordData) => u.id === a.user_id)?.name,
     }));
+  } else if (type === "assessment") {
+    if (method === "PUT" && body) {
+      try {
+        localStorage.setItem("chatheal_client_assessment", JSON.stringify(body));
+      } catch {}
+      result = body;
+    } else {
+      try {
+        const raw = localStorage.getItem("chatheal_client_assessment");
+        result = raw ? JSON.parse(raw) : null;
+      } catch {
+        result = null;
+      }
+    }
   } else if (type === "live-sessions") {
     if (action === "join") {
       const s = db.live.find((x: RecordData) => x.id === id);
