@@ -86,12 +86,14 @@ export function Modal({
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const closeRef = useRef(close);
+  closeRef.current = close;
 
   useEffect(() => {
     const old = document.activeElement as HTMLElement;
     ref.current?.focus();
     const listener = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") closeRef.current();
       if (e.key === "Tab") {
         const nodes = ref.current?.querySelectorAll<HTMLElement>(
           'button,input,select,textarea,a[href],[tabindex="0"]',
@@ -116,7 +118,7 @@ export function Modal({
       document.body.style.overflow = overflow;
       old?.focus();
     };
-  }, [close]);
+  }, []);
 
   return (
     <div className="modal-backdrop" onClick={close} role="presentation">

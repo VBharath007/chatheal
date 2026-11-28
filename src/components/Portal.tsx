@@ -37,6 +37,7 @@ import {
 import { api, demoUser } from "@/lib/api";
 import ClientAuthScreen from "./screens/ClientAuthScreen";
 import LogMealModal from "./screens/LogMealModal";
+import LiveMeetingRoom from "./LiveMeetingRoom";
 const imageHero = "/images/hero.jpg";
 const fmt = (s: string) =>
   new Date(s).toLocaleString("en-IN", {
@@ -50,6 +51,7 @@ const userNav = [
   ["Overview", "/wellness", LayoutDashboard],
   ["Health Assessment", "/health-assessment", ClipboardCheck],
   ["Food diary", "/diary", Utensils],
+  ["My diet plan", "/diet", Utensils],
   ["Discover", "/discover", BookOpen],
   ["Appointments", "/appointments", CalendarDays],
   ["Live sessions", "/sessions", Video],
@@ -419,6 +421,7 @@ export default function Portal({
                         appointments: "Make time for yourself.",
                         sessions: "Your coach, a little closer.",
                         progress: "Look how far you’ve come.",
+                        diet: "Your plan. One day at a time.",
                         settings: "Make this space your own.",
                       } as Record<string, string>
                     )[section] || "Page not found"}
@@ -495,7 +498,7 @@ export default function Portal({
           busy={busy}
         />
 
-        {modal && modal !== "food" && (
+        {modal && modal !== "food" && modal !== "join" && (
           <Modal
             title={
               (
@@ -933,15 +936,15 @@ export default function Portal({
                 </button>
               </>
             )}
-            {modal === "join" && (
-              <iframe
-                className="meeting-frame"
-                title="Live wellness session"
-                src={joinUrl}
-                allow="camera; microphone; fullscreen; display-capture"
-              />
-            )}
           </Modal>
+        )}
+        {modal === "join" && (
+          <LiveMeetingRoom
+            session={selected}
+            userName={user.name}
+            isAdmin={admin}
+            onLeave={() => setModal("")}
+          />
         )}
       </div>
     </PortalContext.Provider>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { api } from "@/lib/api";
+import HealthAssessmentEditor from "./HealthAssessmentEditor";
 import {
   ClipboardCheck,
   Activity,
@@ -133,6 +135,7 @@ export default function HealthAssessmentScreen() {
   const [data, setData] = useState<AssessmentRecord | null>(null);
   const [copied, setCopied] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -141,22 +144,46 @@ export default function HealthAssessmentScreen() {
         try {
           const parsed = JSON.parse(saved);
           setData(parsed);
+          api("/assessment", "PUT", parsed).catch(() => {});
           return;
         } catch {}
       }
-      // If no explicit assessment is saved, check if user profile exists
-      if (user && (user.weight || user.name)) {
-        setData({
-          fullName: user.name,
-          weightKg: String(user.weight || "68"),
-          heightCm: String(user.height || "165"),
-          bloodGroup: "O+ (Baseline)",
-          dietType: "Vegetarian",
-          totalSleepHours: "7.5",
-          mainGoal: "Personalized Whole-Food Nutrition & Energy Reset",
-          submittedAt: new Date().toISOString(),
+      api("/assessment", "GET")
+        .then((remote) => {
+          if (remote && typeof remote === "object") {
+            setData(remote);
+            try {
+              localStorage.setItem("chatheal_client_assessment", JSON.stringify(remote));
+            } catch {}
+            return;
+          }
+          if (user && (user.weight || user.name)) {
+            setData({
+              fullName: user.name,
+              weightKg: String(user.weight || "68"),
+              heightCm: String(user.height || "165"),
+              bloodGroup: "O+ (Baseline)",
+              dietType: "Vegetarian",
+              totalSleepHours: "7.5",
+              mainGoal: "Personalized Whole-Food Nutrition & Energy Reset",
+              submittedAt: new Date().toISOString(),
+            });
+          }
+        })
+        .catch(() => {
+          if (user && (user.weight || user.name)) {
+            setData({
+              fullName: user.name,
+              weightKg: String(user.weight || "68"),
+              heightCm: String(user.height || "165"),
+              bloodGroup: "O+ (Baseline)",
+              dietType: "Vegetarian",
+              totalSleepHours: "7.5",
+              mainGoal: "Personalized Whole-Food Nutrition & Energy Reset",
+              submittedAt: new Date().toISOString(),
+            });
+          }
         });
-      }
     }
   }, [user]);
 
@@ -263,6 +290,22 @@ export default function HealthAssessmentScreen() {
   const isVisible = (sectionName: string) =>
     activeFilter === "all" || activeFilter === sectionName;
 
+  if (editing && data) {
+    return (
+      <PageTransition>
+        <HealthAssessmentEditor
+          initialData={data}
+          userName={user?.name}
+          onCancel={() => setEditing(false)}
+          onSave={(updated) => {
+            setData(updated);
+            setEditing(false);
+          }}
+        />
+      </PageTransition>
+    );
+  }
+
   return (
     <PageTransition>
       <div className={styles.container}>
@@ -275,7 +318,7 @@ export default function HealthAssessmentScreen() {
                 CLINICAL HEALTH PROFILE &amp; ASSESSMENT
               </span>
               <h1 className={styles.heroHeading}>
-                {data.fullName || user?.name || "Client"}&rsquo;s Assessment Baseline
+                {user?.name || data.fullName || "Client"}&rsquo;s Assessment Baseline
               </h1>
               <p className={styles.heroSubtitle}>
                 Your complete 13-point anthropometric measurements, circadian sleep rhythm, digestive health history, and nutrition schedule recorded and verified with Dietitian Sujitha C.
@@ -322,14 +365,15 @@ export default function HealthAssessmentScreen() {
 
             {/* Action Buttons Toolbar */}
             <div className={styles.actionToolbar}>
-              <Link
-                href="/assessment?edit=true"
+              <button
+                type="button"
+                onClick={() => setEditing(true)}
                 className={styles.btnActionSecondary}
                 title="Update your assessment measurements and routines"
               >
                 <Edit3 size={15} />
                 <span>Update Responses</span>
-              </Link>
+              </button>
 
               <a
                 href={`https://wa.me/918248862343?text=${encodeURIComponent(formatWhatsAppText())}`}
@@ -1010,10 +1054,14 @@ export default function HealthAssessmentScreen() {
                   </div>
                 </div>
 
-                <Link href="/assessment?edit=true" className={styles.btnActionSecondary}>
+                <button
+                  type="button"
+                  onClick={() => setEditing(true)}
+                  className={styles.btnActionSecondary}
+                >
                   <RotateCcw size={14} />
                   <span>Update Any Response</span>
-                </Link>
+                </button>
               </div>
             </FadeUp>
           )}

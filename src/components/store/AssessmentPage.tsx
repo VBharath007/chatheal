@@ -3,6 +3,7 @@
 import { useState, useId } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { api } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -220,6 +221,7 @@ export default function AssessmentPage() {
       localStorage.setItem("chatheal_client_assessment", JSON.stringify(submissionData));
       localStorage.setItem("chatheal_quick_assessment", JSON.stringify(submissionData));
     } catch {}
+    api("/assessment", "PUT", submissionData).catch(() => {});
 
     setTimeout(() => {
       setIsSubmitting(false);
@@ -266,6 +268,7 @@ export default function AssessmentPage() {
               width={260}
               height={78}
               className={styles.brandLogo}
+              style={{ width: "auto" }}
               priority
             />
           </Link>

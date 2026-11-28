@@ -153,7 +153,7 @@ export default function OverviewScreen() {
                   </HeroText>
 
                   <HeroText as="h2" delay={0.3}>
-                    {timeGreeting}, <em>{assessment?.fullName || user?.name || "Member"}.</em>
+                    {timeGreeting}, <em>{user?.name || assessment?.fullName || "Member"}.</em>
                   </HeroText>
 
                   <HeroText as="p" delay={0.38}>

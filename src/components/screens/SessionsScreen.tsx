@@ -6,10 +6,14 @@ import {
   Camera,
   CheckCircle2,
   Clock,
+  Copy,
+  Check,
+  ExternalLink,
   Mic,
   ShieldCheck,
   Video,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   PageTransition,
   FadeUp,
@@ -32,8 +36,29 @@ const fmt = (s: string) =>
   });
 
 export default function SessionsScreen() {
-  const { admin, section, setError, sessions, setModal, setJoinUrl, call } =
+  const { admin, section, setError, sessions, setModal, setJoinUrl, call, open } =
     usePortal();
+  const [copiedId, setCopiedId] = useState("");
+  const [highlightedId, setHighlightedId] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const sid = params.get("session");
+    const matched = sid ? sessions.find((x) => x.id === sid) : undefined;
+    if (!sid || !matched) return;
+    setHighlightedId(sid);
+    call("/live-sessions/" + sid + "/join")
+      .then((result) => {
+        if (result.external) {
+          window.open(result.url, "_blank", "noopener,noreferrer");
+        } else {
+          setJoinUrl(result.url);
+          open("join", matched);
+        }
+      })
+      .catch((e) => setError((e as Error).message));
+  }, [sessions.length]);
 
   return (
     <>
@@ -164,7 +189,7 @@ export default function SessionsScreen() {
                         className="pill"
                         style={{ fontWeight: 700, fontSize: "10px" }}
                       >
-                        PERSONAL SESSION
+                        {s.category_name ? s.category_name.toUpperCase() : "PERSONAL SESSION"}
                       </span>
                       <div
                         style={{
@@ -218,31 +243,57 @@ export default function SessionsScreen() {
                           verticalAlign: "middle",
                         }}
                       />
-                      {s.minutes} minutes · 1-on-1 personal check-in
+                      {s.minutes} minutes · {s.category_name ? `${s.category_name} Group Session` : "1-on-1 personal check-in"}
                     </p>
 
-                    <AnimatedButton
-                      className="btn primary wide"
-                      onClick={async () => {
-                        try {
-                          const result = await call(
-                            "/live-sessions/" + s.id + "/join",
-                          );
-                          setJoinUrl(result.url);
-                          setModal("join");
-                        } catch (e) {
-                          setError((e as Error).message);
-                        }
-                      }}
-                    >
-                      <Camera size={16} />
-                      Join Live Room
-                    </AnimatedButton>
+                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                      <AnimatedButton
+                        className="btn primary wide"
+                        style={{ flex: 1 }}
+                        onClick={async () => {
+                          try {
+                            const result = await call(
+                              "/live-sessions/" + s.id + "/join",
+                            );
+                            if (result.external) {
+                              window.open(result.url, "_blank", "noopener,noreferrer");
+                            } else {
+                              setJoinUrl(result.url);
+                              open("join", s);
+                            }
+                          } catch (e) {
+                            setError((e as Error).message);
+                          }
+                        }}
+                      >
+                        <Camera size={16} />
+                        Join Live Room
+                      </AnimatedButton>
+
+                      <button
+                        type="button"
+                        className="btn secondary"
+                        title="Copy meeting link"
+                        onClick={() => {
+                          const link =
+                            s.meeting_url ||
+                            `${window.location.origin}/sessions?session=${s.id}`;
+                          navigator.clipboard.writeText(link);
+                          setCopiedId(s.id);
+                          setTimeout(() => setCopiedId(""), 2000);
+                        }}
+                        style={{ padding: "0 14px" }}
+                      >
+                        {copiedId === s.id ? <Check size={15} /> : <Copy size={15} />}
+                      </button>
+                    </div>
 
                     <small
                       style={{ marginTop: "12px", color: "var(--muted-light)" }}
                     >
-                      Room access opens 10 minutes prior to session
+                      {highlightedId === s.id
+                        ? "Ready to join your category live session"
+                        : "Room access opens 10 minutes prior to session"}
                     </small>
                   </motion.section>
                 </StaggerItem>

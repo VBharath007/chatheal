@@ -1,0 +1,687 @@
+.diet {
+  --diet-accent: #0d7261;
+  --diet-accent-soft: #e6f6f1;
+  --diet-border: rgba(13, 114, 97, 0.14);
+  display: grid;
+  gap: 20px;
+  color: var(--ink, #0f2b25);
+  min-width: 0;
+  width: 100%;
+}
+
+.diet * {
+  box-sizing: border-box;
+}
+
+/* Override global chart .bar collision cleanly */
+.diet .bar {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-end !important;
+  gap: 12px !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  transition: none !important;
+}
+
+.diet .bar:hover {
+  background: transparent !important;
+}
+
+/* Cards */
+.diet .diet-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #ffffff;
+  border-radius: 22px;
+  padding: 26px 28px;
+  box-shadow: 0 10px 30px -10px rgba(15, 43, 37, 0.08), 0 0 0 1px var(--diet-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  min-width: 0;
+}
+
+.diet .diet-hero-card {
+  background: linear-gradient(135deg, rgba(244, 251, 247, 0.96) 0%, rgba(255, 255, 255, 0.94) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.diet-hero-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.diet h2 {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  color: #0f2b25;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.diet h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f2b25;
+  margin: 0 0 10px;
+}
+
+.diet p {
+  margin: 0 0 12px;
+}
+
+.diet small,
+.diet .hint {
+  color: #5b756e;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Pill badges */
+.diet .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--diet-accent-soft);
+  color: var(--diet-accent);
+  border: 1px solid rgba(13, 114, 97, 0.16);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.diet .pill-category {
+  background: #eff6ff;
+  color: #0265dc;
+  border-color: rgba(2, 101, 220, 0.18);
+  height: 44px;
+  padding: 0 16px;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+/* Date Toolbar */
+.diet-date-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(13, 114, 97, 0.1);
+}
+
+.diet-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 0 1 240px;
+  min-width: 190px;
+}
+
+.diet-date-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a665f;
+}
+
+.diet label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #274740;
+  flex: 1;
+  min-width: 140px;
+}
+
+.diet input,
+.diet select,
+.diet textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1.5px solid #d4e3dc;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f2b25;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.diet input:focus,
+.diet select:focus,
+.diet textarea:focus {
+  outline: none;
+  border-color: var(--diet-accent);
+  box-shadow: 0 0 0 3px rgba(13, 114, 97, 0.14);
+}
+
+.diet select option {
+  background: #ffffff;
+  color: #0f2b25;
+}
+
+.diet textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+/* Buttons */
+.diet button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1.5px solid #cde0d7;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #164036;
+  padding: 10px 18px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 650;
+  cursor: pointer;
+  min-height: 44px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.diet button:hover:not(:disabled) {
+  background: #f3faf6;
+  border-color: #9ec8b8;
+  transform: translateY(-1px);
+}
+
+.diet button.primary,
+.diet button[aria-pressed="true"] {
+  background: linear-gradient(135deg, #0d7261 0%, #0f9f8c 100%);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(13, 114, 97, 0.24);
+}
+
+.diet button.primary:hover:not(:disabled),
+.diet button[aria-pressed="true"]:hover:not(:disabled) {
+  opacity: 0.94;
+  background: linear-gradient(135deg, #09594b 0%, #0d8575 100%);
+}
+
+.diet button.diet-today-btn {
+  flex-shrink: 0;
+  background: #f7fbf9;
+}
+
+.diet button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.diet button:focus-visible,
+.diet input:focus-visible,
+.diet select:focus-visible,
+.diet textarea:focus-visible {
+  outline: 3px solid #52bba7;
+  outline-offset: 2px;
+}
+
+/* Empty State Card */
+.diet-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 44px 24px !important;
+  gap: 10px;
+}
+
+.diet-empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #e6f6f1 0%, #d1fae5 100%);
+  color: #0d7261;
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+  box-shadow: 0 6px 16px rgba(13, 114, 97, 0.12);
+}
+
+.diet-empty-card h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #0f2b25;
+}
+
+.diet-empty-card p {
+  max-width: 460px;
+  margin: 0;
+  color: #5b756e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Meal Header & Items */
+.diet-plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(13, 114, 97, 0.12);
+}
+
+.diet-meal-section {
+  margin-top: 22px;
+}
+
+.diet-meal-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  color: #0d7261 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px !important;
+}
+
+.diet .item {
+  padding: 18px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background: #fbfdfc;
+  border: 1px solid #e3ece7;
+}
+
+.diet .item:last-child {
+  margin-bottom: 0;
+}
+
+.diet-item-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f2b25;
+  margin-bottom: 4px;
+}
+
+.diet-status-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.diet-status-group button {
+  flex: 1 1 130px;
+  font-size: 13px;
+  padding: 9px 12px;
+}
+
+.diet-qty-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* Tabs & Grid */
+.diet .tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px;
+}
+
+.diet .tabs button {
+  white-space: nowrap;
+}
+
+.diet .grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Status Alerts */
+.diet .message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.diet .message.error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.diet-loading-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #f0fdf4;
+  color: #0d7261;
+  font-size: 13px;
+  font-weight: 600;
+  width: fit-content;
+}
+
+/* Extras & Sticky Footer */
+.diet-extra-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.diet .check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 16px;
+  cursor: pointer;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #274740;
+}
+
+.diet .check input {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: #0d7261;
+}
+
+.diet .sticky {
+  position: sticky;
+  bottom: 14px;
+  z-index: 10;
+  background: rgba(242, 249, 245, 0.95);
+  border: 1.5px solid rgba(13, 114, 97, 0.22);
+  box-shadow: 0 14px 36px -8px rgba(15, 43, 37, 0.16);
+}
+
+.diet-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.diet .member {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #8aaa9e40;
+}
+
+.diet .member span {
+  overflow-wrap: anywhere;
+}
+
+.diet fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.diet .spaced {
+  margin-top: 14px;
+}
+
+/* =========================================================
+   TABLET RESPONSIVE (<= 1024px)
+   ========================================================= */
+@media (max-width: 1024px) {
+  .diet .diet-card {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .diet-extra-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .diet-extra-row > label:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE (<= 640px)
+   ========================================================= */
+@media (max-width: 640px) {
+  .diet {
+    gap: 14px;
+  }
+
+  .diet .diet-card {
+    padding: 18px 16px;
+    border-radius: 18px;
+  }
+
+  .diet h2 {
+    font-size: 22px;
+  }
+
+  .diet-date-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .diet-date-field {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+
+  .diet button.diet-today-btn,
+  .diet .pill-category {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .diet .grid,
+  .diet-qty-row,
+  .diet-extra-row,
+  .diet .member {
+    grid-template-columns: 1fr;
+  }
+
+  .diet label {
+    min-width: 100%;
+  }
+
+  .diet-status-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .diet .item {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .diet .sticky {
+    position: static;
+  }
+
+  .diet-actions-row {
+    flex-direction: column;
+  }
+
+  .diet-actions-row button {
+    width: 100%;
+  }
+
+  .diet-empty-card {
+    padding: 32px 18px !important;
+  }
+}
+
+/* =========================================================
+   MEAL PHOTO UPLOAD & NUTRITION MACROS GRID
+   ========================================================= */
+.diet-nutrition-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #f4faf7;
+  border: 1px dashed rgba(13, 114, 97, 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.diet-nutrition-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.diet-nutrition-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #0d7261;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.diet-macros-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.diet-macros-grid label {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.diet-macros-grid input {
+  min-height: 40px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.diet-photo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.diet-photo-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1.5px dashed rgba(13, 114, 97, 0.4);
+  background: #ffffff;
+  color: #0d7261;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  min-height: 42px;
+  transition: all 0.18s ease;
+}
+
+.diet-photo-upload-btn:hover {
+  background: #e6f6f1;
+  border-color: #0d7261;
+}
+
+.diet-photo-preview-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #d4e3dc;
+}
+
+.diet-photo-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #e3ece7;
+}
+
+.diet-photo-remove {
+  min-height: 32px !important;
+  padding: 4px 10px !important;
+  font-size: 12px !important;
+  color: #b91c1c !important;
+  border-color: #fecaca !important;
+  background: #fef2f2 !important;
+}
+
+.diet-photo-toggle-btn {
+  min-height: 36px !important;
+  padding: 6px 12px !important;
+  font-size: 12.5px !important;
+  border-radius: 999px !important;
+}
+
+@media (max-width: 1024px) {
+  .diet-macros-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .diet-macros-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+

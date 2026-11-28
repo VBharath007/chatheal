@@ -558,6 +558,7 @@ small {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 0 40px;
   border-bottom: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.82);
@@ -579,12 +580,42 @@ small {
 
 .breadcrumb {
   color: var(--muted);
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
 }
 
 .breadcrumb b {
   color: var(--ink);
   font-weight: 600;
   font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.topbar-right {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 12px !important;
+    gap: 8px !important;
+  }
+  .breadcrumb {
+    gap: 8px !important;
+  }
+  .breadcrumb b {
+    font-size: 14px;
+  }
+  .topbar-right {
+    gap: 8px !important;
+  }
+  .ch-member-tools {
+    gap: 6px !important;
+  }
 }
 
 /* Brand & Logo Sizing */

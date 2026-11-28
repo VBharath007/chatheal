@@ -84,7 +84,7 @@ export default function ClientAuthScreen({
   const [demoFilledToast, setDemoFilledToast] = useState(false);
 
   const defaultEmail = admin ? "coach@chatheal.local" : "client@chatheal.local";
-  const defaultPassword = "password123";
+  const defaultPassword = "ChatHeal@2026";
   const defaultPhone = "+91 98765 43210";
 
   // Preload default credentials if empty so Continue works with zero friction
@@ -122,27 +122,14 @@ export default function ClientAuthScreen({
     const emailValue = (form.email || "").trim();
     const passwordValue = (form.password || "").trim();
 
-    // Any demo user, default credentials, local account, mobile tab, or empty form -> instant seamless demo login
-    const isDemo =
-      !emailValue ||
-      emailValue === defaultEmail ||
-      emailValue === defaultPhone ||
-      emailValue.includes("chatheal.local") ||
-      emailValue.includes("demo") ||
-      emailValue.includes("test") ||
-      emailValue.includes("local") ||
-      activeTab === "mobile";
-
-    if (isDemo) {
-      handleLaunchDemo();
-      setBusy(false);
-      return;
+    if (activeTab === "mobile") {
+      setError("Please sign in with your coach-provided email and password. Mobile sign-in is not connected.");
+      setBusy(false); return;
     }
-
     try {
       const payload = {
         email: emailValue,
-        password: passwordValue || defaultPassword,
+        password: passwordValue,
       };
 
       const u = await api("/auth/login", "POST", payload);
@@ -159,16 +146,6 @@ export default function ClientAuthScreen({
       setUser(u);
     } catch (err) {
       const msg = (err as Error).message || "";
-      // If server is unreachable or fetch fails, seamlessly fall back to demo mode so user testing is never blocked
-      if (
-        msg.toLowerCase().includes("fetch") ||
-        msg.toLowerCase().includes("failed") ||
-        msg.toLowerCase().includes("network") ||
-        msg.toLowerCase().includes("refused")
-      ) {
-        handleLaunchDemo();
-        return;
-      }
       setError(msg);
     } finally {
       setBusy(false);
@@ -410,10 +387,10 @@ export default function ClientAuthScreen({
                         {demoFilledToast ? (
                           <>
                             <Check size={11} />
-                            <span>Filled (password123)</span>
+                            <span>Filled (ChatHeal@2026)</span>
                           </>
                         ) : (
-                          <span>Quick Fill (password123)</span>
+                          <span>Quick Fill (ChatHeal@2026)</span>
                         )}
                       </button>
 

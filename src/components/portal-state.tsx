@@ -33,6 +33,7 @@ const userNav = [
   ["Overview", "/wellness", LayoutDashboard],
   ["Health Assessment", "/health-assessment", ClipboardCheck],
   ["Food diary", "/diary", Utensils],
+  ["My diet plan", "/diet", Utensils],
   ["Discover", "/discover", BookOpen],
   ["Appointments", "/appointments", CalendarDays],
   ["Live sessions", "/sessions", Video],
@@ -86,33 +87,38 @@ export function usePortalState(admin: boolean) {
     api(p, m, b, demo, admin);
   useEffect(() => {
     const mode = sessionStorage.getItem(key);
-    const hasClientAssessment =
-      !admin && typeof window !== "undefined" && !!localStorage.getItem("chatheal_client_assessment");
-
-    if (mode === "demo" || hasClientAssessment) {
-      setDemo(true);
-      setUser(demoUser(admin));
-      setReady(true);
-    } else {
-      setReady(true);
-      api("/auth/me")
-        .then((u) => {
-          if ((u.role === "admin") === admin) {
-            if (!admin && typeof window !== "undefined" && localStorage.getItem("chatheal_client_assessment")) {
-              setUser({ ...u, ...demoUser(false) });
-            } else {
-              setUser(u);
-            }
+    setReady(false);
+    api("/auth/session")
+      .then((res) => {
+        const u = res?.user;
+        if (u && (u.role === "admin") === admin) {
+          sessionStorage.removeItem(key);
+          setDemo(false);
+          setUser(u);
+          if (!admin) {
+            try {
+              const savedAssess = localStorage.getItem("chatheal_client_assessment");
+              if (savedAssess) {
+                api("/assessment", "PUT", JSON.parse(savedAssess)).catch(() => {});
+              }
+            } catch {}
           }
-        })
-        .catch(() => {
-          if (!admin && typeof window !== "undefined" && localStorage.getItem("chatheal_client_assessment")) {
-            setDemo(true);
-            setUser(demoUser(false));
-          }
-        })
-        .finally(() => setReady(true));
-    }
+        } else if (mode === "demo") {
+          setDemo(true);
+          setUser(demoUser(admin));
+        } else {
+          setUser(null);
+        }
+      })
+      .catch(() => {
+        if (mode === "demo") {
+          setDemo(true);
+          setUser(demoUser(admin));
+        } else {
+          setUser(null);
+        }
+      })
+      .finally(() => setReady(true));
     setSaved(JSON.parse(localStorage.getItem(key + "-saved") || "[]"));
   }, []);
   async function refresh() {
